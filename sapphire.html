@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="shortcut icon"
+    href="https://icons.iconarchive.com/icons/microsoft/fluentui-emoji-mono/128/Gem-Stone-icon.png" width="128"
+    height="128" type="image/x-icon">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
+    rel="stylesheet">
+  <title>Such A Little Gem —— ephemeral blaze in your browser</title>
+  <style>
+    :root {
+      font-size: 12px;
+    }
+
+    *,
+    *::after,
+    *::before {
+      padding: 0;
+      margin: 0;
+    }
+
+    body {
+      display: flex;
+      flex-direction: column;
+      background: #000;
+      min-height: 100vh;
+      height: 100%;
+      color: #fff;
+      font-family: 'Roboto Serif';
+    }
+
+    header {
+      position: fixed;
+      width: 100%;
+      height: 100%;
+      color: white;
+      user-select: none;
+      pointer-events: none;
+    }
+
+    header h1 {
+      position: absolute;
+      padding: 1rem 2rem;
+      font-family: 'Cinzel Decorative';
+      font-size: 1rem;
+      font-weight: bolder;
+    }
+
+    .lt {
+      top: 1rem;
+      left: 1rem;
+    }
+
+    .rt {
+      top: 1rem;
+      right: 1rem;
+    }
+
+    .lb {
+      bottom: 1rem;
+      left: 1rem;
+    }
+
+    .rb {
+      bottom: 1rem;
+      right: 1rem;
+    }
+
+    main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      user-select: none;
+    }
+
+    .card {
+      position: relative;
+      width: 265px;
+      height: 374px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      color: white;
+      background-image: url(./assets/images/frame.svg);
+      border-radius: .5rem;
+      transition: all 1s;
+      cursor: pointer;
+      overflow: hidden;
+      /* transform-style: preserve-3d; */
+    }
+
+    .card:hover {
+      box-shadow: 0 0 5px rgba(255, 255, 255, .4),
+        0 0 25px rgba(255, 255, 255, .4),
+        0 0 50px rgba(255, 255, 255, .4),
+        0 0 200px rgba(255, 255, 255, .4);
+    }
+
+    .overlay {
+      position: absolute;
+      top: 0px;
+      left: 0;
+      width: 100%;
+      height: 975px;
+      /* background: linear-gradient(45deg, #757575 0%, #9E9E9E 45%, #E8E8E8 70%, #9E9E9E 85%, #757575 90% 100%); */
+      background: linear-gradient(45deg, #B67B03 0%, #DAAF08 45%, #FEE9A0 70%, #DAAF08 85%, #B67B03 90% 100%);
+      animation: gradient 2s linear 0s alternate infinite;
+    }
+
+    @keyframes gradient {
+      from {
+        top: 0px;
+      }
+
+      to {
+        top: -600px;
+      }
+    }
+
+    .frame {
+      position: absolute;
+      inset: 0;
+    }
+
+    .caption {
+      font-family: 'Cinzel Decorative';
+      font-size: 2rem;
+      text-transform: uppercase;
+      letter-spacing: 4px;
+      margin: 2rem;
+      text-shadow: 0 0 5px #fff;
+    }
+
+    #gem {
+      position: relative;
+      width: 20rem;
+      height: 20rem;
+      border-radius: 100% 2px 64% 36% / 64% 2px 100% 36%;
+      transform: rotate(-45deg) scale(36%);
+      overflow: hidden;
+      /* transform: translateZ(1.5rem); */
+    }
+
+    #gem .content-wrapper {
+      position: relative;
+      width: 20rem;
+      height: 20rem;
+      display: grid;
+      place-items: center;
+      transform: rotate(45deg);
+    }
+
+    #gem .top {
+      position: relative;
+      bottom: 5%;
+      width: 20rem;
+      height: 20rem;
+      background: lightblue;
+      clip-path: polygon(50% 18.5%, 64% 36%, 70% 68%, 66% 86%, 50% 96%, 34% 86%, 30% 68%, 36% 36%);
+    }
+
+    #gem .top-effect {
+      position: absolute;
+      bottom: 5%;
+      width: 20rem;
+      height: 20rem;
+      clip-path: polygon(50% 18.5%, 64% 36%, 70% 68%, 66% 86%, 50% 96%, 34% 86%, 30% 68%, 36% 36%);
+      background-color: #fff;
+      opacity: 0;
+      z-index: 30;
+      animation: 2s linear 2s infinite glisten;
+    }
+
+    @keyframes glisten {
+      from {
+        opacity: 0;
+      }
+
+      80% {
+        opacity: 0;
+      }
+
+      90% {
+        opacity: .5;
+      }
+
+      to {
+        opacity: 0;
+      }
+    }
+
+    #gem .facade {
+      position: absolute;
+      left: -1px;
+      width: 20rem;
+      height: 28rem;
+    }
+
+    #gem .facade-1 {
+      clip-path: polygon(50% 90%, 38% 83%, 50% 79%, 62% 83%);
+      background-color: #1a1a57;
+    }
+
+    #gem .facade-2 {
+      clip-path: polygon(38% 83%, 50% 79%, 34% 72%);
+      background-color: #2f55f3;
+    }
+
+    #gem .facade-2-opp {
+      clip-path: polygon(38% 83%, 50% 79%, 34% 72%);
+      transform: rotateY(180deg);
+      background-color: #4776e6;
+    }
+
+    #gem .facade-3 {
+      clip-path: polygon(50% 90%, 38% 83%, 32% 90%);
+      background-color: #6034ac;
+    }
+
+    #gem .facade-3-opp {
+      clip-path: polygon(50% 90%, 38% 83%, 32% 90%);
+      background-color: #362f91;
+      transform: rotateY(180deg);
+    }
+
+    #gem .facade-4 {
+      clip-path: polygon(38% 83%, 32% 90%, 12% 80%);
+      background-color: #05078b;
+    }
+
+    #gem .facade-4-opp {
+      clip-path: polygon(38% 83%, 32% 90%, 12% 80%);
+      background-color: #5031db;
+      transform: rotateY(180deg);
+    }
+
+    #gem .facade-5 {
+      clip-path: polygon(38% 83%, 34% 72%, 25% 71%, 8% 80%);
+      background-color: #4f87ef;
+    }
+
+    #gem .facade-5-opp {
+      clip-path: polygon(38% 83%, 34% 72%, 25% 71%, 8% 80%);
+      background-color: #8f90c4;
+      transform: rotateY(180deg);
+    }
+
+    #gem .facade-6 {
+      clip-path: polygon(34.2% 72%, 25% 71%, 30.2% 59%);
+      background-color: #3541a3;
+    }
+
+    #gem .facade-6-opp {
+      clip-path: polygon(34% 72%, 25% 71%, 30.2% 59%);
+      background-color: #c2d3fa;
+      transform: rotateY(180deg);
+    }
+
+    #gem .facade-7 {
+      clip-path: polygon(25% 71%, 30% 59%, 21% 50%, 11.5% 59%);
+      background-color: #68b0e0;
+    }
+
+    #gem .facade-7-opp {
+      clip-path: polygon(25% 71%, 30% 59%, 21% 50%, 11.5% 59%);
+      background-color: #219ef4;
+      transform: rotateY(180deg);
+    }
+
+    #gem .facade-8 {
+      clip-path: polygon(25% 71%, 8% 80%, 11.5% 59%);
+      background-color: #1e1e5a;
+    }
+
+    #gem .facade-8-opp {
+      clip-path: polygon(25% 71%, 8% 80%, 11.5% 59%);
+      background-color: #2e2e3b;
+      transform: rotateY(180deg);
+    }
+
+    #gem .facade-9 {
+      clip-path: polygon(30.2% 59%, 36.2% 36.5%, 21% 50%);
+      background-color: #e0efcf;
+    }
+
+    #gem .facade-9-opp {
+      clip-path: polygon(30% 59%, 36% 36.5%, 21% 50%);
+      background-color: #e6e9f5;
+      transform: rotateY(180deg);
+    }
+
+    #gem .facade-10 {
+      clip-path: polygon(2% 48%, 21% 50%, 11.5% 59%);
+      background-color: #2a2d2a;
+    }
+
+    #gem .facade-10-opp {
+      clip-path: polygon(2% 48%, 21% 50%, 11.5% 59%);
+      background-color: #2873b4;
+      transform: rotateY(180deg);
+    }
+
+    #gem .facade-11 {
+      clip-path: polygon(20% 30%, 36% 18%, 36% 36.5%, 21% 50%);
+      background-color: #6193fb;
+    }
+
+    #gem .facade-11-opp {
+      clip-path: polygon(20% 30%, 36% 18%, 36% 36.5%, 21% 50%);
+      background-color: #42a1bb;
+      transform: rotateY(180deg);
+    }
+
+    #gem .facade-12 {
+      clip-path: polygon(20% 30%, 10% 49%, 21% 50%);
+      background-color: #0032ad;
+    }
+
+    #gem .facade-12-opp {
+      clip-path: polygon(20% 30%, 10% 49%, 21% 50%);
+      background-color: #0e3494;
+      transform: rotateY(180deg);
+    }
+
+    #gem .facade-13 {
+      clip-path: polygon(36% 18%, 36% 36.5%, 50% 24%);
+      background-color: #fcfff4;
+    }
+
+    #gem .facade-13-opp {
+      clip-path: polygon(36% 18%, 36% 36.5%, 50% 24%);
+      background-color: #92f5bd;
+      transform: rotateY(180deg);
+    }
+
+    #gem .facade-14 {
+      clip-path: polygon(20% 30%, 36% 18%, 28% 13%);
+      background-color: #0012a8;
+    }
+
+    #gem .facade-14-opp {
+      clip-path: polygon(20% 30%, 36% 18%, 28% 13%);
+      background-color: #613d8c;
+      transform: rotateY(180deg);
+    }
+
+    #gem .facade-15 {
+      clip-path: polygon(36% 18%, 50% 0, 50% 24%);
+      background-color: #371bde;
+    }
+
+    #gem .facade-15-opp {
+      clip-path: polygon(36% 18%, 50% 0, 50% 24%);
+      background-color: #3369a5;
+      transform: rotateY(180deg);
+    }
+
+    #gem .facade-16 {
+      clip-path: polygon(36% 18%, 50% 0, 10% 1%);
+      background-color: #150d21;
+    }
+
+    #gem .facade-16-opp {
+      clip-path: polygon(36% 18%, 50% 0, 10% 1%);
+      background-color: #170975;
+      transform: rotateY(180deg);
+    }
+
+    #gem .effect {
+      position: absolute;
+      max-width: 4rem;
+      max-height: 4rem;
+      transform-origin: center;
+    }
+
+    .effect-1 {
+      top: 10.5rem;
+      left: 4rem;
+      animation: 1s linear 0s infinite alternate sparkle;
+    }
+
+    .effect-2 {
+      bottom: 2rem;
+      right: 3rem;
+      animation: 1s linear .2s infinite alternate sparkle;
+    }
+
+    .effect-3 {
+      top: 1rem;
+      left: 8rem;
+      animation: 1s linear .6s infinite alternate sparkle;
+    }
+
+    .effect-4 {
+      top: 8rem;
+      right: 2.5rem;
+      animation: 1s linear .8s infinite alternate sparkle;
+    }
+
+    @keyframes sparkle {
+      from {
+        transform: scale(0.2);
+      }
+
+      to {
+        transform: scale(1.2);
+      }
+    }
+
+    footer {
+      margin-top: auto;
+      padding: 2rem 0;
+      text-align: center;
+      font-family: 'Cinzel Decorative';
+      font-size: .8rem;
+      font-weight: 500;
+    }
+
+    footer a {
+      color: #fff;
+      text-decoration: underline;
+    }
+  </style>
+  <script src="jquery.js" defer></script>
+  <script src="tilt.jquery.js" defer></script>
+</head>
+
+<body>
+  <header>
+    <h1 class="lt">Such</h1>
+    <h1 class="rt">A</h1>
+    <h1 class="lb">Little</h1>
+    <h1 class="rb">Gem</h1>
+  </header>
+  <main>
+    <p class="caption">Sapphire</p>
+    <section class="card" data-tilt>
+      <div class="overlay"></div>
+      <img class="frame" src="./assets/images/frame.svg" alt="">
+      <article id="gem">
+        <div class="content-wrapper">
+          <div class="top"></div>
+          <div class="top-effect"></div>
+          <div class="facade facade-1"></div>
+          <div class="facade facade-1-opp"></div>
+          <div class="facade facade-2"></div>
+          <div class="facade facade-2-opp"></div>
+          <div class="facade facade-3"></div>
+          <div class="facade facade-3-opp"></div>
+          <div class="facade facade-4"></div>
+          <div class="facade facade-4-opp"></div>
+          <div class="facade facade-5"></div>
+          <div class="facade facade-5-opp"></div>
+          <div class="facade facade-6"></div>
+          <div class="facade facade-6-opp"></div>
+          <div class="facade facade-7"></div>
+          <div class="facade facade-7-opp"></div>
+          <div class="facade facade-8"></div>
+          <div class="facade facade-8-opp"></div>
+          <div class="facade facade-9"></div>
+          <div class="facade facade-9-opp"></div>
+          <div class="facade facade-10"></div>
+          <div class="facade facade-10-opp"></div>
+          <div class="facade facade-11"></div>
+          <div class="facade facade-11-opp"></div>
+          <div class="facade facade-12"></div>
+          <div class="facade facade-12-opp"></div>
+          <div class="facade facade-13"></div>
+          <div class="facade facade-13-opp"></div>
+          <div class="facade facade-14"></div>
+          <div class="facade facade-14-opp"></div>
+          <div class="facade facade-15"></div>
+          <div class="facade facade-15-opp"></div>
+          <div class="facade facade-16"></div>
+          <div class="facade facade-16-opp"></div>
+          <img class="effect effect-1" src="./assets/images/sparkling.png" alt="">
+          <img class="effect effect-2" src="./assets/images/sparkling.png" alt="">
+          <img class="effect effect-3" src="./assets/images/sparkling.png" alt="">
+          <img class="effect effect-4" src="./assets/images/sparkling.png" alt="">
+        </div>
+      </article>
+    </section>
+  </main>
+  <footer>
+    <span><a href="https://jeromejoh.github.io/" target="_blank" title="author's page">&copy; Jerome Joh</a>, All right
+      reserved.</span>
+  </footer>
+</body>
+
+</html>
