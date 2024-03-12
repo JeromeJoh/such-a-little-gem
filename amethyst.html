@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="shortcut icon"
+    href="https://icons.iconarchive.com/icons/microsoft/fluentui-emoji-mono/128/Gem-Stone-icon.png" width="128"
+    height="128" type="image/x-icon">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
+    rel="stylesheet">
+  <title>Such A Little Gem —— ephemeral blaze in your browser</title>
+  <style>
+    :root {
+      font-size: 12px;
+    }
+
+    *,
+    *::after,
+    *::before {
+      padding: 0;
+      margin: 0;
+    }
+
+    body {
+      display: flex;
+      flex-direction: column;
+      background: #000;
+      min-height: 100vh;
+      height: 100%;
+      color: #fff;
+      font-family: 'Roboto Serif';
+    }
+
+    header {
+      position: fixed;
+      width: 100%;
+      height: 100%;
+      color: white;
+      user-select: none;
+      pointer-events: none;
+    }
+
+    header h1 {
+      position: absolute;
+      padding: 1rem 2rem;
+      font-family: 'Cinzel Decorative';
+      font-size: 1rem;
+      font-weight: bolder;
+    }
+
+    .lt {
+      top: 1rem;
+      left: 1rem;
+    }
+
+    .rt {
+      top: 1rem;
+      right: 1rem;
+    }
+
+    .lb {
+      bottom: 1rem;
+      left: 1rem;
+    }
+
+    .rb {
+      bottom: 1rem;
+      right: 1rem;
+    }
+
+    main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      user-select: none;
+    }
+
+    .card {
+      position: relative;
+      width: 265px;
+      height: 374px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      color: white;
+      background-image: url(./assets/images/frame.svg);
+      border-radius: .5rem;
+      transition: all 1s;
+      cursor: pointer;
+      overflow: hidden;
+      /* transform-style: preserve-3d; */
+    }
+
+    .card:hover {
+      box-shadow: 0 0 5px rgba(255, 255, 255, .4),
+        0 0 25px rgba(255, 255, 255, .4),
+        0 0 50px rgba(255, 255, 255, .4),
+        0 0 200px rgba(255, 255, 255, .4);
+    }
+
+    .overlay {
+      position: absolute;
+      top: 0px;
+      left: 0;
+      width: 100%;
+      height: 975px;
+      background: linear-gradient(45deg, #757575 0%, #9E9E9E 45%, #E8E8E8 70%, #9E9E9E 85%, #757575 90% 100%);
+      /* background: linear-gradient(45deg, #B67B03 0%, #DAAF08 45%, #FEE9A0 70%, #DAAF08 85%, #B67B03 90% 100%); */
+      animation: gradient 2s linear 0s alternate infinite;
+    }
+
+    @keyframes gradient {
+      from {
+        top: 0px;
+      }
+
+      to {
+        top: -600px;
+      }
+    }
+
+    .frame {
+      position: absolute;
+      inset: 0;
+    }
+
+    .caption {
+      font-family: 'Cinzel Decorative';
+      font-size: 2rem;
+      text-transform: uppercase;
+      letter-spacing: 4px;
+      margin: 2rem;
+      text-shadow: 0 0 5px #fff;
+    }
+
+    #gem {
+      position: relative;
+      bottom: 4%;
+      width: 20rem;
+      height: 28.5rem;
+      display: grid;
+      place-items: center;
+      clip-path: ellipse(closest-side farthest-side);
+      /* border-radius: 100%; */
+      /* overflow: hidden; */
+      transform: scale(36%);
+      /* transform: translateZ(1.5rem); */
+    }
+
+    .effect-group {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translateX(-50%) translateY(-50%);
+      width: 20rem;
+      height: 28.5rem;
+    }
+
+    #gem .top {
+      width: 20rem;
+      height: 28.5rem;
+      background: #d986e2;
+      clip-path: polygon(50% 16%, 72% 30%, 77% 50.5%, 72% 71%, 50% 85%, 28% 71%, 23% 50.5%, 28% 30%);
+    }
+
+    #gem .top-effect {
+      position: absolute;
+      width: 20rem;
+      height: 28.5rem;
+      clip-path: polygon(50% 16%, 72% 30%, 77% 50.5%, 72% 71%, 50% 85%, 28% 71%, 23% 50.5%, 28% 30%);
+      background-color: #fff;
+      opacity: 0;
+      z-index: 30;
+      animation: 2s linear 2s infinite glisten;
+    }
+
+    @keyframes glisten {
+      from {
+        opacity: 0;
+      }
+
+      80% {
+        opacity: 0;
+      }
+
+      90% {
+        opacity: .5;
+      }
+
+      to {
+        opacity: 0;
+      }
+    }
+
+    #gem .facade {
+      position: absolute;
+      inset: 0;
+      width: 20rem;
+      height: 28.8rem;
+    }
+
+    #gem .left-qua {
+      clip-path: polygon(23% 50%, 20% 36%, 0% 50%, 20% 64%);
+      background-color: #b554ba;
+    }
+
+    #gem .right-qua {
+      clip-path: polygon(23% 50%, 20% 36%, 0% 50%, 20% 64%);
+      background-color: #b251bc;
+      transform: rotateY(180deg);
+    }
+
+    #gem .lt-tri-1 {
+      clip-path: polygon(23% 50%, 20% 36%, 28% 30%);
+      background-color: #e0a9ed;
+    }
+
+    #gem .rt-tri-1 {
+      clip-path: polygon(23% 50%, 20% 36%, 28% 30%);
+      background-color: #fac8fd;
+      transform: rotateY(180deg);
+    }
+
+    #gem .rb-tri-1 {
+      clip-path: polygon(23% 50%, 20% 36%, 28% 30%);
+      background-color: #f7c0ef;
+      transform: rotateY(180deg) rotateX(180deg);
+    }
+
+    #gem .lb-tri-1 {
+      clip-path: polygon(23% 50%, 20% 36%, 28% 30%);
+      background-color: #faf6f8;
+      transform: rotateX(180deg);
+    }
+
+    #gem .lt-tri-2 {
+      clip-path: polygon(50% 16%, 28% 30%, 32% 14%);
+      background-color: #d64594;
+    }
+
+    #gem .rt-tri-2 {
+      clip-path: polygon(50% 16%, 28% 30%, 32% 14%);
+      background-color: #e45fbf;
+      transform: rotateY(180deg);
+    }
+
+    #gem .rb-tri-2 {
+      clip-path: polygon(50% 16%, 28% 30%, 32% 14%);
+      background-color: #f5e1f8;
+      transform: rotateY(180deg) rotateX(180deg);
+
+    }
+
+    #gem .lb-tri-2 {
+      clip-path: polygon(50% 16%, 28% 30%, 32% 14%);
+      background-color: #edbff0;
+      transform: rotateX(180deg);
+    }
+
+    #gem .lt-tri-3 {
+      clip-path: polygon(50% 16%, 50% 0, 32% 14%);
+      background-color: #8f2794;
+    }
+
+    #gem .rt-tri-3 {
+      clip-path: polygon(50% 16%, 50% 0, 32% 14%);
+      background-color: #e4a0c1;
+      transform: rotateY(180deg);
+    }
+
+    #gem .rb-tri-3 {
+      clip-path: polygon(50% 16%, 50% 0, 32% 14%);
+      background-color: #934abe;
+      transform: rotateY(180deg) rotateX(180deg);
+    }
+
+    #gem .lb-tri-3 {
+      clip-path: polygon(50% 16%, 50% 0, 32% 14%);
+      background-color: #c3245f;
+      transform: rotateX(180deg);
+    }
+
+    #gem .lt-tri-4 {
+      clip-path: polygon(16% 0, 50% 0, 32% 14%);
+      background-color: #c82491;
+    }
+
+    #gem .rt-tri-4 {
+      clip-path: polygon(16% 0, 50% 0, 32% 14%);
+      background-color: #852b8f;
+      transform: rotateY(180deg);
+    }
+
+    #gem .rb-tri-4 {
+      clip-path: polygon(16% 0, 50% 0, 32% 14%);
+      background-color: #ea3f40;
+      transform: rotateY(180deg) rotateX(180deg);
+    }
+
+    #gem .lb-tri-4 {
+      clip-path: polygon(16% 0, 50% 0, 32% 14%);
+      background-color: #b64dc0;
+      transform: rotateX(180deg);
+    }
+
+    #gem .lt-tri-5 {
+      clip-path: polygon(16% 0, 32% 14%, 8% 16%);
+      background-color: #d3309c;
+    }
+
+    #gem .rt-tri-5 {
+      clip-path: polygon(16% 0, 32% 14%, 8% 16%);
+      background-color: #c436cf;
+      transform: rotateY(180deg);
+    }
+
+    #gem .rb-tri-5 {
+      clip-path: polygon(16% 0, 32% 14%, 8% 16%);
+      background-color: #901749;
+      transform: rotateY(180deg) rotateX(180deg);
+    }
+
+    #gem .lb-tri-5 {
+      clip-path: polygon(16% 0, 32% 14%, 8% 16%);
+      background-color: #a22eac;
+      transform: rotateX(180deg);
+    }
+
+    #gem .lt-tri-6 {
+      clip-path: polygon(32% 14%, 14% 15%, 20% 36%, 28% 30%);
+      background-color: #c652d1;
+    }
+
+    #gem .rt-tri-6 {
+      clip-path: polygon(32% 14%, 14% 15%, 20% 36%, 28% 30%);
+      background-color: #962da3;
+      transform: rotateY(180deg);
+    }
+
+    #gem .rb-tri-6 {
+      clip-path: polygon(32% 14%, 14% 15%, 20% 36%, 28% 30%);
+      background-color: #9362fe;
+      transform: rotateY(180deg) rotateX(180deg);
+    }
+
+    #gem .lb-tri-6 {
+      clip-path: polygon(32% 14%, 14% 15%, 20% 36%, 28% 30%);
+      background-color: #ab49b6;
+      transform: rotateX(180deg);
+    }
+
+    #gem .lt-tri-7 {
+      clip-path: polygon(14% 15%, 20% 36%, 0% 32%);
+      background-color: #c63193;
+    }
+
+    #gem .rt-tri-7 {
+      clip-path: polygon(14% 15%, 20% 36%, 0% 32%);
+      background-color: #a93eb1;
+      transform: rotateY(180deg);
+    }
+
+    #gem .rb-tri-7 {
+      clip-path: polygon(14% 15%, 20% 36%, 0% 32%);
+      background-color: #623d86;
+      transform: rotateY(180deg) rotateX(180deg);
+    }
+
+    #gem .lb-tri-7 {
+      clip-path: polygon(14% 15%, 20% 36%, 0% 32%);
+      background-color: #d157d8;
+      transform: rotateX(180deg);
+    }
+
+    #gem .lt-tri-8 {
+      clip-path: polygon(0 50%, 20% 36%, 0% 32%);
+      background-color: #dc65b6;
+    }
+
+    #gem .rt-tri-8 {
+      clip-path: polygon(0 50%, 20% 36%, 0% 32%);
+      background-color: #e03b82;
+      transform: rotateY(180deg);
+    }
+
+    #gem .rb-tri-8 {
+      clip-path: polygon(0 50%, 20% 36%, 0% 32%);
+      background-color: #7d2e92;
+      transform: rotateY(180deg) rotateX(180deg);
+    }
+
+    #gem .lb-tri-8 {
+      clip-path: polygon(0 50%, 20% 36%, 0% 32%);
+      background-color: #93189f;
+      transform: rotateX(180deg);
+    }
+
+
+    .effect {
+      position: absolute;
+      max-width: 2rem;
+      max-height: 2rem;
+      transform-origin: center;
+    }
+
+    .effect-1 {
+      top: 8.5rem;
+      left: 9rem;
+      animation: 1s linear 0s infinite alternate sparkle;
+    }
+
+    .effect-2 {
+      top: 12rem;
+      right: 7rem;
+      animation: 1s linear .2s infinite alternate sparkle;
+    }
+
+    .effect-3 {
+      bottom: 11rem;
+      left: 9rem;
+      animation: 1s linear .6s infinite alternate sparkle;
+    }
+
+    .effect-4 {
+      top: 12rem;
+      left: 7rem;
+      animation: 1s linear .8s infinite alternate sparkle;
+    }
+
+    .effect-5 {
+      bottom: 50.5%;
+      right: 27%;
+      animation: 1s linear .5s infinite alternate sparkle;
+    }
+
+    .effect-6 {
+      bottom: 50.5%;
+      left: 27%;
+      animation: 1s linear .2s infinite alternate sparkle;
+    }
+
+    @keyframes sparkle {
+      from {
+        transform: scale(0.2);
+      }
+
+      to {
+        transform: scale(1.2);
+      }
+    }
+
+    footer {
+      margin-top: auto;
+      padding: 2rem 0;
+      text-align: center;
+      font-family: 'Cinzel Decorative';
+      font-size: .8rem;
+      font-weight: 500;
+    }
+
+    footer a {
+      color: #fff;
+      text-decoration: underline;
+    }
+  </style>
+  <script src="jquery.js" defer></script>
+  <script src="tilt.jquery.js" defer></script>
+</head>
+
+<body>
+  <header>
+    <h1 class="lt">Such</h1>
+    <h1 class="rt">A</h1>
+    <h1 class="lb">Little</h1>
+    <h1 class="rb">Gem</h1>
+  </header>
+  <main>
+    <p class="caption">Amethyst</p>
+    <section class="card" data-tilt>
+      <div class="overlay"></div>
+      <img class="frame" src="./assets/images/ellipse.svg" alt="">
+      <article id="gem">
+        <div class="top"></div>
+        <div class="top-effect"></div>
+        <div class="facade left-qua"></div>
+        <div class="facade right-qua"></div>
+        <div class="facade lt-tri-1"></div>
+        <div class="facade rt-tri-1"></div>
+        <div class="facade rb-tri-1"></div>
+        <div class="facade lb-tri-1"></div>
+        <div class="facade lt-tri-2"></div>
+        <div class="facade rt-tri-2"></div>
+        <div class="facade rb-tri-2"></div>
+        <div class="facade lb-tri-2"></div>
+        <div class="facade lt-tri-3"></div>
+        <div class="facade rt-tri-3"></div>
+        <div class="facade rb-tri-3"></div>
+        <div class="facade lb-tri-3"></div>
+        <div class="facade lt-tri-4"></div>
+        <div class="facade rt-tri-4"></div>
+        <div class="facade rb-tri-4"></div>
+        <div class="facade lb-tri-4"></div>
+        <div class="facade lt-tri-5"></div>
+        <div class="facade rt-tri-5"></div>
+        <div class="facade rb-tri-5"></div>
+        <div class="facade lb-tri-5"></div>
+        <div class="facade lt-tri-6"></div>
+        <div class="facade rt-tri-6"></div>
+        <div class="facade rb-tri-6"></div>
+        <div class="facade lb-tri-6"></div>
+        <div class="facade lt-tri-7"></div>
+        <div class="facade rt-tri-7"></div>
+        <div class="facade rb-tri-7"></div>
+        <div class="facade lb-tri-7"></div>
+        <div class="facade lt-tri-8"></div>
+        <div class="facade rt-tri-8"></div>
+        <div class="facade rb-tri-8"></div>
+        <div class="facade lb-tri-8"></div>
+      </article>
+      <aside class="effect-group">
+        <img class="effect effect-1" src="./assets/images/sparkling.png" alt="">
+        <img class="effect effect-2" src="./assets/images/sparkling.png" alt="">
+        <img class="effect effect-3" src="./assets/images/sparkling.png" alt="">
+        <img class="effect effect-4" src="./assets/images/sparkling.png" alt="">
+        <img class="effect effect-5" src="./assets/images/sparkling.png" alt="">
+        <img class="effect effect-6" src="./assets/images/sparkling.png" alt="">
+      </aside>
+    </section>
+  </main>
+  <footer>
+    <span><a href="https://jeromejoh.github.io/" target="_blank" title="author's page">&copy; Jerome Joh</a>, All right
+      reserved.</span>
+  </footer>
+</body>
+
+</html>

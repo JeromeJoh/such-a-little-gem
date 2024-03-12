@@ -9,9 +9,10 @@
 - [x] Ruby
 - [x] Sapphire
 - [x] Emerald
-- [ ] Amethyst
+- [x] Amethyst
 - [ ] Spinel
 - [ ] Aquamarine
+- [ ] Pearl
 
 ---
 
