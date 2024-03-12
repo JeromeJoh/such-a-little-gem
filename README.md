@@ -12,7 +12,7 @@
 - [x] Amethyst
 - [ ] Spinel
 - [ ] Aquamarine
-- [ ] Pearl
+- [x] Pearl
 
 ---
 
