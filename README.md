@@ -10,8 +10,8 @@
 - [x] Sapphire
 - [x] Emerald
 - [x] Amethyst
-- [ ] Spinel
-- [ ] Aquamarine
+- [x] Spinel
+- [x] Aquamarine
 - [x] Pearl
 
 ---
