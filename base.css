@@ -1,0 +1,186 @@
+:root {
+  font-size: 12px;
+}
+
+*,
+*::after,
+*::before {
+  padding: 0;
+  margin: 0;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  background: #000;
+  min-height: 100vh;
+  height: 100%;
+  color: #fff;
+  font-family: "Roboto Serif";
+}
+
+header {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  color: white;
+  user-select: none;
+  pointer-events: none;
+}
+
+header h1 {
+  position: absolute;
+  padding: 1rem 2rem;
+  font-family: "Cinzel Decorative";
+  font-size: 1rem;
+  font-weight: bolder;
+}
+
+.lt {
+  top: 1rem;
+  left: 1rem;
+}
+
+.rt {
+  top: 1rem;
+  right: 1rem;
+}
+
+.lb {
+  bottom: 1rem;
+  left: 1rem;
+}
+
+.rb {
+  bottom: 1rem;
+  right: 1rem;
+}
+
+main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  user-select: none;
+}
+
+.card {
+  position: relative;
+  width: 265px;
+  height: 374px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  background-image: url(./assets/images/frame.svg);
+  border-radius: 0.5rem;
+  transition: all 1s;
+  cursor: pointer;
+  overflow: hidden;
+  /* transform-style: preserve-3d; */
+}
+
+.card:hover {
+  box-shadow: 0 0 5px rgba(255, 255, 255, 0.4),
+    0 0 25px rgba(255, 255, 255, 0.4), 0 0 50px rgba(255, 255, 255, 0.4),
+    0 0 200px rgba(255, 255, 255, 0.4);
+}
+
+.overlay {
+  position: absolute;
+  top: 0px;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    45deg,
+    #757575 0%,
+    #9e9e9e 45%,
+    #e8e8e8 70%,
+    #9e9e9e 85%,
+    #757575 90% 100%
+  );
+  background-size: 300% 300%;
+  animation: shinny 3s linear 0s infinite alternate-reverse;
+  /* background: linear-gradient(45deg, #B67B03 0%, #DAAF08 45%, #FEE9A0 70%, #DAAF08 85%, #B67B03 90% 100%); */
+}
+
+@keyframes shinny {
+  from {
+    background-position: 0 50%;
+  }
+
+  25% {
+    background-position: 100% 50%;
+  }
+
+  50% {
+    background-position: 50% 100%;
+  }
+
+  75% {
+    background-position: 0 50%;
+  }
+
+  to {
+    background-position: 0 50%;
+  }
+}
+
+.caption {
+  font-family: "Cinzel Decorative";
+  font-size: 2rem;
+  text-transform: uppercase;
+  letter-spacing: 4px;
+  margin: 2rem;
+  text-shadow: 0 0 5px #fff;
+}
+
+@keyframes sparkle {
+  from {
+    transform: scale(0.2);
+  }
+
+  to {
+    transform: scale(1.2);
+  }
+}
+
+@keyframes spin {
+  from {
+    top: 8rem;
+    right: 0rem;
+    transform: rotate(0) scale(1.6);
+    opacity: 1;
+  }
+
+  30% {
+    top: 16rem;
+    right: 8rem;
+    transform: rotate(360deg) scale(0);
+    opacity: 1;
+  }
+
+  to {
+    top: 16rem;
+    right: 8rem;
+    transform: rotate(360deg) scale(0);
+    opacity: 1;
+  }
+}
+
+footer {
+  margin-top: auto;
+  padding: 2rem 0;
+  text-align: center;
+  font-family: "Cinzel Decorative";
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+footer a {
+  color: #fff;
+  text-decoration: underline;
+}
