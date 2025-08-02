@@ -1,5 +1,6 @@
 :root {
   font-size: 12px;
+  --common-padding: 1rem;
 }
 
 *,
@@ -16,7 +17,7 @@ body {
   min-height: 100vh;
   height: 100%;
   color: #fff;
-  font-family: "Roboto Serif";
+  font-family: 'Roboto Serif';
 }
 
 header {
@@ -31,29 +32,51 @@ header {
 header h1 {
   position: absolute;
   padding: 1rem 2rem;
-  font-family: "Cinzel Decorative";
+  font-family: 'Cinzel Decorative';
   font-size: 1rem;
   font-weight: bolder;
+  border: 1px solid lime;
 }
 
-.lt {
-  top: 1rem;
-  left: 1rem;
+header h1 p {
+  position: absolute;
+  width: 2rem;
+  height: 2rem;
+  top: var(--posY, 0) * 50%;
+  left: var(--posX, 0) * 20%;
+  /* transform: rotate(var(--offset-rotate, 0deg)); */
+  border: solid 1px yellow;
 }
 
-.rt {
-  top: 1rem;
-  right: 1rem;
+header h1 .star {
+  position: absolute;
+  width: 2rem;
+  height: 2rem;
+  background-image: url(/assets/images/spinning.png);
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  z-index: 10;
 }
 
-.lb {
-  bottom: 1rem;
-  left: 1rem;
+header h1:nth-child(1) {
+  top: var(--common-padding);
+  left: var(--common-padding);
 }
 
-.rb {
-  bottom: 1rem;
-  right: 1rem;
+header > h1:nth-child(2) {
+  top: var(--common-padding);
+  right: var(--common-padding);
+}
+
+header > h1:nth-child(3) {
+  bottom: var(--common-padding);
+  left: var(--common-padding);
+}
+
+header > h1:nth-child(4) {
+  bottom: var(--common-padding);
+  right: var(--common-padding);
 }
 
 main {
@@ -130,7 +153,7 @@ main {
 }
 
 .caption {
-  font-family: "Cinzel Decorative";
+  font-family: 'Cinzel Decorative';
   font-size: 2rem;
   text-transform: uppercase;
   letter-spacing: 4px;
@@ -175,7 +198,7 @@ footer {
   margin-top: auto;
   padding: 2rem 0;
   text-align: center;
-  font-family: "Cinzel Decorative";
+  font-family: 'Cinzel Decorative';
   font-size: 0.8rem;
   font-weight: 500;
 }
