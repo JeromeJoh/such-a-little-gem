@@ -31,24 +31,6 @@
     transition: all 1s;
   }
 
-  @keyframes glisten {
-    from {
-      opacity: 0;
-    }
-
-    80% {
-      opacity: 0;
-    }
-
-    90% {
-      opacity: 0.3;
-    }
-
-    to {
-      opacity: 0;
-    }
-  }
-
   #gem .triangle {
     position: absolute;
     width: 12rem;
@@ -211,24 +193,6 @@
     opacity: 0;
     z-index: 30;
     animation: 2s linear 2s infinite glisten;
-  }
-
-  @keyframes glisten {
-    from {
-      opacity: 0;
-    }
-
-    80% {
-      opacity: 0;
-    }
-
-    90% {
-      opacity: 0.5;
-    }
-
-    to {
-      opacity: 0;
-    }
   }
 
   #gem .facade {
@@ -474,16 +438,6 @@
     bottom: 50.5%;
     left: 27%;
     animation: 1s linear 0.2s infinite alternate sparkle;
-  }
-
-  @keyframes sparkle {
-    from {
-      transform: scale(0.2);
-    }
-
-    to {
-      transform: scale(1.2);
-    }
   }
 }
 
@@ -773,16 +727,6 @@
     left: 13%;
     animation: 1s linear 0.2s infinite alternate sparkle;
   }
-
-  @keyframes sparkle {
-    from {
-      transform: scale(0.2);
-    }
-
-    to {
-      transform: scale(1.2);
-    }
-  }
 }
 
 .diamond {
@@ -835,24 +779,6 @@
     background-color: #fff;
     opacity: 0;
     animation: 2s linear 2s infinite glisten;
-  }
-
-  @keyframes glisten {
-    from {
-      opacity: 0;
-    }
-
-    80% {
-      opacity: 0;
-    }
-
-    90% {
-      opacity: 1;
-    }
-
-    to {
-      opacity: 0;
-    }
   }
 
   #gem .triangle {
@@ -1037,39 +963,6 @@
     right: 3.2rem;
     animation: 1s linear 0s infinite alternate sparkle;
   }
-
-  @keyframes sparkle {
-    from {
-      transform: scale(0.2);
-    }
-
-    to {
-      transform: scale(1.2);
-    }
-  }
-
-  @keyframes spin {
-    from {
-      top: 10rem;
-      right: 3rem;
-      transform: rotate(0) scale(1.6);
-      opacity: 1;
-    }
-
-    30% {
-      top: 16rem;
-      right: 8rem;
-      transform: rotate(360deg) scale(0);
-      opacity: 1;
-    }
-
-    to {
-      top: 16rem;
-      right: 8rem;
-      transform: rotate(360deg) scale(0);
-      opacity: 1;
-    }
-  }
 }
 
 .emerald {
@@ -1219,16 +1112,6 @@
     animation: reflect 2s linear 1s alternate infinite;
   }
 
-  @keyframes reflect {
-    from {
-      opacity: 0;
-    }
-
-    to {
-      opacity: 0.3;
-    }
-  }
-
   #gem .right-bar-1 {
     background: #4ec699;
     clip-path: polygon(32% 20%, 50% 30%, 50% 70%, 32% 80%);
@@ -1298,16 +1181,6 @@
     right: 1rem;
     animation: 1s linear 0.4s infinite alternate sparkle;
   }
-
-  @keyframes sparkle {
-    from {
-      transform: scale(0.2);
-    }
-
-    to {
-      transform: scale(1.2);
-    }
-  }
 }
 
 .pearl {
@@ -1356,16 +1229,6 @@
     background-color: #f4f8f9;
     filter: blur(1rem);
     animation: breath 4s alternate infinite 0s;
-  }
-
-  @keyframes breath {
-    from {
-      transform: scale(1);
-    }
-
-    to {
-      transform: scale(1.15);
-    }
   }
 
   #gem .blush-l {
@@ -1435,24 +1298,6 @@
     opacity: 0.4;
     z-index: 30;
     animation: 2s linear 2s infinite glisten;
-  }
-
-  @keyframes glisten {
-    from {
-      opacity: 0.5;
-    }
-
-    80% {
-      opacity: 0.5;
-    }
-
-    90% {
-      opacity: 0.8;
-    }
-
-    to {
-      opacity: 0.5;
-    }
   }
 
   #gem .facade {
@@ -1590,39 +1435,6 @@
     right: -0.5rem;
     animation: 1s linear 0s infinite alternate sparkle;
   }
-
-  @keyframes sparkle {
-    from {
-      transform: scale(0.2);
-    }
-
-    to {
-      transform: scale(1.2);
-    }
-  }
-
-  @keyframes spin {
-    from {
-      top: 3rem;
-      right: 1rem;
-      transform: rotate(0) scale(1.6);
-      opacity: 1;
-    }
-
-    30% {
-      top: 16rem;
-      right: 8rem;
-      transform: rotate(360deg) scale(0);
-      opacity: 1;
-    }
-
-    to {
-      top: 16rem;
-      right: 8rem;
-      transform: rotate(360deg) scale(0);
-      opacity: 1;
-    }
-  }
 }
 
 .sapphire {
@@ -1686,24 +1498,6 @@
     opacity: 0;
     z-index: 30;
     animation: 2s linear 2s infinite glisten;
-  }
-
-  @keyframes glisten {
-    from {
-      opacity: 0;
-    }
-
-    80% {
-      opacity: 0;
-    }
-
-    90% {
-      opacity: 0.5;
-    }
-
-    to {
-      opacity: 0;
-    }
   }
 
   #gem .facade {
@@ -1912,16 +1706,6 @@
     right: 2.5rem;
     animation: 1s linear 0.8s infinite alternate sparkle;
   }
-
-  @keyframes sparkle {
-    from {
-      transform: scale(0.2);
-    }
-
-    to {
-      transform: scale(1.2);
-    }
-  }
 }
 
 .spinel {
@@ -1939,6 +1723,7 @@
     clip-path: path('M 72 0 A122 134 0 0 0 72 240 A122 134 0 0 0 72 0');
     transform: scale(45%) rotate(-90deg);
     background-color: #eeacec;
+    opacity: 0.7;
     /* transform: translateZ(1.5rem); */
   }
 
@@ -2210,15 +1995,5 @@
     bottom: 45%;
     left: 15%;
     animation: 1s linear 0.2s infinite alternate sparkle;
-  }
-
-  @keyframes sparkle {
-    from {
-      transform: scale(0.2);
-    }
-
-    to {
-      transform: scale(1.2);
-    }
   }
 }

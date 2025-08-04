@@ -1,0 +1,115 @@
+@keyframes sparkle {
+  from {
+    transform: scale(0.2);
+  }
+
+  to {
+    transform: scale(1.2);
+  }
+}
+
+@keyframes glisten {
+  from {
+    opacity: 0;
+  }
+
+  80% {
+    opacity: 0;
+  }
+
+  90% {
+    opacity: 0.3;
+  }
+
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes spin {
+  from {
+    top: 10rem;
+    right: 3rem;
+    transform: rotate(0) scale(1.6);
+    opacity: 1;
+  }
+
+  30% {
+    top: 16rem;
+    right: 8rem;
+    transform: rotate(360deg) scale(0);
+    opacity: 1;
+  }
+
+  to {
+    top: 16rem;
+    right: 8rem;
+    transform: rotate(360deg) scale(0);
+    opacity: 1;
+  }
+}
+
+@keyframes reflect {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 0.3;
+  }
+}
+
+@keyframes breath {
+  from {
+    transform: scale(1);
+  }
+
+  to {
+    transform: scale(1.15);
+  }
+}
+
+@keyframes shinny {
+  from {
+    background-position: 0 50%;
+  }
+
+  25% {
+    background-position: 100% 50%;
+  }
+
+  50% {
+    background-position: 50% 100%;
+  }
+
+  75% {
+    background-position: 0 50%;
+  }
+
+  to {
+    background-position: 0 50%;
+  }
+}
+
+@keyframes spin {
+  from {
+    top: 8rem;
+    right: 0rem;
+    transform: rotate(0) scale(1.6);
+    opacity: 1;
+  }
+
+  30% {
+    top: 16rem;
+    right: 8rem;
+    transform: rotate(360deg) scale(0);
+    opacity: 1;
+  }
+
+  to {
+    top: 16rem;
+    right: 8rem;
+    transform: rotate(360deg) scale(0);
+    opacity: 1;
+  }
+}
