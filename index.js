@@ -8,7 +8,7 @@ gsap.registerPlugin(MotionPathPlugin);
 gsap.registerPlugin(MorphSVGPlugin);
 
 
-VanillaTilt.init(document.querySelectorAll('.card'), { max: 25 });
+// VanillaTilt.init(document.querySelectorAll('.card'), { max: 25 });
 
 gsap.registerPlugin(SplitText)
 
@@ -65,8 +65,9 @@ gsap.timeline()
     }
   }).to(".rt .star", {
     duration: 2,
-    ease: "elastic.inOut(1, 0.3),",
+    ease: "power1.inOut",
     rotate: -360,
+    scale: 0,
     // opacity: 0,
   }, '<');
 
@@ -114,3 +115,13 @@ const octagonPath = regularPolygonPath(8, 100, 100, 50);
 // morphShape("#shape", octagonPath, {
 //   duration: 2,
 // })
+
+gsap.from(".obsidian #gem div", {
+  duration: 1,
+  opacity: 0,
+  y: 30,
+  stagger: 0.05,
+  ease: 'power3.out',
+  clipPath: "polygon(0 0, 100% 0, 100% 100%, 0 100%)",
+  delay: 0.5
+})
