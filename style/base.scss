@@ -40,7 +40,7 @@ header {
     font-family: 'Cinzel Decorative';
     font-size: 1rem;
     font-weight: bolder;
-    border: 1px solid lime;
+    // border: 1px solid lime;
 
     &:nth-child(1) {
       top: var(--common-padding);
@@ -66,10 +66,10 @@ header {
       position: absolute;
       width: 2rem;
       height: 2rem;
-      top: calc(var(--posY, 0) * 50%);
-      left: calc(var(--posX, 0) * 20%);
-      /* transform: rotate(var(--offset-rotate, 0deg)); */
-      border: solid 1px yellow;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      // border: solid 1px yellow;
     }
 
     .star {
@@ -80,6 +80,7 @@ header {
       background-position: center;
       background-size: cover;
       background-repeat: no-repeat;
+      // border: solid 1px greenyellow;
       z-index: 10;
     }
   }

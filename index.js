@@ -51,11 +51,31 @@ const flippedXY = path.map(p => ({
   y: 2 * cy - p.y
 }))
 
+gsap.set(".lt p", { rotateY: 180 })
+gsap.set(".lb p", { rotateZ: 180 })
+gsap.set(".rb p", { rotateX: 180 })
+gsap.to(".lt .star", path[0])
+gsap.timeline()
+  .to(".lt .star", {
+    duration: 2,
+    ease: "power1.inOut",
+    motionPath: {
+      path: path,
+      curviness: 1.5,
+      autoRotate: false,
+      debug: true
+    }
+  }).to(".lt .star", {
+    duration: 2,
+    ease: "power1.inOut",
+    rotate: -360,
+    scale: 0,
+  }, '<');
+
 gsap.to(".rt .star", path[0])
 gsap.timeline()
   .to(".rt .star", {
     duration: 2,
-    // repeat: -1,
     ease: "power1.inOut",
     motionPath: {
       path: path,
@@ -68,21 +88,56 @@ gsap.timeline()
     ease: "power1.inOut",
     rotate: -360,
     scale: 0,
-    // opacity: 0,
   }, '<');
 
-gsap.to(".lt .star", {
-  duration: 2,
-  // repeat: -1,
-  ease: "power1.inOut",
-  motionPath: {
-    path: flippedX,
-    curviness: 1.5,
-    autoRotate: false,
-    direction: -1,
-    debug: true
-  }
-});
+gsap.to(".lb .star", path[0])
+gsap.timeline()
+  .to(".lb .star", {
+    duration: 2,
+    ease: "power1.inOut",
+    motionPath: {
+      path: path,
+      curviness: 1.5,
+      autoRotate: false,
+      debug: true
+    }
+  }).to(".lb .star", {
+    duration: 2,
+    ease: "power1.inOut",
+    rotate: -360,
+    scale: 0,
+  }, '<');
+
+gsap.to(".rb .star", path[0])
+gsap.timeline()
+  .to(".rb .star", {
+    duration: 2,
+    ease: "power1.inOut",
+    motionPath: {
+      path: path,
+      curviness: 1.5,
+      autoRotate: false,
+      debug: true
+    }
+  }).to(".rb .star", {
+    duration: 2,
+    ease: "power1.inOut",
+    rotate: -360,
+    scale: 0,
+  }, '<');
+
+// gsap.to(".lt .star", {
+//   duration: 2,
+//   // repeat: -1,
+//   ease: "power1.inOut",
+//   motionPath: {
+//     path: flippedX,
+//     curviness: 1.5,
+//     autoRotate: false,
+//     direction: -1,
+//     debug: true
+//   }
+// });
 
 function morphShape(fromPath, toPath, options = {}) {
 
@@ -122,6 +177,12 @@ gsap.from(".obsidian #gem div", {
   y: 30,
   stagger: 0.05,
   ease: 'power3.out',
-  clipPath: "polygon(0 0, 100% 0, 100% 100%, 0 100%)",
+  // clipPath: "polygon(0 0, 100% 0, 100% 100%, 0 100%)",
   delay: 0.5
 })
+
+// document.querySelector('.pearl').scrollIntoView({
+//   behavior: 'smooth',
+//   block: 'center',
+//   inline: 'center'
+// })
