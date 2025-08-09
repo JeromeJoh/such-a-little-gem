@@ -51,9 +51,10 @@ const flippedXY = path.map(p => ({
   y: 2 * cy - p.y
 }))
 
-gsap.set(".lt p", { rotateY: 180 })
-gsap.set(".lb p", { rotateZ: 180 })
-gsap.set(".rb p", { rotateX: 180 })
+gsap.set(".lt p", { rotateY: 180, rotate: -30 })
+gsap.set(".rt p", { rotate: 30 })
+gsap.set(".lb p", { rotateZ: 180, rotate: 30 })
+gsap.set(".rb p", { rotateX: 180, rotate: -30 })
 gsap.to(".lt .star", path[0])
 gsap.timeline()
   .to(".lt .star", {
