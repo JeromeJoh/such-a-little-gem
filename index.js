@@ -3,10 +3,49 @@ import { SplitText } from 'gsap/SplitText'
 import VanillaTilt from 'vanilla-tilt';
 import { MotionPathPlugin } from 'gsap/MotionPathPlugin';
 import { MorphSVGPlugin } from 'gsap/MorphSVGPlugin';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 gsap.registerPlugin(MotionPathPlugin);
 gsap.registerPlugin(MorphSVGPlugin);
+gsap.registerPlugin(ScrollTrigger);
 
+let distance = 0, inScrollArea = false;
+
+const wrapper = document.querySelector('.wrapper');
+const container = document.querySelector('.container');
+
+
+
+const resize = () => {
+  distance = container.offsetWidth - window.innerWidth
+  wrapper.style.height = `${distance}px`
+  if (inScrollArea) {
+    container.style.transform = `translateX(-${distance}px)`
+  }
+}
+
+resize()
+
+window.addEventListener('resize', resize);
+
+ScrollTrigger.create({
+  trigger: wrapper,
+  start: 'top top',
+  end: 'bottom bottom',
+  snap: 1 / 8,
+  onUpdate: self => {
+    console.log("Scroll progress:", self.progress.toFixed(3));
+    container.style.transform = `translateX(-${distance * self.progress}px)`
+  },
+  onEnter: () => {
+    inScrollArea = true;
+    console.log("Entered scroll area");
+  },
+  onLeave: () => {
+    inScrollArea = false;
+    console.log("Left scroll area");
+  },
+})
 
 // VanillaTilt.init(document.querySelectorAll('.card'), { max: 25 });
 
