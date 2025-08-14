@@ -5,124 +5,133 @@
     height: 20rem;
     display: grid;
     place-items: center;
-    transform: scale(36%);
-    /* transform: translateZ(1rem); */
-  }
+    border: solid 1px lime;
+    // transform: scale(36%);
 
-  #gem .square {
-    width: 12rem;
-    height: 12rem;
-    background-color: #160c10;
-    transform: rotate(45deg);
-  }
+    .square {
+      position: relative;
+      width: 12rem;
+      height: 12rem;
+      background-color: #160c10;
+      transform: rotate(45deg);
 
-  #gem .square-effect {
-    position: absolute;
-    width: 12rem;
-    height: 12rem;
-    background-color: white;
-    opacity: 0;
-    transform: rotate(45deg);
-    animation: 2s linear 2s infinite glisten;
-    transition: all 1s;
-  }
+      &-effect {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: inherit;
+        height: inherit;
+        background-color: white;
+        opacity: 0;
+        animation: 2s linear 2s infinite glisten;
+        transition: all 1s;
+        z-index: 1;
+      }
+    }
 
-  #gem .triangle {
-    position: absolute;
-    width: 12rem;
-    height: 12rem;
-    clip-path: polygon(0 0, 100% 0, 50% 13%);
-  }
+    .triangle {
+      position: absolute;
+      width: 12rem;
+      height: 12rem;
+      clip-path: polygon(0 0, 100% 0, 50% 13%);
 
-  #gem .triangle-1 {
-    top: 0;
-    left: 4rem;
-    background-color: #120e0f;
-  }
+      &-1 {
+        top: 0;
+        left: 4rem;
+        background-color: #120e0f;
+      }
 
-  #gem .triangle-2 {
-    left: 4rem;
-    bottom: 0;
-    background-color: #9c9696;
-    transform: rotate(180deg);
-  }
+      &-2 {
+        left: 4rem;
+        bottom: 0;
+        background-color: #9c9696;
+        transform: rotate(180deg);
+      }
 
-  #gem .triangle-3 {
-    top: 4rem;
-    left: 0;
-    background-color: #574f4d;
-    transform: rotate(-90deg);
-  }
+      &-3 {
+        top: 4rem;
+        left: 0;
+        background-color: #574f4d;
+        transform: rotate(-90deg);
+      }
 
-  #gem .triangle-4 {
-    top: 4rem;
-    right: 0;
-    background-color: #262223;
-    transform: rotate(90deg);
-  }
+      &-4 {
+        top: 4rem;
+        right: 0;
+        background-color: #262223;
+        transform: rotate(90deg);
+      }
+    }
 
-  #gem .trapezoid {
-    position: absolute;
-    width: 12rem;
-    height: 12rem;
-    clip-path: polygon(0 0, 100% 0, 74% 45%, 26% 45%);
-  }
+    .trapezoid {
+      position: absolute;
+      width: 12rem;
+      height: 12rem;
+      clip-path: polygon(0 0, 100% 0, 74% 45%, 26% 45%);
 
-  #gem .trapezoid-1 {
-    top: -4.4rem;
-    left: -4.4rem;
-    background-color: #c3c1c6;
-    transform: rotate(135deg);
-  }
+      &-1 {
+        top: -4.4rem;
+        left: -4.4rem;
+        background-color: #c3c1c6;
+        transform: rotate(135deg);
+      }
 
-  #gem .trapezoid-2 {
-    top: -4.4rem;
-    right: -4.4rem;
-    background-color: #b3b1b4;
-    transform: rotate(-135deg);
-  }
+      &-2 {
+        top: -4.4rem;
+        right: -4.4rem;
+        background-color: #b3b1b4;
+        transform: rotate(-135deg);
+      }
 
-  #gem .trapezoid-3 {
-    bottom: -4.4rem;
-    left: -4.4rem;
-    background-color: #3a3132;
-    transform: rotate(45deg);
-  }
+      &-3 {
+        bottom: -4.4rem;
+        left: -4.4rem;
+        background-color: #3a3132;
+        transform: rotate(45deg);
+      }
 
-  #gem .trapezoid-4 {
-    bottom: -4.4rem;
-    right: -4.4rem;
-    background-color: #3f3a3e;
-    transform: rotate(-45deg);
-  }
+      &-4 {
+        bottom: -4.4rem;
+        right: -4.4rem;
+        background-color: #3f3a3e;
+        transform: rotate(-45deg);
+      }
+    }
 
-  #gem .effect {
-    position: absolute;
-    max-width: 4rem;
-    max-height: 4rem;
-    transform-origin: center;
-  }
+    .effect-group {
+      position: absolute;
+      width: inherit;
+      height: inherit;
 
-  .effect-1 {
-    top: 2rem;
-    left: -2rem;
-    animation: 1s linear 0s infinite alternate sparkle;
-  }
+      .effect {
+        position: absolute;
+        max-width: 4rem;
+        max-height: 4rem;
+        transform-origin: center;
 
-  .effect-2 {
-    animation: 2s ease-in 1.6s infinite spin;
-    opacity: 0;
-  }
+        &-1 {
+          top: 2rem;
+          left: -2rem;
+          animation: 1s linear 0s infinite alternate sparkle;
+        }
 
-  .effect-3 {
-    top: -2rem;
-    right: 2rem;
-    animation: 1s linear 0s infinite alternate sparkle;
-  }
+        &-2 {
+          animation: 2s ease-in 1.6s infinite spin;
+          opacity: 0;
+        }
 
-  .effect-4 {
-    top: 2rem;
-    right: -2rem;
-    animation: 1s linear 0s infinite alternate sparkle;
+        &-3 {
+          top: -2rem;
+          right: 2rem;
+          animation: 1s linear 0s infinite alternate sparkle;
+        }
+
+        &-4 {
+          top: 2rem;
+          right: -2rem;
+          animation: 1s linear 0s infinite alternate sparkle;
+        }
+      }
+    }
   }
 }
