@@ -13,10 +13,20 @@ let distance = 0, inScrollArea = false;
 
 const wrapper = document.querySelector('.wrapper');
 const container = document.querySelector('.container');
+const cards = gsap.utils.toArray('.card');
+const decorLines = gsap.utils.toArray('.decor-line');
 
 
 
 const resize = () => {
+  decorLines.forEach((line, index) => {
+    line.style.width = `${Math.sqrt(window.innerWidth * window.innerWidth / 4 + window.innerHeight * window.innerHeight / 4)}px`;
+    line.style.transform = `rotate(${Math.atan2(window.innerHeight, window.innerWidth) * 180 / Math.PI}deg)`;
+
+    if (index === 1) line.style.transform = `rotate(${-1 * Math.atan2(window.innerHeight, window.innerWidth) * 180 / Math.PI}deg)`;
+
+    if (index === 2) line.style.transform = `rotate(${-1 * Math.atan2(window.innerHeight, window.innerWidth) * 180 / Math.PI}deg)`;
+  })
   distance = container.offsetWidth - window.innerWidth
   wrapper.style.height = `${distance}px`
   if (inScrollArea) {
@@ -26,9 +36,25 @@ const resize = () => {
 
 resize()
 
+gsap.to(decorLines, {
+  scaleX: 0,
+  scrollTrigger: {
+    trigger: "body",
+    start: 'top top',
+    end: `${window.innerHeight}px top`,
+    scrub: 1,
+    onUpdate: self => {
+      console.log("Decor lines progress:", self.progress.toFixed(3));
+      decorLines.forEach((line, index) => {
+        line.style.transform = `rotate(${Math.atan2(window.innerHeight, window.innerWidth) * 180 / Math.PI + (index % 2 === 0 ? 0 : -180)}deg)`;
+      });
+    }
+  }
+})
+
 window.addEventListener('resize', resize);
 
-ScrollTrigger.create({
+const st = ScrollTrigger.create({
   trigger: wrapper,
   start: 'top top',
   end: 'bottom bottom',
@@ -211,18 +237,12 @@ const octagonPath = regularPolygonPath(8, 100, 100, 50);
 //   duration: 2,
 // })
 
-gsap.from(".obsidian #gem div", {
-  duration: 1,
-  opacity: 0,
-  y: 30,
-  stagger: 0.05,
-  ease: 'power3.out',
-  // clipPath: "polygon(0 0, 100% 0, 100% 100%, 0 100%)",
-  delay: 0.5
-})
-
-// document.querySelector('.pearl').scrollIntoView({
-//   behavior: 'smooth',
-//   block: 'center',
-//   inline: 'center'
+// gsap.from(".obsidian #gem div", {
+//   duration: 1,
+//   opacity: 0,
+//   y: 30,
+//   stagger: 0.05,
+//   ease: 'power3.out',
+//   // clipPath: "polygon(0 0, 100% 0, 100% 100%, 0 100%)",
+//   delay: 0.5
 // })
