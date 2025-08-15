@@ -7,21 +7,11 @@
     display: grid;
     place-items: center;
     clip-path: path('M 72 0 A122 134 0 0 0 72 240 A122 134 0 0 0 72 0');
-    transform: scale(45%) rotate(-90deg);
     background-color: #eeacec;
-    /* transform: translateZ(1.5rem); */
+    // transform: scale(45%) rotate(-90deg);
   }
 
-  .effect-group {
-    position: absolute;
-    top: 46%;
-    left: 50%;
-    transform: translateX(-50%) translateY(-50%) scale(45%) rotate(-90deg);
-    width: 144px;
-    height: 240px;
-  }
-
-  #gem .top {
+  .table {
     width: 144px;
     height: 240px;
     background: #eeacec;
@@ -35,250 +25,268 @@
       24% 50%,
       32% 28%
     );
+
+    &-effect {
+      position: absolute;
+      width: inherit;
+      height: inherit;
+      background-color: #fff;
+      opacity: 0;
+      z-index: 30;
+      animation: 2s linear 2s infinite glisten;
+    }
   }
 
-  #gem .facade {
+  .facade {
     position: absolute;
     width: 12rem;
     height: 20rem;
     border: solid 1px red;
+
+    &.left-qua {
+      clip-path: polygon(24% 50%, 18% 36%, 4% 50%, 18% 64%);
+      background-color: #e5718a;
+    }
+
+    &.right-qua {
+      clip-path: polygon(24% 50%, 18% 36%, 4% 50%, 18% 64%);
+      background-color: #db84a0;
+      transform: rotateY(180deg);
+    }
+
+    &.lt-tri-1 {
+      clip-path: polygon(24% 50%, 18% 36%, 32% 28%);
+      background-color: #94c7e5;
+    }
+
+    &.rt-tri-1 {
+      clip-path: polygon(24% 50%, 18% 36%, 32% 28%);
+      background-color: #f1b0a1;
+      transform: rotateY(180deg);
+    }
+
+    &.rb-tri-1 {
+      clip-path: polygon(24% 50%, 18% 36%, 32% 28%);
+      background-color: #efb5c5;
+      transform: rotateY(180deg) rotateX(180deg);
+    }
+
+    &.lb-tri-1 {
+      clip-path: polygon(24% 50%, 18% 36%, 32% 28%);
+      background-color: #e8cad0;
+      transform: rotateX(180deg);
+    }
+
+    &.lt-tri-2 {
+      clip-path: polygon(50% 16%, 32% 28%, 37% 13%);
+      background-color: #f0d1d2;
+    }
+
+    &.rt-tri-2 {
+      clip-path: polygon(50% 16%, 32% 28%, 37% 13%);
+      background-color: #efcad4;
+      transform: rotateY(180deg);
+    }
+
+    &.rb-tri-2 {
+      clip-path: polygon(50% 16%, 32% 28%, 37% 13%);
+      background-color: #efdee0;
+      transform: rotateY(180deg) rotateX(180deg);
+    }
+
+    &.lb-tri-2 {
+      clip-path: polygon(50% 16%, 32% 28%, 37% 13%);
+      background-color: #f3dfdf;
+      transform: rotateX(180deg);
+    }
+
+    &.lt-tri-3 {
+      clip-path: polygon(50% 16%, 50% 0, 37% 13%);
+      background-color: #d7768c;
+    }
+
+    &.rt-tri-3 {
+      clip-path: polygon(50% 16%, 50% 0, 37% 13%);
+      background-color: #e1a2aa;
+      transform: rotateY(180deg);
+    }
+
+    &.rb-tri-3 {
+      clip-path: polygon(50% 16%, 50% 0, 37% 13%);
+      background-color: #a4def6;
+      transform: rotateY(180deg) rotateX(180deg);
+    }
+
+    &.lb-tri-3 {
+      clip-path: polygon(50% 16%, 50% 0, 37% 13%);
+      background-color: #eb8aa1;
+      transform: rotateX(180deg);
+    }
+
+    &.lt-tri-4 {
+      clip-path: polygon(5% 0, 50% 0, 37% 13%);
+      background-color: #e38872;
+    }
+
+    &.rt-tri-4 {
+      clip-path: polygon(5% 0, 50% 0, 37% 13%);
+      background-color: #bf91f3;
+      transform: rotateY(180deg);
+    }
+
+    &.rb-tri-4 {
+      clip-path: polygon(5% 0, 50% 0, 37% 13%);
+      background-color: #e9749b;
+      transform: rotateY(180deg) rotateX(180deg);
+    }
+
+    &.lb-tri-4 {
+      clip-path: polygon(5% 0, 50% 0, 37% 13%);
+      background-color: #d764cf;
+      transform: rotateX(180deg);
+    }
+
+    &.lt-tri-5 {
+      clip-path: polygon(16% 0, 37% 13%, 18% 20%);
+      background-color: #e2a2ae;
+    }
+
+    &.rt-tri-5 {
+      clip-path: polygon(16% 0, 37% 13%, 18% 20%);
+      background-color: #df5368;
+      transform: rotateY(180deg);
+    }
+
+    &.rb-tri-5 {
+      clip-path: polygon(16% 0, 37% 13%, 18% 20%);
+      background-color: #b85f7c;
+      transform: rotateY(180deg) rotateX(180deg);
+    }
+
+    &.lb-tri-5 {
+      clip-path: polygon(16% 0, 37% 13%, 18% 20%);
+      background-color: #ba5675;
+      transform: rotateX(180deg);
+    }
+
+    &.lt-tri-6 {
+      clip-path: polygon(37% 13%, 18% 20%, 18% 36%, 32% 28%);
+      background-color: #e87fa8;
+    }
+
+    &.rt-tri-6 {
+      clip-path: polygon(37% 13%, 18% 20%, 18% 36%, 32% 28%);
+      background-color: #ec8fa2;
+      transform: rotateY(180deg);
+    }
+
+    &.rb-tri-6 {
+      clip-path: polygon(37% 13%, 18% 20%, 18% 36%, 32% 28%);
+      background-color: #f26681;
+      transform: rotateY(180deg) rotateX(180deg);
+    }
+
+    &.lb-tri-6 {
+      clip-path: polygon(37% 13%, 18% 20%, 18% 36%, 32% 28%);
+      background-color: #f36bc5;
+      transform: rotateX(180deg);
+    }
+    & &.lt-tri-7 {
+      clip-path: polygon(0% 36%, 18% 36%, 18% 10%);
+      background-color: #ea496c;
+    }
+
+    .rt-tri-7 {
+      clip-path: polygon(0% 36%, 18% 36%, 18% 10%);
+      background-color: #e95f88;
+      transform: rotateY(180deg);
+    }
+
+    .rb-tri-7 {
+      clip-path: polygon(0% 36%, 18% 36%, 18% 10%);
+      background-color: #d02d51;
+      transform: rotateY(180deg) rotateX(180deg);
+    }
+
+    &.lb-tri-7 {
+      clip-path: polygon(0% 36%, 18% 36%, 18% 10%);
+      background-color: #d2685a;
+      transform: rotateX(180deg);
+    }
+
+    &.lt-tri-8 {
+      clip-path: polygon(3% 51%, 18% 36%, 0% 32%);
+      background-color: #c4214b;
+    }
+
+    &.rt-tri-8 {
+      clip-path: polygon(3% 51%, 18% 36%, 0% 32%);
+      background-color: #ba567a;
+      transform: rotateY(180deg);
+    }
+
+    &.rb-tri-8 {
+      clip-path: polygon(3% 51%, 18% 36%, 0% 32%);
+      background-color: #f94357;
+      transform: rotateY(180deg) rotateX(180deg);
+    }
+
+    &.lb-tri-8 {
+      clip-path: polygon(3% 51%, 18% 36%, 0% 32%);
+      background-color: #a33252;
+      transform: rotateX(180deg);
+    }
   }
 
-  #gem .left-qua {
-    clip-path: polygon(24% 50%, 18% 36%, 4% 50%, 18% 64%);
-    background-color: #e5718a;
-  }
-
-  #gem .right-qua {
-    clip-path: polygon(24% 50%, 18% 36%, 4% 50%, 18% 64%);
-    background-color: #db84a0;
-    transform: rotateY(180deg);
-  }
-
-  #gem .lt-tri-1 {
-    clip-path: polygon(24% 50%, 18% 36%, 32% 28%);
-    background-color: #94c7e5;
-  }
-
-  #gem .rt-tri-1 {
-    clip-path: polygon(24% 50%, 18% 36%, 32% 28%);
-    background-color: #f1b0a1;
-    transform: rotateY(180deg);
-  }
-
-  #gem .rb-tri-1 {
-    clip-path: polygon(24% 50%, 18% 36%, 32% 28%);
-    background-color: #efb5c5;
-    transform: rotateY(180deg) rotateX(180deg);
-  }
-
-  #gem .lb-tri-1 {
-    clip-path: polygon(24% 50%, 18% 36%, 32% 28%);
-    background-color: #e8cad0;
-    transform: rotateX(180deg);
-  }
-
-  #gem .lt-tri-2 {
-    clip-path: polygon(50% 16%, 32% 28%, 37% 13%);
-    background-color: #f0d1d2;
-  }
-
-  #gem .rt-tri-2 {
-    clip-path: polygon(50% 16%, 32% 28%, 37% 13%);
-    background-color: #efcad4;
-    transform: rotateY(180deg);
-  }
-
-  #gem .rb-tri-2 {
-    clip-path: polygon(50% 16%, 32% 28%, 37% 13%);
-    background-color: #efdee0;
-    transform: rotateY(180deg) rotateX(180deg);
-  }
-
-  #gem .lb-tri-2 {
-    clip-path: polygon(50% 16%, 32% 28%, 37% 13%);
-    background-color: #f3dfdf;
-    transform: rotateX(180deg);
-  }
-
-  #gem .lt-tri-3 {
-    clip-path: polygon(50% 16%, 50% 0, 37% 13%);
-    background-color: #d7768c;
-  }
-
-  #gem .rt-tri-3 {
-    clip-path: polygon(50% 16%, 50% 0, 37% 13%);
-    background-color: #e1a2aa;
-    transform: rotateY(180deg);
-  }
-
-  #gem .rb-tri-3 {
-    clip-path: polygon(50% 16%, 50% 0, 37% 13%);
-    background-color: #a4def6;
-    transform: rotateY(180deg) rotateX(180deg);
-  }
-
-  #gem .lb-tri-3 {
-    clip-path: polygon(50% 16%, 50% 0, 37% 13%);
-    background-color: #eb8aa1;
-    transform: rotateX(180deg);
-  }
-
-  #gem .lt-tri-4 {
-    clip-path: polygon(5% 0, 50% 0, 37% 13%);
-    background-color: #e38872;
-  }
-
-  #gem .rt-tri-4 {
-    clip-path: polygon(5% 0, 50% 0, 37% 13%);
-    background-color: #bf91f3;
-    transform: rotateY(180deg);
-  }
-
-  #gem .rb-tri-4 {
-    clip-path: polygon(5% 0, 50% 0, 37% 13%);
-    background-color: #e9749b;
-    transform: rotateY(180deg) rotateX(180deg);
-  }
-
-  #gem .lb-tri-4 {
-    clip-path: polygon(5% 0, 50% 0, 37% 13%);
-    background-color: #d764cf;
-    transform: rotateX(180deg);
-  }
-
-  #gem .lt-tri-5 {
-    clip-path: polygon(16% 0, 37% 13%, 18% 20%);
-    background-color: #e2a2ae;
-  }
-
-  #gem .rt-tri-5 {
-    clip-path: polygon(16% 0, 37% 13%, 18% 20%);
-    background-color: #df5368;
-    transform: rotateY(180deg);
-  }
-
-  #gem .rb-tri-5 {
-    clip-path: polygon(16% 0, 37% 13%, 18% 20%);
-    background-color: #b85f7c;
-    transform: rotateY(180deg) rotateX(180deg);
-  }
-
-  #gem .lb-tri-5 {
-    clip-path: polygon(16% 0, 37% 13%, 18% 20%);
-    background-color: #ba5675;
-    transform: rotateX(180deg);
-  }
-
-  #gem .lt-tri-6 {
-    clip-path: polygon(37% 13%, 18% 20%, 18% 36%, 32% 28%);
-    background-color: #e87fa8;
-  }
-
-  #gem .rt-tri-6 {
-    clip-path: polygon(37% 13%, 18% 20%, 18% 36%, 32% 28%);
-    background-color: #ec8fa2;
-    transform: rotateY(180deg);
-  }
-
-  #gem .rb-tri-6 {
-    clip-path: polygon(37% 13%, 18% 20%, 18% 36%, 32% 28%);
-    background-color: #f26681;
-    transform: rotateY(180deg) rotateX(180deg);
-  }
-
-  #gem .lb-tri-6 {
-    clip-path: polygon(37% 13%, 18% 20%, 18% 36%, 32% 28%);
-    background-color: #f36bc5;
-    transform: rotateX(180deg);
-  }
-
-  #gem .lt-tri-7 {
-    clip-path: polygon(0% 36%, 18% 36%, 18% 10%);
-    background-color: #ea496c;
-  }
-
-  #gem .rt-tri-7 {
-    clip-path: polygon(0% 36%, 18% 36%, 18% 10%);
-    background-color: #e95f88;
-    transform: rotateY(180deg);
-  }
-
-  #gem .rb-tri-7 {
-    clip-path: polygon(0% 36%, 18% 36%, 18% 10%);
-    background-color: #d02d51;
-    transform: rotateY(180deg) rotateX(180deg);
-  }
-
-  #gem .lb-tri-7 {
-    clip-path: polygon(0% 36%, 18% 36%, 18% 10%);
-    background-color: #d2685a;
-    transform: rotateX(180deg);
-  }
-
-  #gem .lt-tri-8 {
-    clip-path: polygon(3% 51%, 18% 36%, 0% 32%);
-    background-color: #c4214b;
-  }
-
-  #gem .rt-tri-8 {
-    clip-path: polygon(3% 51%, 18% 36%, 0% 32%);
-    background-color: #ba567a;
-    transform: rotateY(180deg);
-  }
-
-  #gem .rb-tri-8 {
-    clip-path: polygon(3% 51%, 18% 36%, 0% 32%);
-    background-color: #f94357;
-    transform: rotateY(180deg) rotateX(180deg);
-  }
-
-  #gem .lb-tri-8 {
-    clip-path: polygon(3% 51%, 18% 36%, 0% 32%);
-    background-color: #a33252;
-    transform: rotateX(180deg);
-  }
-
-  .effect {
+  .effect-group {
     position: absolute;
-    max-width: 2rem;
-    max-height: 2rem;
-    transform-origin: center;
-  }
+    top: 46%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-50%) scale(45%) rotate(-90deg);
+    width: 144px;
+    height: 240px;
 
-  .effect-1 {
-    top: 3rem;
-    left: 9rem;
-    animation: 1s linear 0s infinite alternate sparkle;
-  }
+    .effect {
+      position: absolute;
+      max-width: 2rem;
+      max-height: 2rem;
+      transform-origin: center;
 
-  .effect-2 {
-    top: 3rem;
-    right: 9rem;
-    animation: 1s linear 0.2s infinite alternate sparkle;
-  }
+      &-1 {
+        top: 3rem;
+        left: 9rem;
+        animation: 1s linear 0s infinite alternate sparkle;
+      }
 
-  .effect-3 {
-    bottom: 3rem;
-    left: 9rem;
-    animation: 1s linear 0.6s infinite alternate sparkle;
-  }
+      &-2 {
+        top: 3rem;
+        right: 9rem;
+        animation: 1s linear 0.2s infinite alternate sparkle;
+      }
 
-  .effect-4 {
-    bottom: 3rem;
-    right: 9rem;
-    animation: 1s linear 0.8s infinite alternate sparkle;
-  }
+      &-3 {
+        bottom: 3rem;
+        left: 9rem;
+        animation: 1s linear 0.6s infinite alternate sparkle;
+      }
 
-  .effect-5 {
-    bottom: 45%;
-    right: 15%;
-    animation: 1s linear 0.5s infinite alternate sparkle;
-  }
+      &-4 {
+        bottom: 3rem;
+        right: 9rem;
+        animation: 1s linear 0.8s infinite alternate sparkle;
+      }
 
-  .effect-6 {
-    bottom: 45%;
-    left: 15%;
-    animation: 1s linear 0.2s infinite alternate sparkle;
+      &-5 {
+        bottom: 45%;
+        right: 15%;
+        animation: 1s linear 0.5s infinite alternate sparkle;
+      }
+
+      &-6 {
+        bottom: 45%;
+        left: 15%;
+        animation: 1s linear 0.2s infinite alternate sparkle;
+      }
+    }
   }
 }
