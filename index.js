@@ -44,13 +44,33 @@ gsap.to(decorLines, {
     end: `${window.innerHeight}px top`,
     scrub: 1,
     onUpdate: self => {
-      console.log("Decor lines progress:", self.progress.toFixed(3));
+      // console.log("Decor lines progress:", self.progress.toFixed(3));
       decorLines.forEach((line, index) => {
         line.style.transform = `rotate(${Math.atan2(window.innerHeight, window.innerWidth) * 180 / Math.PI + (index % 2 === 0 ? 0 : -180)}deg)`;
       });
     }
   }
 })
+
+
+const outroTl = gsap.timeline({
+  scrollTrigger: {
+    trigger: ".outro",
+    start: `top top`,
+    end: `bottom bottom`,
+    scrub: 1,
+  }
+})
+
+outroTl
+  .to('.author', {
+    scale: 1.15,
+    y: -window.innerHeight / 2,
+    color: '#000',
+  })
+  .to(document.body, {
+    backgroundColor: '#ececec',
+  })
 
 window.addEventListener('resize', resize);
 
@@ -250,3 +270,6 @@ const octagonPath = regularPolygonPath(8, 100, 100, 50);
 // TODO: scroll animation with gems
 // TODO: fix glare effects
 // TODO: intro & outro animations
+cards.forEach((card, index) => {
+
+})
