@@ -4,263 +4,256 @@
     width: 20rem;
     height: 20rem;
     border-radius: 100% 2px 64% 36% / 64% 2px 100% 36%;
-    transform: rotate(-45deg) scale(36%);
     overflow: hidden;
-    /* transform: translateZ(1.5rem); */
-  }
+    // transform: rotate(-45deg) scale(36%);
 
-  #gem .content-wrapper {
-    position: relative;
-    width: 20rem;
-    height: 20rem;
-    display: grid;
-    place-items: center;
-    transform: rotate(45deg);
-  }
+    .content-wrapper {
+      position: relative;
+      width: 20rem;
+      height: 20rem;
+      display: grid;
+      place-items: center;
+      transform: rotate(45deg);
+    }
 
-  #gem .top {
-    position: relative;
-    bottom: 5%;
-    width: 20rem;
-    height: 20rem;
-    background: lightblue;
-    clip-path: polygon(
-      50% 18.5%,
-      64% 36%,
-      70% 68%,
-      66% 86%,
-      50% 96%,
-      34% 86%,
-      30% 68%,
-      36% 36%
-    );
-  }
+    .table {
+      position: relative;
+      bottom: 5%;
+      width: 20rem;
+      height: 20rem;
+      background: lightblue;
+      clip-path: polygon(
+        50% 18.5%,
+        64% 36%,
+        70% 68%,
+        66% 86%,
+        50% 96%,
+        34% 86%,
+        30% 68%,
+        36% 36%
+      );
 
-  #gem .top-effect {
-    position: absolute;
-    bottom: 5%;
-    width: 20rem;
-    height: 20rem;
-    clip-path: polygon(
-      50% 18.5%,
-      64% 36%,
-      70% 68%,
-      66% 86%,
-      50% 96%,
-      34% 86%,
-      30% 68%,
-      36% 36%
-    );
-    background-color: #fff;
-    opacity: 0;
-    z-index: 30;
-    animation: 2s linear 2s infinite glisten;
-  }
+      &-effect {
+        position: absolute;
+        width: inherit;
+        height: inherit;
+        background-color: #fff;
+        opacity: 0;
+        z-index: 30;
+        animation: 2s linear 2s infinite glisten;
+      }
+    }
 
-  #gem .facade {
-    position: absolute;
-    width: 20rem;
-    height: 28rem;
-  }
+    .facade {
+      position: absolute;
+      width: 20rem;
+      height: 28rem;
+      &-1 {
+        clip-path: polygon(50% 90%, 38% 83%, 50% 79%, 62% 83%);
+        background-color: #1a1a57;
+      }
 
-  #gem .facade-1 {
-    clip-path: polygon(50% 90%, 38% 83%, 50% 79%, 62% 83%);
-    background-color: #1a1a57;
-  }
+      &-2 {
+        clip-path: polygon(38% 83%, 50% 79%, 34% 72%);
+        background-color: #2f55f3;
+      }
 
-  #gem .facade-2 {
-    clip-path: polygon(38% 83%, 50% 79%, 34% 72%);
-    background-color: #2f55f3;
-  }
+      &-2-opp {
+        clip-path: polygon(38% 83%, 50% 79%, 34% 72%);
+        transform: rotateY(180deg);
+        background-color: #4776e6;
+      }
 
-  #gem .facade-2-opp {
-    clip-path: polygon(38% 83%, 50% 79%, 34% 72%);
-    transform: rotateY(180deg);
-    background-color: #4776e6;
-  }
+      &-3 {
+        clip-path: polygon(50% 90%, 38% 83%, 32% 90%);
+        background-color: #6034ac;
+      }
 
-  #gem .facade-3 {
-    clip-path: polygon(50% 90%, 38% 83%, 32% 90%);
-    background-color: #6034ac;
-  }
+      &-3-opp {
+        clip-path: polygon(50% 90%, 38% 83%, 32% 90%);
+        background-color: #362f91;
+        transform: rotateY(180deg);
+      }
 
-  #gem .facade-3-opp {
-    clip-path: polygon(50% 90%, 38% 83%, 32% 90%);
-    background-color: #362f91;
-    transform: rotateY(180deg);
-  }
+      &-4 {
+        clip-path: polygon(38% 83%, 32% 90%, 12% 80%);
+        background-color: #05078b;
+      }
 
-  #gem .facade-4 {
-    clip-path: polygon(38% 83%, 32% 90%, 12% 80%);
-    background-color: #05078b;
-  }
+      &-4-opp {
+        clip-path: polygon(38% 83%, 32% 90%, 12% 80%);
+        background-color: #5031db;
+        transform: rotateY(180deg);
+      }
 
-  #gem .facade-4-opp {
-    clip-path: polygon(38% 83%, 32% 90%, 12% 80%);
-    background-color: #5031db;
-    transform: rotateY(180deg);
-  }
+      &-5 {
+        clip-path: polygon(38% 83%, 34% 72%, 25% 71%, 8% 80%);
+        background-color: #4f87ef;
+      }
 
-  #gem .facade-5 {
-    clip-path: polygon(38% 83%, 34% 72%, 25% 71%, 8% 80%);
-    background-color: #4f87ef;
-  }
+      &-5-opp {
+        clip-path: polygon(38% 83%, 34% 72%, 25% 71%, 8% 80%);
+        background-color: #8f90c4;
+        transform: rotateY(180deg);
+      }
 
-  #gem .facade-5-opp {
-    clip-path: polygon(38% 83%, 34% 72%, 25% 71%, 8% 80%);
-    background-color: #8f90c4;
-    transform: rotateY(180deg);
-  }
+      &-6 {
+        clip-path: polygon(34.2% 72%, 25% 71%, 30.2% 59%);
+        background-color: #3541a3;
+      }
 
-  #gem .facade-6 {
-    clip-path: polygon(34.2% 72%, 25% 71%, 30.2% 59%);
-    background-color: #3541a3;
-  }
+      &-6-opp {
+        clip-path: polygon(34% 72%, 25% 71%, 30.2% 59%);
+        background-color: #c2d3fa;
+        transform: rotateY(180deg);
+      }
 
-  #gem .facade-6-opp {
-    clip-path: polygon(34% 72%, 25% 71%, 30.2% 59%);
-    background-color: #c2d3fa;
-    transform: rotateY(180deg);
-  }
+      &-7 {
+        clip-path: polygon(25% 71%, 30% 59%, 21% 50%, 11.5% 59%);
+        background-color: #68b0e0;
+      }
 
-  #gem .facade-7 {
-    clip-path: polygon(25% 71%, 30% 59%, 21% 50%, 11.5% 59%);
-    background-color: #68b0e0;
-  }
+      &-7-opp {
+        clip-path: polygon(25% 71%, 30% 59%, 21% 50%, 11.5% 59%);
+        background-color: #219ef4;
+        transform: rotateY(180deg);
+      }
 
-  #gem .facade-7-opp {
-    clip-path: polygon(25% 71%, 30% 59%, 21% 50%, 11.5% 59%);
-    background-color: #219ef4;
-    transform: rotateY(180deg);
-  }
+      &-8 {
+        clip-path: polygon(25% 71%, 8% 80%, 11.5% 59%);
+        background-color: #1e1e5a;
+      }
 
-  #gem .facade-8 {
-    clip-path: polygon(25% 71%, 8% 80%, 11.5% 59%);
-    background-color: #1e1e5a;
-  }
+      &-8-opp {
+        clip-path: polygon(25% 71%, 8% 80%, 11.5% 59%);
+        background-color: #2e2e3b;
+        transform: rotateY(180deg);
+      }
 
-  #gem .facade-8-opp {
-    clip-path: polygon(25% 71%, 8% 80%, 11.5% 59%);
-    background-color: #2e2e3b;
-    transform: rotateY(180deg);
-  }
+      &-9 {
+        clip-path: polygon(30.2% 59%, 36.2% 36.5%, 21% 50%);
+        background-color: #e0efcf;
+      }
 
-  #gem .facade-9 {
-    clip-path: polygon(30.2% 59%, 36.2% 36.5%, 21% 50%);
-    background-color: #e0efcf;
-  }
+      &-9-opp {
+        clip-path: polygon(30% 59%, 36% 36.5%, 21% 50%);
+        background-color: #e6e9f5;
+        transform: rotateY(180deg);
+      }
 
-  #gem .facade-9-opp {
-    clip-path: polygon(30% 59%, 36% 36.5%, 21% 50%);
-    background-color: #e6e9f5;
-    transform: rotateY(180deg);
-  }
+      &-10 {
+        clip-path: polygon(2% 48%, 21% 50%, 11.5% 59%);
+        background-color: #2a2d2a;
+      }
 
-  #gem .facade-10 {
-    clip-path: polygon(2% 48%, 21% 50%, 11.5% 59%);
-    background-color: #2a2d2a;
-  }
+      &-10-opp {
+        clip-path: polygon(2% 48%, 21% 50%, 11.5% 59%);
+        background-color: #2873b4;
+        transform: rotateY(180deg);
+      }
 
-  #gem .facade-10-opp {
-    clip-path: polygon(2% 48%, 21% 50%, 11.5% 59%);
-    background-color: #2873b4;
-    transform: rotateY(180deg);
-  }
+      &-11 {
+        clip-path: polygon(20% 30%, 36% 18%, 36% 36.5%, 21% 50%);
+        background-color: #6193fb;
+      }
 
-  #gem .facade-11 {
-    clip-path: polygon(20% 30%, 36% 18%, 36% 36.5%, 21% 50%);
-    background-color: #6193fb;
-  }
+      &-11-opp {
+        clip-path: polygon(20% 30%, 36% 18%, 36% 36.5%, 21% 50%);
+        background-color: #42a1bb;
+        transform: rotateY(180deg);
+      }
 
-  #gem .facade-11-opp {
-    clip-path: polygon(20% 30%, 36% 18%, 36% 36.5%, 21% 50%);
-    background-color: #42a1bb;
-    transform: rotateY(180deg);
-  }
+      &-12 {
+        clip-path: polygon(20% 30%, 10% 49%, 21% 50%);
+        background-color: #0032ad;
+      }
 
-  #gem .facade-12 {
-    clip-path: polygon(20% 30%, 10% 49%, 21% 50%);
-    background-color: #0032ad;
-  }
+      &-12-opp {
+        clip-path: polygon(20% 30%, 10% 49%, 21% 50%);
+        background-color: #0e3494;
+        transform: rotateY(180deg);
+      }
 
-  #gem .facade-12-opp {
-    clip-path: polygon(20% 30%, 10% 49%, 21% 50%);
-    background-color: #0e3494;
-    transform: rotateY(180deg);
-  }
+      &-13 {
+        clip-path: polygon(36% 18%, 36% 36.5%, 50% 24%);
+        background-color: #fcfff4;
+      }
 
-  #gem .facade-13 {
-    clip-path: polygon(36% 18%, 36% 36.5%, 50% 24%);
-    background-color: #fcfff4;
-  }
+      &-13-opp {
+        clip-path: polygon(36% 18%, 36% 36.5%, 50% 24%);
+        background-color: #92f5bd;
+        transform: rotateY(180deg);
+      }
 
-  #gem .facade-13-opp {
-    clip-path: polygon(36% 18%, 36% 36.5%, 50% 24%);
-    background-color: #92f5bd;
-    transform: rotateY(180deg);
-  }
+      &-14 {
+        clip-path: polygon(20% 30%, 36% 18%, 28% 13%);
+        background-color: #0012a8;
+      }
 
-  #gem .facade-14 {
-    clip-path: polygon(20% 30%, 36% 18%, 28% 13%);
-    background-color: #0012a8;
-  }
+      &-14-opp {
+        clip-path: polygon(20% 30%, 36% 18%, 28% 13%);
+        background-color: #613d8c;
+        transform: rotateY(180deg);
+      }
 
-  #gem .facade-14-opp {
-    clip-path: polygon(20% 30%, 36% 18%, 28% 13%);
-    background-color: #613d8c;
-    transform: rotateY(180deg);
-  }
+      &-15 {
+        clip-path: polygon(36% 18%, 50% 0, 50% 24%);
+        background-color: #371bde;
+      }
 
-  #gem .facade-15 {
-    clip-path: polygon(36% 18%, 50% 0, 50% 24%);
-    background-color: #371bde;
-  }
+      &-15-opp {
+        clip-path: polygon(36% 18%, 50% 0, 50% 24%);
+        background-color: #3369a5;
+        transform: rotateY(180deg);
+      }
 
-  #gem .facade-15-opp {
-    clip-path: polygon(36% 18%, 50% 0, 50% 24%);
-    background-color: #3369a5;
-    transform: rotateY(180deg);
-  }
+      &-16 {
+        clip-path: polygon(36% 18%, 50% 0, 10% 1%);
+        background-color: #150d21;
+      }
 
-  #gem .facade-16 {
-    clip-path: polygon(36% 18%, 50% 0, 10% 1%);
-    background-color: #150d21;
-  }
+      &-16-opp {
+        clip-path: polygon(36% 18%, 50% 0, 10% 1%);
+        background-color: #170975;
+        transform: rotateY(180deg);
+      }
+    }
 
-  #gem .facade-16-opp {
-    clip-path: polygon(36% 18%, 50% 0, 10% 1%);
-    background-color: #170975;
-    transform: rotateY(180deg);
-  }
+    .effect-group {
+      position: absolute;
+      width: inherit;
+      height: inherit;
 
-  #gem .effect {
-    position: absolute;
-    max-width: 4rem;
-    max-height: 4rem;
-    transform-origin: center;
-  }
+      .effect {
+        position: absolute;
+        max-width: 4rem;
+        max-height: 4rem;
+        transform-origin: center;
 
-  .effect-1 {
-    top: 10.5rem;
-    left: 4rem;
-    animation: 1s linear 0s infinite alternate sparkle;
-  }
+        &-1 {
+          top: 10.5rem;
+          left: 4rem;
+          animation: 1s linear 0s infinite alternate sparkle;
+        }
 
-  .effect-2 {
-    bottom: 2rem;
-    right: 3rem;
-    animation: 1s linear 0.2s infinite alternate sparkle;
-  }
+        &-2 {
+          bottom: 2rem;
+          right: 3rem;
+          animation: 1s linear 0.2s infinite alternate sparkle;
+        }
 
-  .effect-3 {
-    top: 1rem;
-    left: 8rem;
-    animation: 1s linear 0.6s infinite alternate sparkle;
-  }
+        &-3 {
+          top: 1rem;
+          left: 8rem;
+          animation: 1s linear 0.6s infinite alternate sparkle;
+        }
 
-  .effect-4 {
-    top: 8rem;
-    right: 2.5rem;
-    animation: 1s linear 0.8s infinite alternate sparkle;
+        &-4 {
+          top: 8rem;
+          right: 2.5rem;
+          animation: 1s linear 0.8s infinite alternate sparkle;
+        }
+      }
+    }
   }
 }
