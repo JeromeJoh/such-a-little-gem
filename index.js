@@ -246,3 +246,7 @@ const octagonPath = regularPolygonPath(8, 100, 100, 50);
 //   // clipPath: "polygon(0 0, 100% 0, 100% 100%, 0 100%)",
 //   delay: 0.5
 // })
+
+// TODO: scroll animation with gems
+// TODO: fix glare effects
+// TODO: intro & outro animations
