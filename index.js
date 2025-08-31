@@ -291,6 +291,17 @@ const octagonPath = regularPolygonPath(8, 100, 100, 50);
 //   duration: 2,
 // })
 
+const frameSet = [
+  {
+    mask: "frame",
+    color: 'silver'
+  },
+  {
+    mask: "ellipse",
+    color: 'gold'
+  }
+]
+
 
 
 // TODO: scroll animation with gems
@@ -300,6 +311,7 @@ const overlay = document.querySelector('.overlay');
 const overlaySub = document.querySelector('.overlay-sub');
 
 cards.forEach((card, index) => {
+  const flag = index % 2 === 0
   const cardTl = gsap.timeline({
     scrollTrigger: {
       trigger: "body",
@@ -307,38 +319,44 @@ cards.forEach((card, index) => {
       end: `${window.innerHeight + window.innerWidth * (index + 1)}px bottom`,
       scrub: 1,
       onUpdate: self => {
-        console.log("gem scroll", self.progress.toFixed(3), index);
+        // console.log("gem scroll", self.progress.toFixed(3), index, flag);
       }
     }
   })
 
-  const expand = index % 2 === 0
-  console.log('-===================-', expand, index)
+
 
   cardTl
     .to(overlay, {
-      rotateY: expand ? 90 : 0,
-      onComplete: () => overlay.style.maskImage = "url(/assets/images/ellipse.svg)"
+      rotateY: 90,
+      onComplete: () => {
+        overlay.style.maskImage = `url(/assets/images/${frameSet[Number(flag)].mask}.svg)`
+        console.log('complete')
+      },
     })
     .to(overlay, {
-      rotateY: expand ? 180 : 0,
+      rotateY: flag ? 180 : 0,
+      onReverseComplete: () => {
+        overlay.style.maskImage = `url(/assets/images/${frameSet[1 - Number(flag)].mask}.svg)`
+        console.log('reverse')
+      },
     })
   // .to(card.querySelector('#gem>div'), {
   //   opacity: 0,
   //   ease: 'power3.out',
   //   clipPath: "polygon(0 0, 100% 0, 100% 100%, 0 100%)"
   // })
-  // .to(expand ? overlay : overlaySub, {
+  // .to(flag ? overlay : overlaySub, {
   //   scale: 7,
   //   onComplete: () => {
-  //     gsap.set(expand ? overlay : overlaySub, { transform: 'scale(0)' })
+  //     gsap.set(flag ? overlay : overlaySub, { transform: 'scale(0)' })
   //     console.log('to animation completed')
   //   }
   // })
-  // .from(expand ? overlaySub : overlay, {
+  // .from(flag ? overlaySub : overlay, {
   //   scale: 0,
   //   onStart: () => {
-  //     gsap.set(expand ? overlay : overlaySub, { transform: 'scale(1)' })
+  //     gsap.set(flag ? overlay : overlaySub, { transform: 'scale(1)' })
   //     console.log('from animation completed')
   //   }
   // }, '<')
