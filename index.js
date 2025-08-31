@@ -17,6 +17,7 @@ const cards = gsap.utils.toArray('.card');
 const decorLines = gsap.utils.toArray('.decor-line');
 
 
+// TODO 四角线屏幕尺寸变动时角度的问题
 
 const resize = () => {
   decorLines.forEach((line, index) => {
@@ -36,29 +37,45 @@ const resize = () => {
 
 resize()
 
-gsap.to(decorLines, {
-  scaleX: 0,
+// decorLines.forEach((line, index) => {
+//   gsap.set(line, {
+//     rotate: `(${Math.atan2(window.innerHeight, window.innerWidth) * 180 / Math.PI + (index % 2 === 0 ? 0 : -180)}deg)`,
+//   })
+// });
+
+gsap.set('.caption', { y: -500 });
+
+const introTl = gsap.timeline({
   scrollTrigger: {
     trigger: "body",
     start: 'top top',
     end: `${window.innerHeight}px top`,
     scrub: 1,
+    snap: 1,
     onUpdate: self => {
       // console.log("Decor lines progress:", self.progress.toFixed(3));
-      decorLines.forEach((line, index) => {
-        line.style.transform = `rotate(${Math.atan2(window.innerHeight, window.innerWidth) * 180 / Math.PI + (index % 2 === 0 ? 0 : -180)}deg)`;
-      });
-    }
+    },
+    onComplete: () => gsap.set('.overlay', { scale: 1 })
   }
 })
+
+introTl
+  .to(decorLines, {
+    scaleX: 0,
+  })
+  .from('.overlay', {
+    scale: 0.6,
+  }, '<')
+
 
 
 const outroTl = gsap.timeline({
   scrollTrigger: {
     trigger: ".outro",
-    start: `top top`,
+    start: `top bottom`,
     end: `bottom bottom`,
     scrub: 1,
+    snap: 1
   }
 })
 
@@ -66,11 +83,18 @@ outroTl
   .to('.author', {
     scale: 1.15,
     y: -window.innerHeight / 2,
-    color: '#000',
+    // color: '#000',
   })
-  .to(document.body, {
-    backgroundColor: '#ececec',
-  })
+  .to('h1', {
+    opacity: 0
+  }, '<')
+  .to(decorLines, {
+    scaleX: 1,
+  }, '<')
+  .to('.overlay', {
+    scale: 7,
+    opacity: 0
+  }, '<')
 
 window.addEventListener('resize', resize);
 
@@ -78,10 +102,20 @@ const st = ScrollTrigger.create({
   trigger: wrapper,
   start: 'top top',
   end: 'bottom bottom',
-  snap: 1 / 8,
+  snap: {
+    snapTo: 1 / 8,
+    delay: 0,
+    ease: 'power1.out'
+  },
   onUpdate: self => {
-    console.log("Scroll progress:", self.progress.toFixed(3));
+    // console.log("Scroll progress:", self.progress.toFixed(2));
     container.style.transform = `translateX(-${distance * self.progress}px)`
+    // if (Number(self.progress.toFixed(3)) % 0.125 === 0) {
+    //   gsap.to('.overlay', { scale: 7, onComplete: () => gsap.set('.overlay', { scale: 0 }) })
+    //   console.log(111111111111111111)
+    // } else {
+
+    // }
   },
   onEnter: () => {
     inScrollArea = true;
@@ -257,19 +291,67 @@ const octagonPath = regularPolygonPath(8, 100, 100, 50);
 //   duration: 2,
 // })
 
-// gsap.from(".obsidian #gem div", {
-//   duration: 1,
-//   opacity: 0,
-//   y: 30,
-//   stagger: 0.05,
-//   ease: 'power3.out',
-//   // clipPath: "polygon(0 0, 100% 0, 100% 100%, 0 100%)",
-//   delay: 0.5
-// })
+
 
 // TODO: scroll animation with gems
 // TODO: fix glare effects
 // TODO: intro & outro animations
-cards.forEach((card, index) => {
+const overlay = document.querySelector('.overlay');
+const overlaySub = document.querySelector('.overlay-sub');
 
+cards.forEach((card, index) => {
+  const cardTl = gsap.timeline({
+    scrollTrigger: {
+      trigger: "body",
+      start: `${window.innerHeight + window.innerWidth * index}px top`,
+      end: `${window.innerHeight + window.innerWidth * (index + 1)}px bottom`,
+      scrub: 1,
+      onUpdate: self => {
+        console.log("gem scroll", self.progress.toFixed(3), index);
+      }
+    }
+  })
+
+  const expand = index % 2 === 0
+  console.log('-===================-', expand, index)
+
+  cardTl
+    .to(overlay, {
+      rotateY: expand ? 90 : 0,
+      onComplete: () => overlay.style.maskImage = "url(/assets/images/ellipse.svg)"
+    })
+    .to(overlay, {
+      rotateY: expand ? 180 : 0,
+    })
+  // .to(card.querySelector('#gem>div'), {
+  //   opacity: 0,
+  //   ease: 'power3.out',
+  //   clipPath: "polygon(0 0, 100% 0, 100% 100%, 0 100%)"
+  // })
+  // .to(expand ? overlay : overlaySub, {
+  //   scale: 7,
+  //   onComplete: () => {
+  //     gsap.set(expand ? overlay : overlaySub, { transform: 'scale(0)' })
+  //     console.log('to animation completed')
+  //   }
+  // })
+  // .from(expand ? overlaySub : overlay, {
+  //   scale: 0,
+  //   onStart: () => {
+  //     gsap.set(expand ? overlay : overlaySub, { transform: 'scale(1)' })
+  //     console.log('from animation completed')
+  //   }
+  // }, '<')
 })
+
+const intro = document.querySelector('.intro');
+
+
+// window.addEventListener('scroll', () => {
+//   console.log('SCROLL EVENT', document.documentElement.scrollTop);
+//   if (document.documentElement.scrollTop > window.innerHeight) return
+
+//   wrapper.scrollIntoView({
+//     behavior: 'smooth'
+//   })
+// })
