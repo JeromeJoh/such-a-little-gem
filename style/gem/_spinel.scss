@@ -8,23 +8,21 @@
     place-items: center;
     clip-path: path('M 72 0 A122 134 0 0 0 72 240 A122 134 0 0 0 72 0');
     background-color: #eeacec;
-    // transform: scale(45%) rotate(-90deg);
+    transform: scale(45%) rotate(-90deg);
   }
 
   .table {
     width: 144px;
     height: 240px;
     background: #eeacec;
-    clip-path: polygon(
-      50% 16%,
-      68% 28%,
-      76% 50%,
-      68% 72%,
-      50% 85%,
-      32% 72%,
-      24% 50%,
-      32% 28%
-    );
+    clip-path: polygon(50% 16%,
+        68% 28%,
+        76% 50%,
+        68% 72%,
+        50% 85%,
+        32% 72%,
+        24% 50%,
+        32% 28%);
 
     &-effect {
       position: absolute;
@@ -191,6 +189,7 @@
       background-color: #f36bc5;
       transform: rotateX(180deg);
     }
+
     & &.lt-tri-7 {
       clip-path: polygon(0% 36%, 18% 36%, 18% 10%);
       background-color: #ea496c;

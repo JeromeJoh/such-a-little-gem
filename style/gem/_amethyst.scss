@@ -7,23 +7,21 @@
     display: grid;
     place-items: center;
     clip-path: ellipse(closest-side farthest-side);
-    // transform: scale(36%);
+    transform: scale(36%);
     // border: solid 1px lime;
 
     .table {
       width: 20rem;
       height: 28.5rem;
       background: #d986e2;
-      clip-path: polygon(
-        50% 16%,
-        72% 30%,
-        77% 50.5%,
-        72% 71%,
-        50% 85%,
-        28% 71%,
-        23% 50.5%,
-        28% 30%
-      );
+      clip-path: polygon(50% 16%,
+          72% 30%,
+          77% 50.5%,
+          72% 71%,
+          50% 85%,
+          28% 71%,
+          23% 50.5%,
+          28% 30%);
 
       &-effect {
         position: absolute;

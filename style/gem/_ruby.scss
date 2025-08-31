@@ -5,7 +5,7 @@
     height: 20rem;
     display: grid;
     place-items: center;
-    // transform: scale(40%);
+    transform: scale(40%);
 
     .table {
       position: relative;
@@ -15,15 +15,13 @@
       background: linear-gradient(to bottom, #fb85b2, transparent),
         linear-gradient(45deg, #dd2281, transparent),
         linear-gradient(135deg, transparent, #ea706a);
-      clip-path: polygon(
-        50% 2%,
-        92% 25%,
-        92% 75%,
-        50% 100%,
-        8% 75%,
-        8% 25%,
-        50% 2%
-      );
+      clip-path: polygon(50% 2%,
+          92% 25%,
+          92% 75%,
+          50% 100%,
+          8% 75%,
+          8% 25%,
+          50% 2%);
     }
 
     .table-effect {

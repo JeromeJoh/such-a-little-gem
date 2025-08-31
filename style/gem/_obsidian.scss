@@ -5,8 +5,8 @@
     height: 20rem;
     display: grid;
     place-items: center;
-    border: solid 1px lime;
-    // transform: scale(36%);
+    // border: solid 1px lime;
+    transform: scale(40%);
 
     .square {
       position: relative;
@@ -112,7 +112,7 @@
         &-1 {
           top: 2rem;
           left: -2rem;
-          animation: 1s linear 0s infinite alternate sparkle;
+          animation: 1s linear 0.4s infinite alternate sparkle;
         }
 
         &-2 {
@@ -123,13 +123,13 @@
         &-3 {
           top: -2rem;
           right: 2rem;
-          animation: 1s linear 0s infinite alternate sparkle;
+          animation: 1s linear 0.9s infinite alternate sparkle;
         }
 
         &-4 {
           top: 2rem;
           right: -2rem;
-          animation: 1s linear 0s infinite alternate sparkle;
+          animation: 1s linear 0.1s infinite alternate sparkle;
         }
       }
     }

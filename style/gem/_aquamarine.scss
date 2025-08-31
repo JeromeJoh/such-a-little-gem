@@ -7,22 +7,20 @@
     place-items: center;
     clip-path: path('M 48 0 A86 134 0 0 0 48 240 A86 134 0 0 0 48 0');
     background-color: #82c0f9;
-    // transform: scale(48%) rotate(-90deg);
+    transform: scale(48%) rotate(-90deg);
 
     .table {
       width: inherit;
       height: inherit;
       background: #82c0f9;
-      clip-path: polygon(
-        50% 16%,
-        68% 28%,
-        76% 50%,
-        68% 72%,
-        50% 85%,
-        32% 72%,
-        24% 50%,
-        32% 28%
-      );
+      clip-path: polygon(50% 16%,
+          68% 28%,
+          76% 50%,
+          68% 72%,
+          50% 85%,
+          32% 72%,
+          24% 50%,
+          32% 28%);
 
       &-effect {
         position: absolute;

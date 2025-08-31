@@ -5,7 +5,7 @@
     height: 20rem;
     border-radius: 100% 2px 64% 36% / 64% 2px 100% 36%;
     overflow: hidden;
-    // transform: rotate(-45deg) scale(36%);
+    transform: rotate(-45deg) scale(36%);
 
     .content-wrapper {
       position: relative;
@@ -22,16 +22,14 @@
       width: 20rem;
       height: 20rem;
       background: lightblue;
-      clip-path: polygon(
-        50% 18.5%,
-        64% 36%,
-        70% 68%,
-        66% 86%,
-        50% 96%,
-        34% 86%,
-        30% 68%,
-        36% 36%
-      );
+      clip-path: polygon(50% 18.5%,
+          64% 36%,
+          70% 68%,
+          66% 86%,
+          50% 96%,
+          34% 86%,
+          30% 68%,
+          36% 36%);
 
       &-effect {
         position: absolute;
@@ -48,6 +46,7 @@
       position: absolute;
       width: 20rem;
       height: 28rem;
+
       &-1 {
         clip-path: polygon(50% 90%, 38% 83%, 50% 79%, 62% 83%);
         background-color: #1a1a57;
