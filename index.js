@@ -138,6 +138,13 @@ document.fonts.ready.then(() => {
       scale: 7,
       opacity: 0
     }, '<')
+    .to(split.chars, {
+      duration: 0.8,
+      opacity: 0,
+      y: -30,
+      stagger: 0.05,
+      ease: 'power3.out'
+    })
 })
 
 function regularPolygonPath(n, cx, cy, r) {
