@@ -1,13 +1,15 @@
 import { gsap } from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { SplitText } from 'gsap/SplitText'
-import VanillaTilt from 'vanilla-tilt';
 import { MotionPathPlugin } from 'gsap/MotionPathPlugin';
 import { MorphSVGPlugin } from 'gsap/MorphSVGPlugin';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import VanillaTilt from 'vanilla-tilt';
 
+gsap.registerPlugin(ScrollTrigger);
+gsap.registerPlugin(SplitText)
 gsap.registerPlugin(MotionPathPlugin);
 gsap.registerPlugin(MorphSVGPlugin);
-gsap.registerPlugin(ScrollTrigger);
+
 
 let distance = 0, inScrollArea = false;
 
@@ -16,17 +18,23 @@ const container = document.querySelector('.container');
 const cards = gsap.utils.toArray('.card');
 const decorLines = gsap.utils.toArray('.decor-line');
 
+// gsap.globalTimeline.timeScale(2);
+const init = () => {
+  resize();
+  bindEvents();
+}
 
-// TODO 四角线屏幕尺寸变动时角度的问题
+const bindEvents = () => {
+  window.addEventListener('resize', resize);
+  // VanillaTilt.init(document.querySelectorAll('#gem'), { max: 25 });
+}
 
 const resize = () => {
   decorLines.forEach((line, index) => {
     line.style.width = `${Math.sqrt(window.innerWidth * window.innerWidth / 4 + window.innerHeight * window.innerHeight / 4)}px`;
-    line.style.transform = `rotate(${Math.atan2(window.innerHeight, window.innerWidth) * 180 / Math.PI}deg)`;
+    line.style.transform = `rotate(${Math.atan2(window.innerHeight, window.innerWidth) * 180 / Math.PI * (index % 3 === 0 ? 1 : -1)}deg)`;
 
-    if (index === 1) line.style.transform = `rotate(${-1 * Math.atan2(window.innerHeight, window.innerWidth) * 180 / Math.PI}deg)`;
-
-    if (index === 2) line.style.transform = `rotate(${-1 * Math.atan2(window.innerHeight, window.innerWidth) * 180 / Math.PI}deg)`;
+    console.log('resize', Math.atan2(window.innerHeight, window.innerWidth) * 180 / Math.PI);
   })
   distance = container.offsetWidth - window.innerWidth
   wrapper.style.height = `${distance}px`
@@ -34,81 +42,6 @@ const resize = () => {
     container.style.transform = `translateX(-${distance}px)`
   }
 }
-
-resize()
-
-// decorLines.forEach((line, index) => {
-//   gsap.set(line, {
-//     rotate: `(${Math.atan2(window.innerHeight, window.innerWidth) * 180 / Math.PI + (index % 2 === 0 ? 0 : -180)}deg)`,
-//   })
-// });
-
-
-const introTl = gsap.timeline({
-  scrollTrigger: {
-    trigger: "body",
-    start: 'top top',
-    end: `${window.innerHeight}px top`,
-    scrub: 1,
-    snap: 1,
-    onUpdate: self => {
-      // console.log("Decor lines progress:", self.progress.toFixed(3));
-    },
-    onComplete: () => gsap.set('.overlay', { scale: 1 })
-  }
-})
-
-const split = new SplitText('.caption', { type: 'chars' })
-
-
-introTl
-  .to(decorLines, {
-    scaleX: 0,
-  })
-  .from('.overlay', {
-    scale: 0.6,
-  }, '<')
-  .to(decorLines, {
-    scaleX: 0,
-  })
-  .from(split.chars, {
-    duration: 0.8,
-    opacity: 0,
-    y: 30,
-    stagger: 0.05,
-    ease: 'power3.out'
-  })
-
-
-
-const outroTl = gsap.timeline({
-  scrollTrigger: {
-    trigger: ".outro",
-    start: `top bottom`,
-    end: `bottom bottom`,
-    scrub: 1,
-    snap: 1
-  }
-})
-
-outroTl
-  .to('.author', {
-    scale: 1.15,
-    y: -window.innerHeight / 2,
-    // color: '#000',
-  })
-  .to('h1', {
-    opacity: 0
-  }, '<')
-  .to(decorLines, {
-    scaleX: 1,
-  }, '<')
-  .to('.overlay', {
-    scale: 7,
-    opacity: 0
-  }, '<')
-
-window.addEventListener('resize', resize);
 
 const st = ScrollTrigger.create({
   trigger: wrapper,
@@ -139,19 +72,72 @@ const st = ScrollTrigger.create({
   },
 })
 
-// VanillaTilt.init(document.querySelectorAll('.card'), { max: 25 });
 
-gsap.registerPlugin(SplitText)
+init();
+
 
 document.fonts.ready.then(() => {
-  const split = new SplitText('.caption', { type: 'chars' })
-  gsap.from(split.chars, {
-    duration: 0.8,
-    opacity: 0,
-    y: 30,
-    stagger: 0.05,
-    ease: 'power3.out'
+  const introTl = gsap.timeline({
+    scrollTrigger: {
+      trigger: "body",
+      start: 'top top',
+      end: `${window.innerHeight}px top`,
+      scrub: 1,
+      snap: 1,
+      onUpdate: self => {
+        // console.log("Decor lines progress:", self.progress.toFixed(3));
+      },
+      onComplete: () => gsap.set('.overlay', { scale: 1 })
+    }
   })
+
+  const split = new SplitText('.caption', { type: 'chars' })
+
+
+  introTl
+    .to(decorLines, {
+      scaleX: 0,
+    })
+    .from('.overlay', {
+      scale: 0.6,
+    }, '<')
+    .to(decorLines, {
+      scaleX: 0,
+    })
+    .from(split.chars, {
+      duration: 0.8,
+      opacity: 0,
+      y: 30,
+      stagger: 0.05,
+      ease: 'power3.out'
+    })
+
+  const outroTl = gsap.timeline({
+    scrollTrigger: {
+      trigger: ".outro",
+      start: `top bottom`,
+      end: `bottom bottom`,
+      scrub: 1,
+      snap: 1
+    }
+  })
+
+  outroTl
+    .to('.author', {
+      scale: 1.15,
+      y: -window.innerHeight / 2,
+      // color: '#000',
+    })
+    .to('h1', {
+      opacity: 0
+    }, '<')
+    .to(decorLines, {
+      scaleX: 1,
+    }, '<')
+    .to('.overlay', {
+      scale: 7,
+      opacity: 0
+    }, '<')
 })
 
 function regularPolygonPath(n, cx, cy, r) {
@@ -258,19 +244,6 @@ gsap.timeline()
     scale: 0,
   }, '<');
 
-// gsap.to(".lt .star", {
-//   duration: 2,
-//   // repeat: -1,
-//   ease: "power1.inOut",
-//   motionPath: {
-//     path: flippedX,
-//     curviness: 1.5,
-//     autoRotate: false,
-//     direction: -1,
-//     debug: true
-//   }
-// });
-
 function morphShape(fromPath, toPath, options = {}) {
 
   // 默认参数
@@ -319,20 +292,22 @@ const frameSet = [
 // TODO: scroll animation with gems
 // TODO: fix glare effects
 // TODO: intro & outro animations
+
 const overlay = document.querySelector('.overlay');
-const overlaySub = document.querySelector('.overlay-sub');
+
 
 cards.forEach((card, index) => {
   const flag = index % 2 === 0
   const cardTl = gsap.timeline({
     scrollTrigger: {
-      trigger: "body",
+      trigger: document.body,
       start: `${window.innerHeight + window.innerWidth * index}px top`,
       end: `${window.innerHeight + window.innerWidth * (index + 1)}px bottom`,
-      scrub: true,
+      scrub: 1,
       onUpdate: self => {
-        // console.log("gem scroll", self.progress.toFixed(3), index, flag);
-      }
+        console.log("gem scroll", self.progress.toFixed(3), index, flag);
+      },
+      onEnter: _ => console.log('card enter')
     }
   })
 
@@ -373,8 +348,6 @@ cards.forEach((card, index) => {
   //   }
   // }, '<')
 })
-
-const intro = document.querySelector('.intro');
 
 
 // window.addEventListener('scroll', () => {
