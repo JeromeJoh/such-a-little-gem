@@ -43,7 +43,6 @@ resize()
 //   })
 // });
 
-gsap.set('.caption', { y: -500 });
 
 const introTl = gsap.timeline({
   scrollTrigger: {
@@ -59,6 +58,9 @@ const introTl = gsap.timeline({
   }
 })
 
+const split = new SplitText('.caption', { type: 'chars' })
+
+
 introTl
   .to(decorLines, {
     scaleX: 0,
@@ -66,6 +68,16 @@ introTl
   .from('.overlay', {
     scale: 0.6,
   }, '<')
+  .to(decorLines, {
+    scaleX: 0,
+  })
+  .from(split.chars, {
+    duration: 0.8,
+    opacity: 0,
+    y: 30,
+    stagger: 0.05,
+    ease: 'power3.out'
+  })
 
 
 
@@ -317,7 +329,7 @@ cards.forEach((card, index) => {
       trigger: "body",
       start: `${window.innerHeight + window.innerWidth * index}px top`,
       end: `${window.innerHeight + window.innerWidth * (index + 1)}px bottom`,
-      scrub: 1,
+      scrub: true,
       onUpdate: self => {
         // console.log("gem scroll", self.progress.toFixed(3), index, flag);
       }
