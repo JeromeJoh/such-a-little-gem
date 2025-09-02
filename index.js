@@ -33,8 +33,6 @@ const resize = () => {
   decorLines.forEach((line, index) => {
     line.style.width = `${Math.sqrt(window.innerWidth * window.innerWidth / 4 + window.innerHeight * window.innerHeight / 4)}px`;
     line.style.transform = `rotate(${Math.atan2(window.innerHeight, window.innerWidth) * 180 / Math.PI * (index % 3 === 0 ? 1 : -1)}deg)`;
-
-    console.log('resize', Math.atan2(window.innerHeight, window.innerWidth) * 180 / Math.PI);
   })
   distance = container.offsetWidth - window.innerWidth
   wrapper.style.height = `${distance}px`
@@ -54,13 +52,7 @@ const st = ScrollTrigger.create({
   },
   onUpdate: self => {
     // console.log("Scroll progress:", self.progress.toFixed(2));
-    container.style.transform = `translateX(-${distance * self.progress}px)`
-    // if (Number(self.progress.toFixed(3)) % 0.125 === 0) {
-    //   gsap.to('.overlay', { scale: 7, onComplete: () => gsap.set('.overlay', { scale: 0 }) })
-    //   console.log(111111111111111111)
-    // } else {
-
-    // }
+    container.style.transform = `translateX(-${distance * self.progress}px)`;
   },
   onEnter: () => {
     inScrollArea = true;
@@ -83,7 +75,11 @@ document.fonts.ready.then(() => {
       start: 'top top',
       end: `${window.innerHeight}px top`,
       scrub: 1,
-      snap: 1,
+      snap: {
+        snapTo: 1,
+        delay: 0,
+        ease: 'power1.out'
+      },
       onUpdate: self => {
         // console.log("Decor lines progress:", self.progress.toFixed(3));
       },
