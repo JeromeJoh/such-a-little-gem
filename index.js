@@ -3,12 +3,16 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { SplitText } from 'gsap/SplitText'
 import { MotionPathPlugin } from 'gsap/MotionPathPlugin';
 import { MorphSVGPlugin } from 'gsap/MorphSVGPlugin';
+import { InertiaPlugin } from 'gsap/all';
+import { TextPlugin } from 'gsap/all';
 import VanillaTilt from 'vanilla-tilt';
 
 gsap.registerPlugin(ScrollTrigger);
 gsap.registerPlugin(SplitText)
 gsap.registerPlugin(MotionPathPlugin);
 gsap.registerPlugin(MorphSVGPlugin);
+gsap.registerPlugin(InertiaPlugin);
+gsap.registerPlugin(TextPlugin);
 
 
 let distance = 0, inScrollArea = false;
@@ -45,10 +49,17 @@ const st = ScrollTrigger.create({
   trigger: wrapper,
   start: 'top top',
   end: 'bottom bottom',
+  inertia: {
+    y: {
+      velocity: 2, // 初始速度
+      min: 0,
+      max: wrapper.scrollHeight - wrapper.clientHeight // 边界
+    }
+  },
   snap: {
     snapTo: 1 / 8,
     delay: 0,
-    ease: 'power1.out'
+    ease: 'power3.out'
   },
   onUpdate: self => {
     // console.log("Scroll progress:", self.progress.toFixed(2));
@@ -71,14 +82,14 @@ init();
 document.fonts.ready.then(() => {
   const introTl = gsap.timeline({
     scrollTrigger: {
-      trigger: "body",
+      trigger: document.body,
       start: 'top top',
       end: `${window.innerHeight}px top`,
-      scrub: 1,
+      scrub: 0.5,
       snap: {
         snapTo: 1,
         delay: 0,
-        ease: 'power1.out'
+        ease: 'power3.out'
       },
       onUpdate: self => {
         // console.log("Decor lines progress:", self.progress.toFixed(3));
@@ -114,7 +125,11 @@ document.fonts.ready.then(() => {
       start: `top bottom`,
       end: `bottom bottom`,
       scrub: 1,
-      snap: 1
+      snap: {
+        snapTo: 1,
+        delay: 0,
+        ease: 'power3.out'
+      },
     }
   })
 
@@ -319,6 +334,7 @@ cards.forEach((card, index) => {
   cardTl
     .to(overlay, {
       rotateY: 90,
+      scale: 1.5,
       onComplete: () => {
         overlay.style.maskImage = `url(/assets/images/${frameSet[Number(flag)].mask}.svg)`
         console.log('complete')
@@ -326,10 +342,14 @@ cards.forEach((card, index) => {
     })
     .to(overlay, {
       rotateY: flag ? 180 : 0,
+      scale: 1,
       onReverseComplete: () => {
         overlay.style.maskImage = `url(/assets/images/${frameSet[1 - Number(flag)].mask}.svg)`
         console.log('reverse')
       },
+    })
+    .to('.caption', {
+      text: "Ruby"
     })
   // .to(card.querySelector('#gem>div'), {
   //   opacity: 0,
