@@ -49,30 +49,33 @@ const st = ScrollTrigger.create({
   trigger: wrapper,
   start: 'top top',
   end: 'bottom bottom',
-  inertia: {
-    y: {
-      velocity: 2, // 初始速度
-      min: 0,
-      max: wrapper.scrollHeight - wrapper.clientHeight // 边界
-    }
-  },
+  // inertia: {
+  //   y: {
+  //     velocity: 2, // 初始速度
+  //     min: 0,
+  //     max: wrapper.scrollHeight - wrapper.clientHeight // 边界
+  //   }
+  // },
   snap: {
     snapTo: 1 / 8,
     delay: 0,
     ease: 'power3.out'
   },
   onUpdate: self => {
-    // console.log("Scroll progress:", self.progress.toFixed(2));
+    console.log("Scroll progress:", self.progress.toFixed(3));
     container.style.transform = `translateX(-${distance * self.progress}px)`;
   },
   onEnter: () => {
     inScrollArea = true;
-    console.log("Entered scroll area");
+    console.log("========== Entered scroll area");
   },
   onLeave: () => {
     inScrollArea = false;
-    console.log("Left scroll area");
+    console.log("========== Left scroll area");
   },
+  onSnapComplete: () => {
+    console.log("========== Snap area");
+  }
 })
 
 
@@ -124,7 +127,7 @@ document.fonts.ready.then(() => {
       trigger: ".outro",
       start: `top bottom`,
       end: `bottom bottom`,
-      scrub: 1,
+      scrub: true,
       snap: {
         snapTo: 1,
         delay: 0,
@@ -149,13 +152,12 @@ document.fonts.ready.then(() => {
       scale: 7,
       opacity: 0
     }, '<')
-    .to(split.chars, {
+    .to('.caption', {
       duration: 0.8,
       opacity: 0,
       y: -30,
-      stagger: 0.05,
-      ease: 'power3.out'
-    })
+      onComplete: _ => console.log("OUTRO============")
+    }, '<')
 })
 
 function regularPolygonPath(n, cx, cy, r) {
@@ -309,29 +311,47 @@ const frameSet = [
 
 // TODO: scroll animation with gems
 // TODO: fix glare effects
-// TODO: intro & outro animations
-
 const overlay = document.querySelector('.overlay');
 
 
 cards.forEach((card, index) => {
+  // if (!index || index === cards.length - 1) return;
   const flag = index % 2 === 0
   const cardTl = gsap.timeline({
     scrollTrigger: {
-      trigger: document.body,
-      start: `${window.innerHeight + window.innerWidth * index}px top`,
-      end: `${window.innerHeight + window.innerWidth * (index + 1)}px bottom`,
-      scrub: 1,
+      trigger: wrapper,
+      start: `${window.innerWidth * index}px top`,
+      end: `${window.innerWidth * (index + 1)}px bottom`,
+      // scrub: true,
       onUpdate: self => {
         console.log("gem scroll", self.progress.toFixed(3), index, flag);
       },
-      onEnter: _ => console.log('card enter')
+      onEnter: _ => {
+        console.log('card enter')
+        tl.play();
+      },
+      onLeaveBack: _ => {
+        console.log('card leave')
+        tl.reverse();
+      }
     }
   })
 
+  const gemList = [
+    'obsidian',
+    'amethyst',
+    'diamond',
+    'aquamarine',
+    'emerald',
+    'pearl',
+    'ruby',
+    'spinel',
+    'sapphire',
+  ]
 
-
-  cardTl
+  const tl = gsap.timeline({
+    paused: true
+  })
     .to(overlay, {
       rotateY: 90,
       scale: 1.5,
@@ -349,8 +369,32 @@ cards.forEach((card, index) => {
       },
     })
     .to('.caption', {
-      text: "Ruby"
-    })
+      text: gemList[index + 1],
+      onComplete: () => console.log("CAPTION ================ END")
+    }, '<')
+
+
+  // cardTl
+  //   .to(overlay, {
+  //     rotateY: 90,
+  //     scale: 1.5,
+  //     onComplete: () => {
+  //       overlay.style.maskImage = `url(/assets/images/${frameSet[Number(flag)].mask}.svg)`
+  //       console.log('complete')
+  //     },
+  //   })
+  //   .to(overlay, {
+  //     rotateY: flag ? 180 : 0,
+  //     scale: 1,
+  //     onReverseComplete: () => {
+  //       overlay.style.maskImage = `url(/assets/images/${frameSet[1 - Number(flag)].mask}.svg)`
+  //       console.log('reverse')
+  //     },
+  //   })
+  //   .to('.caption', {
+  //     text: gemList[index],
+  //     onComplete: () => console.log("CAPTION ================ END")
+  //   }, '<')
   // .to(card.querySelector('#gem>div'), {
   //   opacity: 0,
   //   ease: 'power3.out',
