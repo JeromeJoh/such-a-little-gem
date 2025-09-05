@@ -315,7 +315,6 @@ const overlay = document.querySelector('.overlay');
 
 
 cards.forEach((card, index) => {
-  // if (!index || index === cards.length - 1) return;
   const flag = index % 2 === 0
   const cardTl = gsap.timeline({
     scrollTrigger: {
@@ -357,6 +356,7 @@ cards.forEach((card, index) => {
       scale: 1.5,
       onComplete: () => {
         overlay.style.maskImage = `url(/assets/images/${frameSet[Number(flag)].mask}.svg)`
+        overlay.classList.toggle("overlay-sub")
         console.log('complete')
       },
     })
@@ -365,6 +365,7 @@ cards.forEach((card, index) => {
       scale: 1,
       onReverseComplete: () => {
         overlay.style.maskImage = `url(/assets/images/${frameSet[1 - Number(flag)].mask}.svg)`
+        overlay.classList.toggle("overlay-sub")
         console.log('reverse')
       },
     })

@@ -144,8 +144,7 @@ main {
     }
   }
 
-  .overlay,
-  .overlay-sub {
+  .overlay {
     position: fixed;
     top: 0;
     left: 0;
@@ -159,8 +158,6 @@ main {
         #757575 90% 100%);
     background-size: 300% 300%;
     animation: shinny 3s linear 0s infinite alternate-reverse;
-    // background: linear-gradient(45deg, #B67B03 0%, #DAAF08 45%, #FEE9A0 70%, #DAAF08 85%, #B67B03 90% 100%);
-
     mask-image: url(/assets/images/frame.svg);
     mask-repeat: no-repeat;
     mask-position: center;
