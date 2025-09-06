@@ -161,7 +161,7 @@ main {
     mask-image: url(/assets/images/frame.svg);
     mask-repeat: no-repeat;
     mask-position: center;
-    mask-size: 30%;
+    mask-size: 26%;
 
     &-sub {
       background: linear-gradient(45deg, #B67B03 0%, #DAAF08 45%, #FEE9A0 70%, #DAAF08 85%, #B67B03 90% 100%);
@@ -223,5 +223,76 @@ footer {
       color: inherit;
       text-decoration: underline;
     }
+  }
+}
+
+.gem {
+  position: relative;
+  width: 80px;
+  height: 80px;
+  margin: 20px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #4dd0e1, #00796b); // 基础宝石色
+  overflow: hidden;
+
+  // 高光层
+  &::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -60%;
+    width: 60%;
+    height: 100%;
+    background: linear-gradient(75deg,
+        rgba(255, 255, 255, 0.9),
+        rgba(255, 255, 255, 0));
+    transform: skewX(-25deg);
+    opacity: 0;
+    animation: glisten-move 3s linear infinite;
+  }
+
+  // 不同宝石加不同延迟
+  &:nth-child(2)::after {
+    animation-delay: 1s;
+  }
+
+  &:nth-child(3)::after {
+    animation-delay: 2s;
+  }
+
+  &:nth-child(4)::after {
+    animation-delay: 0.5s;
+  }
+}
+
+@keyframes glisten-move {
+  0% {
+    transform: translateX(-80%) skewX(-25deg);
+    opacity: 0;
+  }
+
+  30% {
+    opacity: 0;
+  }
+
+  40% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.3;
+  }
+
+  60% {
+    opacity: 1;
+  }
+
+  70% {
+    opacity: 0;
+  }
+
+  100% {
+    transform: translateX(180%) skewX(-25deg);
+    opacity: 0;
   }
 }

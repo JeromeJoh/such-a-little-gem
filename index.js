@@ -22,10 +22,72 @@ const container = document.querySelector('.container');
 const cards = gsap.utils.toArray('.card');
 const decorLines = gsap.utils.toArray('.decor-line');
 
+const sprinkle = (() => {
+  const cx = 15, cy = 20;
+
+  const path = [
+    { x: 0, y: 0 },
+    { x: cx, y: -cy },
+    { x: 2 * cx, y: 0 },
+    { x: cx, y: cy },
+    { x: 0, y: 0 }
+  ];
+
+  // 配置表：每个象限的选择器 + 初始 rotate 设置
+  const config = [
+    { selector: ".lt", set: { rotateY: 180, rotate: -30 } },
+    { selector: ".rt", set: { rotate: 30 } },
+    { selector: ".lb", set: { rotateZ: 180, rotate: 30 } },
+    { selector: ".rb", set: { rotateX: 180, rotate: -30 } },
+  ];
+
+  // 动画函数
+  const animate = (selector) => {
+    gsap.set(`${selector} .star`, { x: 0, y: 0, scale: 1, rotate: 0 });
+    gsap.to(`${selector} .star`, path[0]);
+    gsap.timeline()
+      .to(`${selector} .star`, {
+        duration: 2,
+        ease: "power1.inOut",
+        motionPath: {
+          path,
+          curviness: 1.5,
+          autoRotate: false,
+          debug: true
+        }
+      })
+      .to(`${selector} .star`, {
+        duration: 2,
+        ease: "power1.inOut",
+        rotate: -360,
+        scale: 0,
+      }, "<");
+  };
+
+  let fn = () => {
+    // 初始化（只执行一次）
+    config.forEach(({ selector, set }) => {
+      gsap.set(`${selector} p`, set);
+    });
+
+    // 播放动画
+    config.forEach(({ selector }) => animate(selector));
+
+    // 替换函数 → 之后只做动画
+    fn = () => {
+      config.forEach(({ selector }) => animate(selector));
+    };
+  };
+
+  return () => fn();
+})();
+
+
 // gsap.globalTimeline.timeScale(2);
 const init = () => {
   resize();
   bindEvents();
+  sprinkle();
 }
 
 const bindEvents = () => {
@@ -158,6 +220,13 @@ document.fonts.ready.then(() => {
       y: -30,
       onComplete: _ => console.log("OUTRO============")
     }, '<')
+    .to('.author', {
+      scale: 1.5
+    })
+    .to('.author span', {
+      text: ' Presents'
+    })
+
 })
 
 function regularPolygonPath(n, cx, cy, r) {
@@ -171,98 +240,6 @@ function regularPolygonPath(n, cx, cy, r) {
   return path + "Z";
 }
 
-const cx = 15, cy = 20;
-
-const path = [
-  { x: 0, y: 0 },
-  { x: cx, y: -cy },
-  { x: 2 * cx, y: 0 },
-  { x: cx, y: cy },
-  { x: 0, y: 0 }
-];
-
-const flippedX = path.map(p => ({ x: p.x, y: 2 * cy - p.y }))
-const flippedY = path.map(p => ({ x: 2 * cx - p.x, y: p.y }))
-const flippedXY = path.map(p => ({
-  x: 2 * cx - p.x,
-  y: 2 * cy - p.y
-}))
-
-gsap.set(".lt p", { rotateY: 180, rotate: -30 })
-gsap.set(".rt p", { rotate: 30 })
-gsap.set(".lb p", { rotateZ: 180, rotate: 30 })
-gsap.set(".rb p", { rotateX: 180, rotate: -30 })
-gsap.to(".lt .star", path[0])
-gsap.timeline()
-  .to(".lt .star", {
-    duration: 2,
-    ease: "power1.inOut",
-    motionPath: {
-      path: path,
-      curviness: 1.5,
-      autoRotate: false,
-      debug: true
-    }
-  }).to(".lt .star", {
-    duration: 2,
-    ease: "power1.inOut",
-    rotate: -360,
-    scale: 0,
-  }, '<');
-
-gsap.to(".rt .star", path[0])
-gsap.timeline()
-  .to(".rt .star", {
-    duration: 2,
-    ease: "power1.inOut",
-    motionPath: {
-      path: path,
-      curviness: 1.5,
-      autoRotate: false,
-      debug: true
-    }
-  }).to(".rt .star", {
-    duration: 2,
-    ease: "power1.inOut",
-    rotate: -360,
-    scale: 0,
-  }, '<');
-
-gsap.to(".lb .star", path[0])
-gsap.timeline()
-  .to(".lb .star", {
-    duration: 2,
-    ease: "power1.inOut",
-    motionPath: {
-      path: path,
-      curviness: 1.5,
-      autoRotate: false,
-      debug: true
-    }
-  }).to(".lb .star", {
-    duration: 2,
-    ease: "power1.inOut",
-    rotate: -360,
-    scale: 0,
-  }, '<');
-
-gsap.to(".rb .star", path[0])
-gsap.timeline()
-  .to(".rb .star", {
-    duration: 2,
-    ease: "power1.inOut",
-    motionPath: {
-      path: path,
-      curviness: 1.5,
-      autoRotate: false,
-      debug: true
-    }
-  }).to(".rb .star", {
-    duration: 2,
-    ease: "power1.inOut",
-    rotate: -360,
-    scale: 0,
-  }, '<');
 
 function morphShape(fromPath, toPath, options = {}) {
 
@@ -328,10 +305,12 @@ cards.forEach((card, index) => {
       onEnter: _ => {
         console.log('card enter')
         tl.play();
+        sprinkle();
       },
       onLeaveBack: _ => {
         console.log('card leave')
         tl.reverse();
+        sprinkle();
       }
     }
   })
@@ -356,7 +335,8 @@ cards.forEach((card, index) => {
       scale: 1.5,
       onComplete: () => {
         overlay.style.maskImage = `url(/assets/images/${frameSet[Number(flag)].mask}.svg)`
-        overlay.classList.toggle("overlay-sub")
+        overlay.classList.remove("overlay-sub")
+        overlay.style.maskSize = flag ? '24%' : '26%'
         console.log('complete')
       },
     })
@@ -365,7 +345,8 @@ cards.forEach((card, index) => {
       scale: 1,
       onReverseComplete: () => {
         overlay.style.maskImage = `url(/assets/images/${frameSet[1 - Number(flag)].mask}.svg)`
-        overlay.classList.toggle("overlay-sub")
+        overlay.classList.add("overlay-sub")
+        overlay.style.maskSize = flag ? '26%' : '24%'
         console.log('reverse')
       },
     })
