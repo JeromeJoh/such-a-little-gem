@@ -1,14 +1,14 @@
 .spinel {
   #gem {
     position: relative;
-    bottom: 4%;
+    bottom: 3%;
     width: 144px;
     height: 240px;
     display: grid;
     place-items: center;
     clip-path: path('M 72 0 A122 134 0 0 0 72 240 A122 134 0 0 0 72 0');
     background-color: #eeacec;
-    transform: scale(45%) rotate(-90deg);
+    transform: scale(56%);
   }
 
   .table {
