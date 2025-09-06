@@ -196,13 +196,16 @@ section {
   position: fixed;
   top: 4rem;
   left: 50%;
-  transform: translateX(-62%);
+  transform: translateX(-56%);
+  width: 30rem;
+  text-align: center;
   font-family: 'Cinzel Decorative';
   font-size: 2rem;
   text-transform: uppercase;
   letter-spacing: 4px;
   margin: 2rem;
   text-shadow: 0 0 5px #fff;
+  // border: solid 1px lime;
 }
 
 footer {

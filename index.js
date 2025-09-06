@@ -286,14 +286,17 @@ const frameSet = [
 
 
 
-// TODO: scroll animation with gems
+// TODO: scroll animation with gem transformation
 // TODO: fix glare effects
+// TODO: gem name position
 const overlay = document.querySelector('.overlay');
 
 
 cards.forEach((card, index) => {
+  const effects = card.querySelectorAll('.effect');
+  const facades = card.querySelectorAll('.effect');
   const flag = index % 2 === 0
-  const cardTl = gsap.timeline({
+  gsap.timeline({
     scrollTrigger: {
       trigger: wrapper,
       start: `${window.innerWidth * index}px top`,
@@ -330,6 +333,10 @@ cards.forEach((card, index) => {
   const tl = gsap.timeline({
     paused: true
   })
+    // .from(card.querySelectorAll('#gem>div'), {
+    //   rotateX: 180,
+    //   stagger: 0.05,
+    // })
     .to(overlay, {
       rotateY: 90,
       scale: 1.5,
