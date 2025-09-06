@@ -344,6 +344,10 @@ cards.forEach((card, index) => {
         overlay.style.maskImage = `url(/assets/images/${frameSet[Number(flag)].mask}.svg)`
         overlay.classList.remove("overlay-sub")
         overlay.style.maskSize = flag ? '24%' : '26%'
+        gsap.to(['header', '.caption', 'footer'], {
+          color: '#ffffff',
+          onComplete: () => console.log("CAPTION ================ END")
+        })
         console.log('complete')
       },
     })
