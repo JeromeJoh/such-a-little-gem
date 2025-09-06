@@ -354,12 +354,15 @@ cards.forEach((card, index) => {
         overlay.style.maskImage = `url(/assets/images/${frameSet[1 - Number(flag)].mask}.svg)`
         overlay.classList.add("overlay-sub")
         overlay.style.maskSize = flag ? '26%' : '24%'
+        gsap.to(['header', '.caption', 'footer'], {
+          color: 'var(--color-golden)',
+          onComplete: () => console.log("CAPTION ================ END")
+        })
         console.log('reverse')
       },
     })
     .to('.caption', {
       text: gemList[index + 1],
-      onComplete: () => console.log("CAPTION ================ END")
     }, '<')
 
 
