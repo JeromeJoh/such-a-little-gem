@@ -282,17 +282,17 @@ function morphShape(fromPath, toPath, options = {}) {
 
 const octagonPath = regularPolygonPath(8, 100, 100, 50);
 
-// gsap.to("#shape", {
-//   duration: 0.5,
-//   morphSVG: { shape: octagonPath },
-//   ease: "power2.inOut",
-//   repeat: -1,
-//   yoyo: true
-// });
+gsap.to("#shape", {
+  duration: 0.5,
+  morphSVG: { shape: octagonPath },
+  ease: "power2.inOut",
+  repeat: -1,
+  yoyo: true
+});
 
-// morphShape("#shape", octagonPath, {
-//   duration: 2,
-// })
+morphShape("#shape", octagonPath, {
+  duration: 2,
+})
 
 const frameSet = [
   {
@@ -338,6 +338,7 @@ cards.forEach((card, index) => {
       },
       onLeaveBack: _ => {
         console.log('card leave')
+        // sprinkle();
         // tl.reverse();
         // sprinkle();
       }

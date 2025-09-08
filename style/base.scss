@@ -130,6 +130,14 @@ main {
   flex: 1;
   user-select: none;
 
+  svg {
+    display: none;
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+  }
+
   .wrapper {
     .container {
       position: sticky;
