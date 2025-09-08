@@ -1,6 +1,7 @@
 :root {
   font-size: 12px;
   --common-padding: 1rem;
+  --theme-color: #ffffff;
   --color-golden: #efd162;
   --color-golden-shadow: #FEE9A0;
 }
@@ -52,7 +53,7 @@ header {
         top: 0;
         left: 0;
         transform-origin: left;
-        background: linear-gradient(to left, transparent 0%, #fff 80%, transparent 80%);
+        background: linear-gradient(to left, transparent 0%, var(--theme-color) 80%, transparent 80%);
       }
     }
 
@@ -65,7 +66,7 @@ header {
         top: 0;
         // transform: rotate(180deg);
         transform-origin: right;
-        background: linear-gradient(to right, transparent 0%, #fff 80%, transparent 80%);
+        background: linear-gradient(to right, transparent 0%, var(--theme-color) 80%, transparent 80%);
       }
     }
 
@@ -77,7 +78,7 @@ header {
         bottom: 0;
         left: 0;
         transform-origin: left;
-        background: linear-gradient(to left, transparent 0%, #fff 80%, transparent 80%);
+        background: linear-gradient(to left, transparent 0%, var(--theme-color) 80%, transparent 80%);
       }
     }
 
@@ -89,7 +90,7 @@ header {
         right: 0;
         bottom: 0;
         transform-origin: right;
-        background: linear-gradient(to right, transparent 0%, #fff 80%, transparent 80%);
+        background: linear-gradient(to right, transparent 0%, var(--theme-color) 80%, transparent 80%);
       }
     }
 
@@ -127,11 +128,7 @@ header {
 
 main {
   flex: 1;
-  // display: flex;
-  // width: 900dvw;
-  // height: 900dvh;
   user-select: none;
-  // background-color: royalblue;
 
   .wrapper {
     .container {
@@ -177,6 +174,10 @@ section {
   display: grid;
   place-items: center;
   padding-right: 8px;
+
+  article>div {
+    // clip-path: inset(0% 0% 0% 0%);
+  }
 }
 
 .card {
@@ -194,7 +195,7 @@ section {
   overflow: hidden;
 }
 
-.caption {
+[class^="caption"] {
   position: fixed;
   top: 4rem;
   left: 50%;
@@ -208,6 +209,11 @@ section {
   margin: 2rem;
   text-shadow: 0 0 5px #fff;
   // border: solid 1px lime;
+}
+
+.caption,
+.caption-outro {
+  opacity: 0;
 }
 
 footer {
