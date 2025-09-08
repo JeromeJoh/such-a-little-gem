@@ -308,7 +308,37 @@ cards.forEach((card, index) => {
   const effects = card.querySelectorAll('.effect');
   const facades = card.querySelectorAll('article>div');
 
-  const flag = index % 2 === 0
+  const flag = index % 2 === 0;
+
+  const animatefacades = (facades) => {
+    const res = Array.from(facades).map((facade) => {
+      const tl = gsap.timeline({
+        ease: "power1.out",
+        paused: true
+      });
+      // 随机角度和距离
+      const angle = Math.random() * Math.PI * 2;
+      const distance = 200 + Math.random() * 100;
+
+      const x = Math.cos(angle) * distance;
+      const y = Math.sin(angle) * distance;
+
+      tl.to(facade, {
+        x,
+        y,
+        duration: 1 + Math.random(),
+        ease: "power3.out"
+      }, 0);
+
+      return tl;
+    });
+    return {
+      play: () => res.forEach(tl => tl.play()),
+      reverse: () => res.forEach(tl => tl.reverse()),
+    };
+  }
+
+  const { play, reverse } = animatefacades(facades);
 
   const cardTl = gsap.timeline({
     scrollTrigger: {
@@ -321,45 +351,16 @@ cards.forEach((card, index) => {
       },
       onEnter: _ => {
         console.log('card enter')
-        a(facades).forEach(tl => tl.play());
+        play();
         sprinkle();
       },
       onLeaveBack: _ => {
         console.log('card leave')
-        a(facades).forEach((tl, index) => {
-          console.log('ssss', tl, index,)
-          tl.reverse()
-        });
+        reverse();
         // sprinkle();
       }
     }
   })
-
-
-  const a = (pieces) => {
-    const res = Array.from(pieces).map((piece, i) => {
-      const tl = gsap.timeline({
-        paused: true
-      });
-      // 随机角度和距离
-      const angle = Math.random() * Math.PI * 2;
-      const distance = 200 + Math.random() * 100;
-
-      const x = Math.cos(angle) * distance;
-      const y = Math.sin(angle) * distance;
-
-      tl.to(piece, {
-        x,
-        y,
-        duration: 1 + Math.random(),
-        ease: "power3.out"
-      }, 0);
-
-      return tl;
-    });
-    console.log('vvvvvvvvvvvvvvvv', res)
-    return res;
-  }
 
   const gemList = [
     'obsidian',
