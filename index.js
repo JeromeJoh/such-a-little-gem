@@ -18,6 +18,20 @@ const THEME_CONGFIG = {
   },
 }
 
+const FRAME_CONFIG = [
+  {
+    mask: "frame",
+    color: 'silver'
+  },
+  {
+    mask: "ellipse",
+    color: 'gold'
+  }
+]
+
+let GOLDEN_THEME_ON = false, JUST_SWITCH = false;
+
+let distance = 0, inScrollArea = false;
 
 gsap.registerPlugin(ScrollTrigger);
 gsap.registerPlugin(SplitText)
@@ -25,11 +39,7 @@ gsap.registerPlugin(MotionPathPlugin);
 gsap.registerPlugin(MorphSVGPlugin);
 gsap.registerPlugin(InertiaPlugin);
 gsap.registerPlugin(TextPlugin);
-
-
-let GOLDEN_THEME_ON = false, JUST_SWITCH = false;
-
-let distance = 0, inScrollArea = false;
+// gsap.globalTimeline.timeScale(2);
 
 const wrapper = document.querySelector('.wrapper');
 const container = document.querySelector('.container');
@@ -96,8 +106,6 @@ const sprinkle = (() => {
   return () => fn();
 })();
 
-
-// gsap.globalTimeline.timeScale(2);
 const init = () => {
   resize();
   bindEvents();
@@ -121,24 +129,24 @@ const resize = () => {
   }
 }
 
-const st = ScrollTrigger.create({
+ScrollTrigger.create({
   trigger: wrapper,
   start: 'top top',
   end: 'bottom bottom',
-  // inertia: {
-  //   y: {
-  //     velocity: 2, // 初始速度
-  //     min: 0,
-  //     max: wrapper.scrollHeight - wrapper.clientHeight // 边界
-  //   }
-  // },
+  inertia: {
+    y: {
+      velocity: 2,
+      min: 0,
+      max: wrapper.scrollHeight - wrapper.clientHeight
+    }
+  },
   snap: {
     snapTo: 1 / 8,
     delay: 0,
     ease: 'power3.out'
   },
   onUpdate: self => {
-    // console.log("Scroll progress:", self.progress.toFixed(3));
+    // console.log("Wrapper Scroll Progress:", self.progress.toFixed(3));
     container.style.transform = `translateX(-${distance * self.progress}px)`;
   },
   onEnter: () => {
@@ -161,7 +169,6 @@ init();
 document.fonts.ready.then(() => {
   const split = new SplitText('.caption-intro', { type: 'chars' })
 
-
   const introTl = gsap.timeline({
     scrollTrigger: {
       trigger: document.body,
@@ -174,7 +181,6 @@ document.fonts.ready.then(() => {
         ease: 'power3.out'
       },
       onEnterBack: () => {
-        console.log('GOLDEN_THEME_ON', GOLDEN_THEME_ON)
         const currentColor = GOLDEN_THEME_ON ? THEME_CONGFIG.golden.color : THEME_CONGFIG.silver.color;
         gsap.set('.caption', { opacity: 0, color: currentColor })
         gsap.set('.caption-intro', { opacity: 1, color: currentColor })
@@ -223,7 +229,6 @@ document.fonts.ready.then(() => {
     .to('.author', {
       scale: 1.15,
       y: -window.innerHeight / 2,
-      // color: '#000',
     })
     .to('h1', {
       opacity: 0
@@ -239,7 +244,6 @@ document.fonts.ready.then(() => {
       duration: 0.8,
       opacity: 0,
       y: -30,
-      onComplete: _ => console.log("OUTRO============")
     }, '<')
     .to('.author', {
       scale: 1.5
@@ -247,7 +251,6 @@ document.fonts.ready.then(() => {
     .to('.author span', {
       text: ' Presents'
     })
-
 })
 
 function regularPolygonPath(n, cx, cy, r) {
@@ -294,31 +297,17 @@ morphShape("#shape", octagonPath, {
   duration: 2,
 })
 
-const frameSet = [
-  {
-    mask: "frame",
-    color: 'silver'
-  },
-  {
-    mask: "ellipse",
-    color: 'gold'
-  }
-]
-
-
 
 // TODO: scroll animation with gem transformation
 // TODO: fix glare effects
-// TODO: gem name position
 // TODO: Responsive
-// TODO: theme color switch
-const overlay = document.querySelector('.overlay');
 
+const overlay = document.querySelector('.overlay');
 
 cards.forEach((card, index) => {
   const effects = card.querySelectorAll('.effect');
   const facades = card.querySelectorAll('article>div');
-  // console.log('cards for each', facades)
+
   const flag = index % 2 === 0
 
   const cardTl = gsap.timeline({
@@ -332,22 +321,26 @@ cards.forEach((card, index) => {
       },
       onEnter: _ => {
         console.log('card enter')
-        // tl.play();
-        // a(facades);
+        a(facades).forEach(tl => tl.play());
         sprinkle();
       },
       onLeaveBack: _ => {
         console.log('card leave')
-        // sprinkle();
-        // tl.reverse();
+        a(facades).forEach((tl, index) => {
+          console.log('ssss', tl, index,)
+          tl.reverse()
+        });
         // sprinkle();
       }
     }
   })
 
+
   const a = (pieces) => {
-    console.log('pppppppppppp', pieces);
-    pieces.forEach((piece, i) => {
+    const res = Array.from(pieces).map((piece, i) => {
+      const tl = gsap.timeline({
+        paused: true
+      });
       // 随机角度和距离
       const angle = Math.random() * Math.PI * 2;
       const distance = 200 + Math.random() * 100;
@@ -361,7 +354,11 @@ cards.forEach((card, index) => {
         duration: 1 + Math.random(),
         ease: "power3.out"
       }, 0);
+
+      return tl;
     });
+    console.log('vvvvvvvvvvvvvvvv', res)
+    return res;
   }
 
   const gemList = [
@@ -376,163 +373,38 @@ cards.forEach((card, index) => {
     'sapphire',
   ]
 
-  const tl = gsap.timeline({
-    paused: true
-  })
-    // .from(card.querySelectorAll('#gem>div'), {
-    //   rotateX: 180,
-    //   stagger: 0.05,
-    // })
-    .to(overlay, {
-      rotateY: 90,
-      scale: 1.5,
-      onComplete: () => {
-        overlay.style.maskImage = `url(/assets/images/${frameSet[Number(flag)].mask}.svg)`
-        overlay.classList.remove("overlay-sub")
-        overlay.style.maskSize = flag ? '24%' : '26%'
-        gsap.to(['header', '.caption', 'footer'], {
-          color: '#ffffff',
-          onComplete: () => console.log("CAPTION ================ END")
-        })
-        document.documentElement.style.setProperty('--them-color', '#ffffff')
-        console.log('complete')
-      },
-    })
-    .to(overlay, {
-      rotateY: flag ? 180 : 0,
-      scale: 1,
-      onReverseComplete: () => {
-        overlay.style.maskImage = `url(/assets/images/${frameSet[1 - Number(flag)].mask}.svg)`
-        overlay.classList.add("overlay-sub")
-        overlay.style.maskSize = flag ? '26%' : '24%'
-        gsap.to(['header', '.caption', 'footer'], {
-          color: 'var(--color-golden)',
-          onComplete: () => console.log("CAPTION ================ END")
-        })
-        document.documentElement.style.setProperty('--theme-color', '#efd162')
-        console.log('reverse')
-      },
-    })
-    .to('.caption', {
-      text: gemList[index + 1],
-    }, '<')
-
   cardTl
     .to(overlay, {
       rotateY: 90,
       scale: 1.5,
       onComplete: () => {
-        console.log('complete', GOLDEN_THEME_ON)
-
-        overlay.style.maskImage = `url(/assets/images/${frameSet[Number(flag)].mask}.svg)`
-        overlay.style.maskSize = flag ? '24%' : '26%'
-
-        JUST_SWITCH = false
+        console.log('complete', GOLDEN_THEME_ON);
+        overlay.style.maskImage = `url(/assets/images/${FRAME_CONFIG[Number(flag)].mask}.svg)`;
+        overlay.style.maskSize = flag ? '24%' : '26%';
+        JUST_SWITCH = false;
       },
     })
     .to(overlay, {
       rotateY: flag ? 180 : 0,
       scale: 1,
       onReverseComplete: () => {
-        console.log('reverse', GOLDEN_THEME_ON, JUST_SWITCH)
-
-        overlay.style.maskImage = `url(/assets/images/${frameSet[1 - Number(flag)].mask}.svg)`
-        overlay.style.maskSize = flag ? '26%' : '24%'
+        console.log('reverse', GOLDEN_THEME_ON, JUST_SWITCH);
+        overlay.style.maskImage = `url(/assets/images/${FRAME_CONFIG[1 - Number(flag)].mask}.svg)`;
+        overlay.style.maskSize = flag ? '26%' : '24%';
         if (!JUST_SWITCH) {
           GOLDEN_THEME_ON = !GOLDEN_THEME_ON;
           overlay.classList.toggle("overlay-sub");
           gsap.to(['header', '.caption', 'footer'], {
-            color: GOLDEN_THEME_ON ? 'var(--color-golden)' : '#ffffff',
+            color: GOLDEN_THEME_ON ? THEME_CONGFIG.golden.color : THEME_CONGFIG.silver.color,
             onComplete: () => {
               JUST_SWITCH = true;
-              console.log("CAPTION ================ END");
             }
-          })
+          });
         };
 
       },
     })
     .to('.caption', {
       text: gemList[index + 1],
-    }, '<')
-
-
-  // cardTl
-  //   .to(overlay, {
-  //     rotateY: 90,
-  //     scale: 1.5,
-  //     onComplete: () => {
-  //       overlay.style.maskImage = `url(/assets/images/${frameSet[Number(flag)].mask}.svg)`
-  //       console.log('complete')
-  //     },
-  //   })
-  //   .to(overlay, {
-  //     rotateY: flag ? 180 : 0,
-  //     scale: 1,
-  //     onReverseComplete: () => {
-  //       overlay.style.maskImage = `url(/assets/images/${frameSet[1 - Number(flag)].mask}.svg)`
-  //       console.log('reverse')
-  //     },
-  //   })
-  //   .to('.caption', {
-  //     text: gemList[index],
-  //     onComplete: () => console.log("CAPTION ================ END")
-  //   }, '<')
-  // .to(card.querySelector('#gem>div'), {
-  //   opacity: 0,
-  //   ease: 'power3.out',
-  //   clipPath: "polygon(0 0, 100% 0, 100% 100%, 0 100%)"
-  // })
-  // .to(flag ? overlay : overlaySub, {
-  //   scale: 7,
-  //   onComplete: () => {
-  //     gsap.set(flag ? overlay : overlaySub, { transform: 'scale(0)' })
-  //     console.log('to animation completed')
-  //   }
-  // })
-  // .from(flag ? overlaySub : overlay, {
-  //   scale: 0,
-  //   onStart: () => {
-  //     gsap.set(flag ? overlay : overlaySub, { transform: 'scale(1)' })
-  //     console.log('from animation completed')
-  //   }
-  // }, '<')
+    }, '<');
 })
-
-
-// window.addEventListener('scroll', () => {
-//   console.log('SCROLL EVENT', document.documentElement.scrollTop);
-//   if (document.documentElement.scrollTop > window.innerHeight) return
-
-//   wrapper.scrollIntoView({
-//     behavior: 'smooth'
-//   })
-// })
-
-
-const gemTlList = Array.from({ length: 9 }, (_, index) => {
-
-});
-
-const sapphireTl = gsap.timeline();
-
-// const pieces = document.querySelectorAll(".obsidian>#gem>div");
-// console.log("vvvvvvvvvvvvvvvvv", pieces);
-
-// const tl = gsap.timeline({ repeat: -1, yoyo: true });
-
-// pieces.forEach((piece, i) => {
-//   // 随机角度和距离
-//   const angle = Math.random() * Math.PI * 2;
-//   const distance = 200 + Math.random() * 100;
-
-//   const x = Math.cos(angle) * distance;
-//   const y = Math.sin(angle) * distance;
-
-//   tl.to(piece, {
-//     x,
-//     y,
-//     duration: 1 + Math.random(),
-//     ease: "power3.out"
-//   }, 0); // 同时开始
-// });
