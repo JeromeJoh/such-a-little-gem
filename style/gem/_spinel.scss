@@ -7,8 +7,7 @@
     display: grid;
     place-items: center;
     clip-path: path('M 72 0 A122 134 0 0 0 72 240 A122 134 0 0 0 72 0');
-    background-color: #eeacec;
-    transform: scale(56%);
+    transform: scale(48%);
   }
 
   .table {
@@ -211,6 +210,24 @@
       clip-path: polygon(0% 36%, 18% 36%, 18% 10%);
       background-color: #d2685a;
       transform: rotateX(180deg);
+    }
+
+    &.lb-tri-7-lt {
+      clip-path: polygon(0% 36%, 18% 36%, 18% 10%);
+      background-color: #eeacec;
+      transform: rotateX(0deg);
+    }
+
+    &.lb-tri-7-rt {
+      clip-path: polygon(0% 36%, 18% 36%, 18% 10%);
+      background-color: #eeacec;
+      transform: rotateY(180deg);
+    }
+
+    &.lb-tri-7-rb {
+      clip-path: polygon(0% 36%, 18% 36%, 18% 10%);
+      background-color: #eeacec;
+      transform: rotateX(180deg) rotateY(180deg);
     }
 
     &.lt-tri-8 {
