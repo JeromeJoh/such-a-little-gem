@@ -113,8 +113,8 @@ const init = () => {
 }
 
 const bindEvents = () => {
-  window.addEventListener('resize', resize);
   // VanillaTilt.init(document.querySelectorAll('#gem'), { max: 25 });
+  window.addEventListener('resize', resize);
 }
 
 const resize = () => {
@@ -133,17 +133,10 @@ ScrollTrigger.create({
   trigger: wrapper,
   start: 'top top',
   end: 'bottom bottom',
-  inertia: {
-    y: {
-      velocity: 2,
-      min: 0,
-      max: wrapper.scrollHeight - wrapper.clientHeight
-    }
-  },
   snap: {
-    snapTo: 1 / 8,
+    snapTo: 1 / (cards.length - 1),
     delay: 0,
-    ease: 'power3.out'
+    ease: 'power1.inOut'
   },
   onUpdate: self => {
     // console.log("Wrapper Scroll Progress:", self.progress.toFixed(3));
