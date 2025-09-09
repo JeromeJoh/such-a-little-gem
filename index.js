@@ -307,13 +307,15 @@ const overlay = document.querySelector('.overlay');
 cards.forEach((card, index) => {
   const effects = card.querySelectorAll('.effect');
   const facades = card.querySelectorAll('article>div');
+  // console.log('GEM', gem, index)
+
 
   const flag = index % 2 === 0;
 
   const animatefacades = (facades) => {
     const res = Array.from(facades).map((facade) => {
       const tl = gsap.timeline({
-        ease: "power1.out",
+        ease: "power3.inOut",
         paused: true
       });
       // 随机角度和距离
@@ -323,12 +325,15 @@ cards.forEach((card, index) => {
       const x = Math.cos(angle) * distance;
       const y = Math.sin(angle) * distance;
 
-      tl.to(facade, {
-        x,
-        y,
-        duration: 1 + Math.random(),
-        ease: "power3.out"
-      }, 0);
+      tl
+        .to(facade, {
+          x,
+          y,
+          rotation: () => gsap.utils.random(0, 360),
+          opacity: 0,
+          duration: 1,
+          ease: "power3.out"
+        })
 
       return tl;
     });
@@ -354,7 +359,7 @@ cards.forEach((card, index) => {
         play();
         sprinkle();
       },
-      onLeaveBack: _ => {
+      onEnterBack: _ => {
         console.log('card leave')
         reverse();
         // sprinkle();
