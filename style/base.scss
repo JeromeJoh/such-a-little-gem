@@ -315,3 +315,21 @@ footer {
     opacity: 0;
   }
 }
+
+.facade,
+.triangle,
+.trapezoid {
+  pointer-events: none;
+}
+
+
+svg {
+  position: fixed;
+  top: 0;
+  left: 0;
+
+  path {
+    stroke-dasharray: 30;
+    stroke-dashoffset: 30;
+  }
+}

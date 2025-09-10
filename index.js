@@ -113,7 +113,6 @@ const init = () => {
 }
 
 const bindEvents = () => {
-  // VanillaTilt.init(document.querySelectorAll('#gem'), { max: 25 });
   window.addEventListener('resize', resize);
 }
 
@@ -298,12 +297,11 @@ morphShape("#shape", octagonPath, {
 const overlay = document.querySelector('.overlay');
 
 cards.forEach((card, index) => {
+  const gem = card.querySelector('#gem');
   const effects = card.querySelectorAll('.effect');
-  const facades = card.querySelectorAll('article>div');
-  // console.log('GEM', gem, index)
-
-
-  const flag = index % 2 === 0;
+  let facades = card.querySelectorAll('article>div');
+  if (index === 8) facades = card.querySelectorAll('article>.content-wrapper>div');
+  console.log('GEM', index, facades.length)
 
   const animatefacades = (facades) => {
     const res = Array.from(facades).map((facade) => {
@@ -323,12 +321,13 @@ cards.forEach((card, index) => {
           x,
           y,
           rotation: () => gsap.utils.random(0, 360),
-          opacity: 0,
-          duration: 1,
-          ease: "power3.out"
+          // opacity: 0,
+          duration: gsap.utils.clamp(0.5, 1, facades.length * 0.05),
+          ease: "power1.out"
         })
         .to(effects, {
           opacity: 0,
+          duration: 0.2
         }, '<')
 
       return tl;
@@ -339,7 +338,87 @@ cards.forEach((card, index) => {
     };
   }
 
-  const { play, reverse } = animatefacades(facades);
+  const animateFactory = (facades) => {
+    const tl = gsap.timeline({
+      paused: true,
+    });
+
+    switch (index) {
+      case 0:
+        tl
+          .to(gem.querySelectorAll('article>.trapezoid'), {
+            rotateX: 180,
+          })
+          .to(card.querySelector('.triangle-1'), {
+            y: -100,
+          }, '<')
+          .to(card.querySelector('.triangle-2'), {
+            y: 100,
+          }, '<')
+          .to(card.querySelector('.triangle-3'), {
+            x: -100,
+          }, '<')
+          .to(card.querySelector('.triangle-4'), {
+            x: 100,
+          }, '<')
+          .to(card.querySelector('.effect-group'), {
+            opacity: 0
+          }, '<');
+        break;
+      case 1:
+        tl.
+          to('svg path', {
+            strokeDashoffset: 0,
+          });
+        break;
+      case 3:
+        tl.
+          to(gem, {
+            rotation: 360,
+            ease: 'elastic.inOut'
+          });
+        break;
+      case 5:
+        const duplica = gem.cloneNode(true);
+        card.appendChild(duplica);
+        tl.
+          to(gem, {
+            rotation: 360,
+            ease: 'elastic.inOut'
+          });
+        break;
+      default:
+        break;
+    }
+
+    return {
+      play: () => tl.play(),
+      reverse: () => tl.reverse(),
+    };
+  }
+
+  const { play, reverse } = [0, 1, 3, 5].includes(index) ? animateFactory(facades) : animatefacades(facades);
+
+  gem.addEventListener('mouseenter', () => {
+    // clipPathTl.play();
+    play();
+    // if (index === 1) {
+    //   VanillaTilt.init(gem, { max: 25 });
+    //   VanillaTilt.init(overlay, { max: 25 });
+    // }
+
+  })
+
+  gem.addEventListener('mouseleave', () => {
+    // clipPathTl.reverse();
+    reverse();
+    // if (index === 1) {
+    //   gem.vanillaTilt.destroy();
+    //   overlay.vanillaTilt.destroy();
+    // }
+  })
+
+  const flag = index % 2 === 0;
 
   const cardTl = gsap.timeline({
     scrollTrigger: {
@@ -351,13 +430,13 @@ cards.forEach((card, index) => {
         // console.log("gem scroll", self.progress.toFixed(3), index, flag);
       },
       onEnter: _ => {
-        console.log('card enter')
-        play();
+        console.log('card enter', index)
+        // play();
         sprinkle();
       },
       onEnterBack: _ => {
-        console.log('card leave')
-        reverse();
+        console.log('card leave', index)
+        // reverse();
         // sprinkle();
       }
     }
