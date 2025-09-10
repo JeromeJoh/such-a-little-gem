@@ -327,6 +327,9 @@ cards.forEach((card, index) => {
           duration: 1,
           ease: "power3.out"
         })
+        .to(effects, {
+          opacity: 0,
+        }, '<')
 
       return tl;
     });
