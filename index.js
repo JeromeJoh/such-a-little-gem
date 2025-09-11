@@ -413,10 +413,17 @@ cards.forEach((card, index) => {
           to(gem, {
             rotation: 360,
             duration: 0.5,
+            stagger: 0.05,
             ease: 'power3.inOut'
           });
         break
       case 8:
+        tl.
+          to(facades, {
+            rotation: 360,
+            duration: 0.5,
+            ease: 'power3.inOut'
+          });
         break;
       default:
         break;
