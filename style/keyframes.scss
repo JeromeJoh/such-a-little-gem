@@ -26,29 +26,6 @@
   }
 }
 
-@keyframes spin {
-  from {
-    top: 10rem;
-    right: 3rem;
-    transform: rotate(0) scale(1.6);
-    opacity: 1;
-  }
-
-  30% {
-    top: 16rem;
-    right: 8rem;
-    transform: rotate(360deg) scale(0);
-    opacity: 1;
-  }
-
-  to {
-    top: 16rem;
-    right: 8rem;
-    transform: rotate(360deg) scale(0);
-    opacity: 1;
-  }
-}
-
 @keyframes reflect {
   from {
     opacity: 0;

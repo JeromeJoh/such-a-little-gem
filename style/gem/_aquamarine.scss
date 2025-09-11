@@ -240,52 +240,50 @@
 
     .effect-group {
       position: absolute;
-      top: 46%;
-      left: 50%;
-      transform: translateX(-50%) translateY(-50%) scale(48%) rotate(-90deg);
-      width: 96px;
-      height: 240px;
+      inset: 0;
+      border: solid 1px lime;
 
       .effect {
         position: absolute;
-        max-width: 2rem;
-        max-height: 2rem;
+        max-width: 4rem;
+        max-height: 4rem;
         transform-origin: center;
 
         &-1 {
-          top: 3rem;
-          left: 0rem;
+          top: 18%;
+          left: 6%;
           animation: 1s linear 0s infinite alternate sparkle;
         }
 
         &-2 {
-          top: 3rem;
-          right: 0rem;
+          top: 18%;
+          right: 6%;
           animation: 1s linear 0.4s infinite alternate sparkle;
         }
 
         &-3 {
-          bottom: 3rem;
-          left: 0rem;
+          bottom: 18%;
+          left: 6%;
           animation: 1s linear 0.3s infinite alternate sparkle;
         }
 
         &-4 {
-          bottom: 3rem;
-          right: 0rem;
+          bottom: 18%;
+          right: 6%;
           animation: 1s linear 0.8s infinite alternate sparkle;
         }
 
         &-5 {
-          bottom: 45%;
-          right: 13%;
+          bottom: 40%;
+          right: -1%;
           animation: 1s linear 0.5s infinite alternate sparkle;
         }
 
         &-6 {
-          bottom: 45%;
-          left: 13%;
+          bottom: 40%;
+          left: -1%;
           animation: 1s linear 0.2s infinite alternate sparkle;
+          // border: solid red 1px;
         }
       }
     }

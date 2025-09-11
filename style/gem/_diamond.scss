@@ -203,8 +203,31 @@
         }
 
         &-2 {
-          animation: 2s ease-in 1.6s infinite spin;
+          animation: 2s ease-in 1.6s infinite spin-d;
           opacity: 0;
+
+          @keyframes spin-d {
+            from {
+              top: 10rem;
+              right: 17%;
+              transform: rotate(0) scale(1.6);
+              opacity: 1;
+            }
+
+            30% {
+              top: 16rem;
+              right: 8rem;
+              transform: rotate(360deg) scale(0);
+              opacity: 1;
+            }
+
+            to {
+              top: 16rem;
+              right: 8rem;
+              transform: rotate(360deg) scale(0);
+              opacity: 1;
+            }
+          }
         }
 
         &-3 {

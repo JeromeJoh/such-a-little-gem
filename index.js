@@ -33,6 +33,8 @@ let GOLDEN_THEME_ON = false, JUST_SWITCH = false;
 
 let distance = 0, inScrollArea = false;
 
+let hoverLock = true;
+
 gsap.registerPlugin(ScrollTrigger);
 gsap.registerPlugin(SplitText)
 gsap.registerPlugin(MotionPathPlugin);
@@ -143,13 +145,18 @@ ScrollTrigger.create({
   },
   onEnter: () => {
     inScrollArea = true;
+    hoverLock = true;
     console.log("========== Entered scroll area");
   },
   onLeave: () => {
     inScrollArea = false;
     console.log("========== Left scroll area");
   },
+  onLeaveBack: () => {
+    hoverLock = true;
+  },
   onSnapComplete: () => {
+    hoverLock = false;
     console.log("========== Snap area");
   }
 })
@@ -198,8 +205,9 @@ document.fonts.ready.then(() => {
       stagger: 0.05,
       ease: 'power3.out',
       onComplete: () => {
-        gsap.set('.caption', { opacity: 1 })
-        gsap.set('.caption-intro', { opacity: 0 })
+        gsap.set('.caption', { opacity: 1 });
+        gsap.set('.caption-intro', { opacity: 0 });
+        hoverLock = false;
       }
     }, '<')
 
@@ -366,10 +374,10 @@ cards.forEach((card, index) => {
           }, '<');
         break;
       case 1:
-        tl.
-          to('svg path', {
+        tl
+          .to('svg path', {
             strokeDashoffset: 0,
-          });
+          }, '<');
         break;
       case 3:
         tl.
@@ -401,7 +409,7 @@ cards.forEach((card, index) => {
 
   gem.addEventListener('mouseenter', () => {
     // clipPathTl.play();
-    play();
+    !hoverLock && play();
     // if (index === 1) {
     //   VanillaTilt.init(gem, { max: 25 });
     //   VanillaTilt.init(overlay, { max: 25 });
@@ -411,7 +419,7 @@ cards.forEach((card, index) => {
 
   gem.addEventListener('mouseleave', () => {
     // clipPathTl.reverse();
-    reverse();
+    !hoverLock && reverse();
     // if (index === 1) {
     //   gem.vanillaTilt.destroy();
     //   overlay.vanillaTilt.destroy();
