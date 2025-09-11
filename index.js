@@ -387,8 +387,8 @@ cards.forEach((card, index) => {
           });
         break;
       case 5:
-        const duplica = gem.cloneNode(true);
-        card.appendChild(duplica);
+        // const duplica = gem.cloneNode(true);
+        // card.appendChild(duplica);
         tl.
           to(gem, {
             rotation: 360,
@@ -482,13 +482,15 @@ cards.forEach((card, index) => {
         overlay.style.maskSize = flag ? '26%' : '24%';
         if (!JUST_SWITCH) {
           GOLDEN_THEME_ON = !GOLDEN_THEME_ON;
+          const currentColor = GOLDEN_THEME_ON ? THEME_CONGFIG.golden.color : THEME_CONGFIG.silver.color;
           overlay.classList.toggle("overlay-sub");
           gsap.to(['header', '.caption', 'footer'], {
-            color: GOLDEN_THEME_ON ? THEME_CONGFIG.golden.color : THEME_CONGFIG.silver.color,
+            color: currentColor,
             onComplete: () => {
               JUST_SWITCH = true;
             }
           });
+          document.documentElement.style.setProperty('--theme-color', currentColor);
         };
 
       },
