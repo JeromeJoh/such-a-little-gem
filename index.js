@@ -309,9 +309,6 @@ morphShape("#shape", octagonPath, {
   duration: 2,
 })
 
-
-// TODO: scroll animation with gem transformation
-// TODO: fix glare effects
 // TODO: Responsive
 
 const overlay = document.querySelector('.overlay');
@@ -329,7 +326,7 @@ cards.forEach((card, index) => {
         ease: "power3.inOut",
         paused: true
       });
-      // 随机角度和距离
+
       const angle = Math.random() * Math.PI * 2;
       const distance = 200 + Math.random() * 100;
 
@@ -438,22 +435,11 @@ cards.forEach((card, index) => {
   const { play, reverse } = [0, 1, 3, 5, 7, 8].includes(index) ? animateFactory(facades) : animatefacades(facades);
 
   gem.addEventListener('mouseenter', () => {
-    // clipPathTl.play();
     !hoverLock && play();
-    // if (index === 1) {
-    //   VanillaTilt.init(gem, { max: 25 });
-    //   VanillaTilt.init(overlay, { max: 25 });
-    // }
-
   })
 
   gem.addEventListener('mouseleave', () => {
-    // clipPathTl.reverse();
     !hoverLock && reverse();
-    // if (index === 1) {
-    //   gem.vanillaTilt.destroy();
-    //   overlay.vanillaTilt.destroy();
-    // }
   })
 
   const flag = index % 2 === 0;
@@ -469,13 +455,10 @@ cards.forEach((card, index) => {
       },
       onEnter: _ => {
         console.log('card enter', index)
-        // play();
         sprinkle();
       },
       onEnterBack: _ => {
         console.log('card leave', index)
-        // reverse();
-        // sprinkle();
       }
     }
   })
