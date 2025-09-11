@@ -255,52 +255,50 @@
 
   .effect-group {
     position: absolute;
-    top: 46%;
-    left: 50%;
-    transform: translateX(-50%) translateY(-50%) scale(45%) rotate(-90deg);
-    width: 144px;
-    height: 240px;
+    inset: 0;
+    // border: solid 1px lime;
 
     .effect {
       position: absolute;
-      max-width: 2rem;
-      max-height: 2rem;
+      max-width: 4rem;
+      max-height: 4rem;
       transform-origin: center;
 
       &-1 {
-        top: 3rem;
-        left: 9rem;
+        top: 26%;
+        left: 0%;
         animation: 1s linear 0s infinite alternate sparkle;
       }
 
       &-2 {
-        top: 3rem;
-        right: 9rem;
+        top: 26%;
+        right: 0%;
         animation: 1s linear 0.2s infinite alternate sparkle;
       }
 
       &-3 {
-        bottom: 3rem;
-        left: 9rem;
+        bottom: 25%;
+        left: 1%;
         animation: 1s linear 0.6s infinite alternate sparkle;
       }
 
       &-4 {
-        bottom: 3rem;
-        right: 9rem;
+        bottom: 25%;
+        right: 1%;
         animation: 1s linear 0.8s infinite alternate sparkle;
       }
 
       &-5 {
-        bottom: 45%;
-        right: 15%;
+        bottom: 6%;
+        right: 33%;
         animation: 1s linear 0.5s infinite alternate sparkle;
       }
 
       &-6 {
-        bottom: 45%;
-        left: 15%;
+        top: 6%;
+        right: 33%;
         animation: 1s linear 0.2s infinite alternate sparkle;
+        // border: solid 1px red;
       }
     }
   }

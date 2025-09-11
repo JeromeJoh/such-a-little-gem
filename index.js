@@ -18,6 +18,18 @@ const THEME_CONGFIG = {
   },
 }
 
+const gemList = [
+  'obsidian',
+  'amethyst',
+  'diamond',
+  'aquamarine',
+  'emerald',
+  'pearl',
+  'ruby',
+  'spinel',
+  'sapphire',
+]
+
 const FRAME_CONFIG = [
   {
     mask: "frame",
@@ -309,7 +321,7 @@ cards.forEach((card, index) => {
   const effects = card.querySelectorAll('.effect');
   let facades = card.querySelectorAll('article>div');
   if (index === 8) facades = card.querySelectorAll('article>.content-wrapper>div');
-  console.log('GEM', index, facades.length)
+  console.log('GEM', index, facades.length, gemList[index]);
 
   const animatefacades = (facades) => {
     const res = Array.from(facades).map((facade) => {
@@ -351,6 +363,13 @@ cards.forEach((card, index) => {
       paused: true,
     });
 
+    function scalePath(path, factor) {
+      return path.replace(/-?\d+(\.\d+)?/g, n => parseFloat(n) * factor);
+    }
+
+    const original = "M 72 0 A122 134 0 0 0 72 240 A122 134 0 0 0 72 0";
+    const scaled = scalePath(original, 1.5);
+
     switch (index) {
       case 0:
         tl
@@ -380,12 +399,6 @@ cards.forEach((card, index) => {
           }, '<');
         break;
       case 3:
-        tl.
-          to(gem, {
-            rotation: 360,
-            ease: 'elastic.inOut'
-          });
-        break;
       case 5:
         // const duplica = gem.cloneNode(true);
         // card.appendChild(duplica);
@@ -394,6 +407,16 @@ cards.forEach((card, index) => {
             rotation: 360,
             ease: 'elastic.inOut'
           });
+        break;
+      case 7:
+        tl.
+          to(gem, {
+            rotation: 360,
+            duration: 0.5,
+            ease: 'power3.inOut'
+          });
+        break
+      case 8:
         break;
       default:
         break;
@@ -405,7 +428,7 @@ cards.forEach((card, index) => {
     };
   }
 
-  const { play, reverse } = [0, 1, 3, 5].includes(index) ? animateFactory(facades) : animatefacades(facades);
+  const { play, reverse } = [0, 1, 3, 5, 7, 8].includes(index) ? animateFactory(facades) : animatefacades(facades);
 
   gem.addEventListener('mouseenter', () => {
     // clipPathTl.play();
@@ -449,18 +472,6 @@ cards.forEach((card, index) => {
       }
     }
   })
-
-  const gemList = [
-    'obsidian',
-    'amethyst',
-    'diamond',
-    'aquamarine',
-    'emerald',
-    'pearl',
-    'ruby',
-    'spinel',
-    'sapphire',
-  ]
 
   cardTl
     .to(overlay, {
