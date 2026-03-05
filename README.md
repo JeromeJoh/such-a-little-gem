@@ -13,6 +13,7 @@
 - [x] Spinel
 - [x] Aquamarine
 - [x] Pearl
+- [ ] 修改 readme
 
 ---
 
