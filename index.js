@@ -43,6 +43,15 @@ const FRAME_CONFIG = [
   }
 ]
 
+const preloadMasks = () => {
+  ;[frame, ellipse].forEach((src) => {
+    const img = new Image()
+    img.src = src
+  })
+}
+
+preloadMasks()
+
 let GOLDEN_THEME_ON = false, JUST_SWITCH = false;
 
 let distance = 0, inScrollArea = false;
