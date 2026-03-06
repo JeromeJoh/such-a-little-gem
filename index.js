@@ -6,6 +6,8 @@ import { MorphSVGPlugin } from 'gsap/MorphSVGPlugin';
 import { InertiaPlugin } from 'gsap/all';
 import { TextPlugin } from 'gsap/all';
 import VanillaTilt from 'vanilla-tilt';
+import frame from './assets/images/frame.svg';
+import ellipse from './assets/images/ellipse.svg';
 
 const THEME_CONGFIG = {
   golden: {
@@ -32,11 +34,11 @@ const gemList = [
 
 const FRAME_CONFIG = [
   {
-    mask: "frame",
+    mask: frame,
     color: 'silver'
   },
   {
-    mask: "ellipse",
+    mask: ellipse,
     color: 'gold'
   }
 ]
@@ -469,7 +471,7 @@ cards.forEach((card, index) => {
       scale: 1.5,
       onComplete: () => {
         console.log('complete', GOLDEN_THEME_ON);
-        overlay.style.maskImage = `url(/assets/images/${FRAME_CONFIG[Number(flag)].mask}.svg)`;
+        overlay.style.maskImage = `url(${FRAME_CONFIG[Number(flag)].mask})`;
         overlay.style.maskSize = flag ? '24%' : '26%';
         JUST_SWITCH = false;
       },
@@ -479,7 +481,7 @@ cards.forEach((card, index) => {
       scale: 1,
       onReverseComplete: () => {
         console.log('reverse', GOLDEN_THEME_ON, JUST_SWITCH);
-        overlay.style.maskImage = `url(/assets/images/${FRAME_CONFIG[1 - Number(flag)].mask}.svg)`;
+        overlay.style.maskImage = `url(${FRAME_CONFIG[1 - Number(flag)].mask})`;
         overlay.style.maskSize = flag ? '26%' : '24%';
         if (!JUST_SWITCH) {
           GOLDEN_THEME_ON = !GOLDEN_THEME_ON;
