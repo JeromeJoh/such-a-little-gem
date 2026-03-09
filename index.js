@@ -5,7 +5,6 @@ import { MotionPathPlugin } from 'gsap/MotionPathPlugin';
 import { MorphSVGPlugin } from 'gsap/MorphSVGPlugin';
 import { InertiaPlugin } from 'gsap/all';
 import { TextPlugin } from 'gsap/all';
-import VanillaTilt from 'vanilla-tilt';
 import frame from './assets/images/frame.svg';
 import ellipse from './assets/images/ellipse.svg';
 
@@ -378,23 +377,15 @@ cards.forEach((card, index) => {
     const original = "M 72 0 A122 134 0 0 0 72 240 A122 134 0 0 0 72 0";
     const scaled = scalePath(original, 1.5);
 
+    // 针对不同类型的定制特效，注重展示 imageless facade 的多样性
     switch (index) {
       case 0:
         tl
           .to(gem.querySelectorAll('article>.trapezoid'), {
             rotateX: 180,
           })
-          .to(card.querySelector('.triangle-1'), {
-            y: -100,
-          }, '<')
-          .to(card.querySelector('.triangle-2'), {
-            y: 100,
-          }, '<')
-          .to(card.querySelector('.triangle-3'), {
-            x: -100,
-          }, '<')
-          .to(card.querySelector('.triangle-4'), {
-            x: 100,
+          .to(card.querySelector('.triangle'), {
+            y: (index) => index % 2 === 0 ? -100 : 100,
           }, '<')
           .to(card.querySelector('.effect-group'), {
             opacity: 0
