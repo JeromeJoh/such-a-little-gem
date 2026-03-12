@@ -7,7 +7,7 @@
     display: grid;
     place-items: center;
     clip-path: path('M 72 0 A122 134 0 0 0 72 240 A122 134 0 0 0 72 0');
-    transform: scale(48%);
+    transform: scale(calc(48% * var(--gem-scale)));
   }
 
   .table {

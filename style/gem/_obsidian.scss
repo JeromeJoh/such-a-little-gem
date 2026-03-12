@@ -6,7 +6,7 @@
     display: grid;
     place-items: center;
     // border: solid 1px lime;
-    transform: scale(36%);
+    transform: scale(calc(36% * var(--gem-scale)));
 
     .square {
       position: relative;

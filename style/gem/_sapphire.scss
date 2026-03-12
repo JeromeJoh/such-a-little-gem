@@ -5,7 +5,7 @@
     height: 20rem;
     border-radius: 100% 2px 64% 36% / 64% 2px 100% 36%;
     overflow: hidden;
-    transform: rotate(-45deg) scale(36%);
+    transform: rotate(-45deg) scale(calc(36% * var(--gem-scale)));
 
     .content-wrapper {
       position: relative;

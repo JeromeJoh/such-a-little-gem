@@ -5,7 +5,7 @@
     height: 20rem;
     display: grid;
     place-items: center;
-    transform: scale(28%);
+    transform: scale(calc(28% * var(--gem-scale)));
     // border: solid 1px lime;
 
     .facade {

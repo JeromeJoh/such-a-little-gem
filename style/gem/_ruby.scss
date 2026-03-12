@@ -5,7 +5,7 @@
     height: 20rem;
     display: grid;
     place-items: center;
-    transform: scale(40%);
+    transform: scale(calc(40% * var(--gem-scale)));
 
     .table {
       position: relative;

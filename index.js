@@ -70,6 +70,19 @@ const container = document.querySelector('.container');
 const cards = gsap.utils.toArray('.card');
 const decorLines = gsap.utils.toArray('.decor-line');
 
+const originalElement = document.querySelector('.overlay');
+
+// 复制该元素（包括子元素）
+const clonedElements = Array.from({ length: 3 }, () => {
+  const clone = originalElement.cloneNode(true)
+  clone.style.visibility = 'visible';
+  return clone;
+});
+
+// gsap.set(originalElement, {
+//   opacity: 0,
+// })
+
 const sprinkle = (() => {
   const cx = 15, cy = 20;
 
@@ -133,6 +146,42 @@ const sprinkle = (() => {
 const init = () => {
   resize();
   bindEvents();
+
+  const originalElement = document.querySelector('.overlay');
+
+
+
+  // 获取父容器元素
+  const container = document.querySelector('main');
+
+  // 将复制的元素插入到原始元素的下方
+  clonedElements.forEach((clonedElement) => {
+    container.insertBefore(clonedElement, originalElement.nextSibling);
+  });
+
+  gsap.set(originalElement, {
+    opacity: 0,
+  })
+  gsap.fromTo(clonedElements, {
+    scale: 0,
+    duration: 1,
+  }, {
+    scale: 0.6,
+    stagger: 0.2,
+    onComplete: () => {
+      console.log('Animation complete, showing original element');
+      clonedElements.forEach(el => el.remove());
+      gsap.set(originalElement, {
+        opacity: 1,
+        visibility: 'visible',
+      })
+    }
+  })
+  gsap.from(decorLines, {
+    scaleX: 0,
+    duration: 0.8,
+    ease: 'power3.out',
+  })
   sprinkle();
 }
 
@@ -214,7 +263,7 @@ document.fonts.ready.then(() => {
     .to(decorLines, {
       scaleX: 0,
     })
-    .from('.overlay', {
+    .from(originalElement, {
       scale: 0.6,
     }, '<')
     .to(decorLines, {
@@ -384,6 +433,9 @@ cards.forEach((card, index) => {
           .to(gem.querySelectorAll('article>.trapezoid'), {
             rotateX: 180,
           })
+          .to(gem.querySelectorAll(':scope>div'), {
+            clipPath: 'polygon(0% 0%, 100% 100%, 0% 100%)',
+          })
           .to(card.querySelector('.triangle'), {
             y: (index) => index % 2 === 0 ? -100 : 100,
           }, '<')
@@ -502,3 +554,6 @@ cards.forEach((card, index) => {
       text: gemList[index + 1],
     }, '<');
 })
+
+const rootFontSize = getComputedStyle(document.documentElement).fontSize;
+console.log(rootFontSize);

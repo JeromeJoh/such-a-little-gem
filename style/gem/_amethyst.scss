@@ -7,7 +7,7 @@
     display: grid;
     place-items: center;
     clip-path: ellipse(closest-side farthest-side);
-    transform: scale(36%);
+    transform: scale(calc(36% * var(--gem-scale)));
     // border: solid 1px lime;
 
     .table {

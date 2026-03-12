@@ -10,7 +10,7 @@
     overflow: hidden;
     background: radial-gradient(#bcbcb2, #d5d6d0 70%);
     box-shadow: 0 2px 10px gray;
-    transform: scale(36%);
+    transform: scale(calc(36% * var(--gem-scale)));
 
     &::before {
       content: '';

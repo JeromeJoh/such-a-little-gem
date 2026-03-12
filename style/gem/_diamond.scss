@@ -6,7 +6,7 @@
     height: 20rem;
     display: grid;
     place-items: center;
-    transform: scale(64%);
+    transform: scale(calc(64% * var(--gem-scale)));
 
     .table {
       width: 10rem;
