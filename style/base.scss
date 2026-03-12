@@ -1,5 +1,5 @@
 :root {
-  font-size: 12px;
+  font-size: clamp(12px, 1.1vw, 18px);
   --common-padding: 1rem;
   --theme-color: #ffffff;
   --color-golden: #efd162;
@@ -10,7 +10,7 @@
 
 @media (max-width: 1200px) {
   :root {
-    --frame-size: 28%;
+    --frame-size: 26%;
   }
 }
 
@@ -279,10 +279,6 @@ section {
   display: grid;
   place-items: center;
   padding-right: 8px;
-
-  article>div {
-    // clip-path: inset(0% 0% 0% 0%);
-  }
 }
 
 .card {

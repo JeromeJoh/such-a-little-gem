@@ -2,17 +2,20 @@
   #gem {
     position: relative;
     bottom: 3%;
-    width: 144px;
-    height: 240px;
+    width: 12rem;
+    height: 20rem;
     display: grid;
     place-items: center;
-    clip-path: path('M 72 0 A122 134 0 0 0 72 240 A122 134 0 0 0 72 0');
+    mask-image: url(/assets/images/spinel.svg);
+    mask-repeat: no-repeat;
+    mask-position: center;
+    mask-size: 12rem 20rem;
     transform: scale(calc(48% * var(--gem-scale)));
   }
 
   .table {
-    width: 144px;
-    height: 240px;
+    width: 12rem;
+    height: 20rem;
     background: #eeacec;
     clip-path: polygon(50% 16%,
         68% 28%,
