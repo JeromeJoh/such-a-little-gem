@@ -8,11 +8,6 @@
   --frame-size: 26%;
 }
 
-html {
-  width: 100vw;
-  overflow-x: hidden;
-}
-
 @media (max-width: 1200px) {
   :root {
     --frame-size: 26%;
@@ -243,9 +238,13 @@ main {
     // position: sticky;
     // top: 0;
 
-    .container {
+    .track {
       position: sticky;
       top: 0;
+      overflow: hidden;
+    }
+
+    .container {
       display: flex;
       width: 900dvw;
 
