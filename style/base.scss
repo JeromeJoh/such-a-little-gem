@@ -8,6 +8,11 @@
   --frame-size: 26%;
 }
 
+html {
+  width: 100vw;
+  overflow-x: hidden;
+}
+
 @media (max-width: 1200px) {
   :root {
     --frame-size: 26%;
@@ -58,15 +63,18 @@
 }
 
 body {
+  --scrollbar-width: 8px;
   display: flex;
   flex-direction: column;
   background: #000;
-  width: 100dvw;
+  width: calc(100vw - var(--scrollbar-width));
   min-height: 100dvh;
   height: 100%;
   overflow-x: hidden;
   color: #fff;
   font-family: 'Roboto Serif';
+  border: solid 2px rebeccapurple;
+  box-sizing: border-box;
 }
 
 header {
@@ -230,6 +238,11 @@ main {
   }
 
   .wrapper {
+    border: solid 1px red;
+    // overflow-x: hidden;
+    // position: sticky;
+    // top: 0;
+
     .container {
       position: sticky;
       top: 0;
@@ -283,8 +296,8 @@ section {
 
 .card {
   position: relative;
-  width: 100dvw;
-  height: 100dvh;
+  width: 100vw;
+  height: 100vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -294,6 +307,7 @@ section {
   transition: all 1s;
   cursor: pointer;
   overflow: hidden;
+  border: solid 1px lime;
 }
 
 [class^="caption"] {
