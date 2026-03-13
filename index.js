@@ -79,10 +79,6 @@ const clonedElements = Array.from({ length: 3 }, () => {
   return clone;
 });
 
-// gsap.set(originalElement, {
-//   opacity: 0,
-// })
-
 const sprinkle = (() => {
   const cx = 15, cy = 20;
 
@@ -175,6 +171,10 @@ const init = () => {
         opacity: 1,
         visibility: 'visible',
       })
+      gsap.set('[class^="caption"]', {
+        visibility: 'visible',
+      })
+
     }
   })
   gsap.from(decorLines, {
@@ -191,14 +191,42 @@ const bindEvents = () => {
 
 const resize = () => {
   decorLines.forEach((line, index) => {
+    // 根据实际需要调整 width 的计算方式
+    const width = Math.sqrt(Math.pow(window.innerWidth, 2) / 4 + Math.pow(window.innerHeight, 2) / 4);
+    line.style.width = `${width}px`;
+
+    // 旋转角度计算
+    const rotation = Math.atan2(window.innerHeight, window.innerWidth) * 180 / Math.PI;
+    line.style.transform = `rotate(${rotation * (index % 3 === 0 ? 1 : -1)}deg)`;
+  });
+
+  // 计算 distance，确保它不会变得过大
+  distance = container.offsetWidth - window.innerWidth;
+  wrapper.style.height = `${Math.max(distance, 0)}px`; // 确保 distance 不为负值
+
+  console.log('resize', container.offsetWidth, window.innerWidth, distance);
+
+  // 如果需要，将 container 移动
+  if (inScrollArea) {
+    container.style.transform = `translateX(-${distance}px)`;
+  }
+
+  // 刷新 ScrollTrigger
+  ScrollTrigger.refresh();
+}
+
+const resize2 = () => {
+  decorLines.forEach((line, index) => {
     line.style.width = `${Math.sqrt(window.innerWidth * window.innerWidth / 4 + window.innerHeight * window.innerHeight / 4)}px`;
     line.style.transform = `rotate(${Math.atan2(window.innerHeight, window.innerWidth) * 180 / Math.PI * (index % 3 === 0 ? 1 : -1)}deg)`;
   })
   distance = container.offsetWidth - window.innerWidth
   wrapper.style.height = `${distance}px`
+  console.log('resize', container.offsetWidth, window.innerWidth, distance);
   if (inScrollArea) {
     container.style.transform = `translateX(-${distance}px)`
   }
+  ScrollTrigger.refresh();
 }
 
 ScrollTrigger.create({
@@ -211,7 +239,6 @@ ScrollTrigger.create({
     ease: 'power1.inOut'
   },
   onUpdate: self => {
-    // console.log("Wrapper Scroll Progress:", self.progress.toFixed(3));
     container.style.transform = `translateX(-${distance * self.progress}px)`;
   },
   onEnter: () => {
@@ -244,7 +271,7 @@ document.fonts.ready.then(() => {
       trigger: document.body,
       start: 'top top',
       end: `${window.innerHeight}px top`,
-      scrub: 0.5,
+      scrub: 0.1,
       snap: {
         snapTo: 1,
         delay: 0,
