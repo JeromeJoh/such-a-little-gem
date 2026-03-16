@@ -45,13 +45,19 @@ const FRAME_CONFIG = [
 ]
 
 const preloadMasks = () => {
-  ;[frame, ellipse].forEach((src) => {
-    const img = new Image()
-    img.src = src
-  })
-}
+  const sources = [frame, ellipse]
 
-preloadMasks()
+  const promises = sources.map(src => {
+    return new Promise((resolve, reject) => {
+      const img = new Image()
+      img.onload = () => resolve(img)
+      img.onerror = reject
+      img.src = src
+    })
+  })
+
+  return Promise.all(promises)
+}
 
 let GOLDEN_THEME_ON = false, JUST_SWITCH = false;
 
@@ -143,9 +149,11 @@ const sprinkle = (() => {
   return () => fn();
 })();
 
-const init = () => {
+const init = async () => {
   resize();
   bindEvents();
+  await preloadMasks();
+
 
   function moveToStart(container, n) {
     const children = container.children
@@ -155,7 +163,7 @@ const init = () => {
     container.insertBefore(target, children[0])
   }
 
-  moveToStart(document.querySelector('.container'), 7)
+  moveToStart(document.querySelector('.container'), 8)
 
   const originalElement = document.querySelector('.overlay');
 
@@ -540,8 +548,12 @@ cards.forEach((card, index) => {
           }, '<')
         break
       case 8:
-        tl.
-          to(facades, {
+        tl
+          // .to(gem, {
+          //   borderRadius: 0,
+          //   rotation: 0,
+          // })
+          .to(facades, {
             rotation: 360,
             duration: 0.5,
             ease: 'power3.inOut'
