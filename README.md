@@ -15,6 +15,7 @@
 - [x] Pearl
 - [ ] 修改 readme
 - [ ] 金属光泽高亮修改
+- [ ] 双击 palette 动画，hover 的动画
 
 ---
 

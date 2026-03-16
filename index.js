@@ -72,6 +72,8 @@ const container = document.querySelector('.container');
 const cards = gsap.utils.toArray('.card');
 const decorLines = gsap.utils.toArray('.decor-line');
 
+console.log('cards', cards.length);
+
 const originalElement = document.querySelector('.overlay');
 
 // 复制该元素（包括子元素）
@@ -144,6 +146,16 @@ const sprinkle = (() => {
 const init = () => {
   resize();
   bindEvents();
+
+  function moveToStart(container, n) {
+    const children = container.children
+    if (n < 0 || n >= children.length) return
+
+    const target = children[n]
+    container.insertBefore(target, children[0])
+  }
+
+  moveToStart(document.querySelector('.container'), 7)
 
   const originalElement = document.querySelector('.overlay');
 
@@ -390,7 +402,7 @@ const overlay = document.querySelector('.overlay');
 
 cards.forEach((card, index) => {
   const gem = card.querySelector('#gem');
-  const effects = card.querySelectorAll('.effect');
+  const effects = card.querySelectorAll('.effect-group');
   let facades = card.querySelectorAll('article>div');
   if (index === 8) facades = card.querySelectorAll('article>.content-wrapper>div');
   console.log('GEM', index, facades.length, gemList[index]);
@@ -441,48 +453,91 @@ cards.forEach((card, index) => {
 
     const original = "M 72 0 A122 134 0 0 0 72 240 A122 134 0 0 0 72 0";
     const scaled = scalePath(original, 1.5);
+    const amplitude = 100  // 波浪高度
+    const wavelength = 6  // 波长
 
     // 针对不同类型的定制特效，注重展示 imageless facade 的多样性
     switch (index) {
       case 0:
         tl
-          .to(gem.querySelectorAll('article>.trapezoid'), {
-            rotateX: 180,
-          })
-          .to(gem.querySelectorAll(':scope>div'), {
-            clipPath: 'polygon(0% 0%, 100% 100%, 0% 100%)',
-          })
-          .to(card.querySelector('.triangle'), {
-            y: (index) => index % 2 === 0 ? -100 : 100,
-          }, '<')
-          .to(card.querySelector('.effect-group'), {
-            opacity: 0
+          .to(gem.querySelectorAll(':scope>div.facade'), {
+            clipPath: 'polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)',
+            rotate: '45deg',
+            top: '50%',
+            xPercent: index => index < 4 ? -50 - 100 * (index + 1) : 50 + 100 * (index - 4),
+            yPercent: -50,
+            left: '50%',
           }, '<');
         break;
       case 1:
         tl
-          .to('svg path', {
-            strokeDashoffset: 0,
-          }, '<');
+          .to(gem, {
+            clipPath: 'none',
+          })
+          .to(gem.querySelectorAll(':scope>div'), {
+            clipPath: 'polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)',
+            scaleX: 0.3,
+          }, '<')
+          .to(gem.querySelectorAll(':scope>div.facade'), {
+            clipPath: 'polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)',
+            xPercent: index => index < 17 ? -50 - 30 * (index + 1) : -20 + 30 * (index - 17),
+            rotate: 0,
+            left: '50%',
+          }, '<')
         break;
       case 3:
+        tl
+          .to(gem, {
+            clipPath: 'none',
+            rotate: 0,
+          })
+          .to(gem.querySelectorAll(':scope>div'), {
+            clipPath: 'polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)',
+            scaleX: 0.3,
+          }, '<')
+          .to(gem.querySelectorAll(':scope>div.facade'), {
+            clipPath: 'polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)',
+            xPercent: index => index < 17 ? -50 - 30 * (index + 1) : -20 + 30 * (index - 17),
+            left: '50%',
+            y: index => index < 17 ? 10 + Math.sin(index / wavelength) * amplitude : -40 + Math.sin(index / wavelength) * amplitude,
+
+          }, '<')
+        break;
       case 5:
         // const duplica = gem.cloneNode(true);
         // card.appendChild(duplica);
-        tl.
+        tl
+          .to(gem.querySelector('.square'), {
+            duration: 0.5,
+            ease: 'power3.inOut'
+          })
+          .
           to(gem, {
-            rotation: 360,
-            ease: 'elastic.inOut'
-          });
+            clipPath: 'none',
+          })
+          .to(gem.querySelectorAll(':scope>div'), {
+            clipPath: 'polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)',
+            rotate: 0,
+            top: 0,
+            left: index => index * 80,
+          }, '<');
         break;
       case 7:
-        tl.
-          to(gem, {
-            rotation: 360,
-            duration: 0.5,
-            stagger: 0.05,
-            ease: 'power3.inOut'
-          });
+        tl
+          .to(gem, {
+            maskImage: 'none',
+          })
+          .to(gem.querySelectorAll(':scope>div'), {
+            clipPath: 'polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)',
+            scaleX: 0.3,
+          }, '<')
+          .to(gem.querySelectorAll(':scope>div.facade'), {
+            clipPath: 'polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)',
+            xPercent: index => index < 17 ? -50 - 30 * (index + 1) : -20 + 30 * (index - 17),
+            left: '50%',
+            y: index => index < 17 ? 10 + Math.sin(index / wavelength) * amplitude : -40 + Math.sin(index / wavelength) * amplitude,
+
+          }, '<')
         break
       case 8:
         tl.
@@ -496,6 +551,19 @@ cards.forEach((card, index) => {
         break;
     }
 
+    tl
+      .to(card.querySelector('.effect-group'), {
+        opacity: 0
+      }, '<')
+      .to('.overlay', {
+        opacity: 0,
+        scale: 1.05,
+        ease: 'power3.inOut',
+      }, '<')
+      .to('.caption', {
+        text: 'palette',
+      }, '<');
+
     return {
       play: () => tl.play(),
       reverse: () => tl.reverse(),
@@ -504,11 +572,12 @@ cards.forEach((card, index) => {
 
   const { play, reverse } = [0, 1, 3, 5, 7, 8].includes(index) ? animateFactory(facades) : animatefacades(facades);
 
-  gem.addEventListener('mouseenter', () => {
+  gem.addEventListener('click', () => {
     !hoverLock && play();
   })
 
-  gem.addEventListener('mouseleave', () => {
+  gem.addEventListener('pointerleave', () => {
+    console.log('pointer leave', index, hoverLock);
     !hoverLock && reverse();
   })
 
@@ -572,4 +641,4 @@ cards.forEach((card, index) => {
 })
 
 const rootFontSize = getComputedStyle(document.documentElement).fontSize;
-console.log(rootFontSize);
+console.log('rootFontSize', rootFontSize);
