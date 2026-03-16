@@ -8,12 +8,13 @@
     place-items: center;
     clip-path: ellipse(closest-side farthest-side);
     transform: scale(calc(36% * var(--gem-scale)));
-    // border: solid 1px lime;
+    border: var(--border-lime);
 
     .table {
       width: 20rem;
       height: 28.5rem;
       background: #d986e2;
+      border: var(--border-lime);
       clip-path: polygon(50% 16%,
           72% 30%,
           77% 50.5%,

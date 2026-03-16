@@ -6,7 +6,7 @@
     display: grid;
     place-items: center;
     transform: scale(calc(28% * var(--gem-scale)));
-    // border: solid 1px lime;
+    border: var(--border-lime);
 
     .facade {
       position: absolute;

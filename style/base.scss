@@ -6,6 +6,9 @@
   --color-golden-shadow: #FEE9A0;
   --gem-scale: 1;
   --frame-size: 26%;
+  --border-lime: solid 1px lime;
+  --border-red: solid 1px red;
+  --border-navy: solid 1px navy;
 }
 
 @media (max-width: 1200px) {
@@ -25,7 +28,7 @@
 @media (max-width: 768px) {
   :root {
     font-size: 9px;
-    --gem-scale: 0.55;
+    --gem-scale: 1;
     --frame-size: 38%;
   }
 }

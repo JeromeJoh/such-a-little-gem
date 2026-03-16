@@ -6,6 +6,7 @@
     border-radius: 100% 2px 64% 36% / 64% 2px 100% 36%;
     overflow: hidden;
     transform: rotate(-45deg) scale(calc(36% * var(--gem-scale)));
+    border: var(--border-lime);
 
     .content-wrapper {
       position: relative;
@@ -30,6 +31,7 @@
           34% 86%,
           30% 68%,
           36% 36%);
+      border: var(--border-lime);
 
       &-effect {
         position: absolute;

@@ -5,7 +5,7 @@
     height: 20rem;
     display: grid;
     place-items: center;
-    // border: solid 1px lime;
+    border: var(--border-lime);
     transform: scale(calc(36% * var(--gem-scale)));
 
     .square {
@@ -14,11 +14,14 @@
       height: 12rem;
       background-color: #160c10;
       transform: rotate(45deg);
+      border: var(--border-lime);
 
-      &-effect {
+      &:after {
+        content: '';
         position: absolute;
         top: 0;
         left: 0;
+        z-index: 1;
         width: inherit;
         height: inherit;
         background-color: white;

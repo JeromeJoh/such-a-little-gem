@@ -6,6 +6,7 @@
     display: grid;
     place-items: center;
     transform: scale(calc(40% * var(--gem-scale)));
+    border: var(--border-lime);
 
     .table {
       position: relative;
@@ -22,6 +23,7 @@
           8% 75%,
           8% 25%,
           50% 2%);
+      border: var(--border-lime);
     }
 
     .table-effect {
