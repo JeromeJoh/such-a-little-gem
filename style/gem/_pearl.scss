@@ -13,8 +13,7 @@
     transform: scale(calc(36% * var(--gem-scale)));
     border: var(--border-lime);
 
-    &::before {
-      content: '';
+    .blush-t {
       position: absolute;
       top: 1rem;
       left: 4rem;
@@ -27,8 +26,7 @@
       animation: breath 2s alternate infinite 0s;
     }
 
-    &::after {
-      content: '';
+    .blush-b {
       position: absolute;
       bottom: 3rem;
       left: 5rem;

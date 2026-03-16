@@ -8,6 +8,10 @@ import { TextPlugin } from 'gsap/all';
 import frame from './assets/images/frame.svg';
 import ellipse from './assets/images/ellipse.svg';
 
+gsap.config({
+  nullTargetWarn: false
+})
+
 const THEME_CONGFIG = {
   golden: {
     color: '#efd162',
@@ -149,10 +153,18 @@ const sprinkle = (() => {
   return () => fn();
 })();
 
+const currentIndex = 8;
+
+const removeOutline = () => {
+  document.documentElement.style.setProperty('--border-lime', 'none');
+}
+
 const init = async () => {
+  // removeOutline();
   resize();
   bindEvents();
   await preloadMasks();
+
 
 
   function moveToStart(container, n) {
@@ -163,7 +175,7 @@ const init = async () => {
     container.insertBefore(target, children[0])
   }
 
-  moveToStart(document.querySelector('.container'), 8)
+  moveToStart(document.querySelector('.container'), currentIndex)
 
   const originalElement = document.querySelector('.overlay');
 
@@ -493,6 +505,21 @@ cards.forEach((card, index) => {
             left: '50%',
           }, '<')
         break;
+      case 2:
+        tl
+          .to(gem.querySelectorAll(':scope>.table'), {
+            clipPath: 'polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)',
+            scale: 0.5,
+          }, '<')
+          .to(gem.querySelectorAll(':scope>div.triangle'), {
+            clipPath: 'polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)',
+            xPercent: index => index < 9 ? -50 - 50 * (index + 1) : -20 + 50 * (index - 9),
+            rotate: 0,
+            left: '50%',
+            top: 0,
+            scale: 0.5,
+          }, '<')
+        break;
       case 3:
         tl
           .to(gem, {
@@ -511,24 +538,52 @@ cards.forEach((card, index) => {
 
           }, '<')
         break;
-      case 5:
-        // const duplica = gem.cloneNode(true);
-        // card.appendChild(duplica);
+      case 4:
         tl
-          .to(gem.querySelector('.square'), {
-            duration: 0.5,
-            ease: 'power3.inOut'
-          })
-          .
-          to(gem, {
+          .to(gem, {
             clipPath: 'none',
+            rotate: 0,
+          })
+          .to(gem.querySelectorAll(':scope>div.facade'), {
+            clipPath: 'polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)',
+            xPercent: index => index < 14 ? -50 - 30 * (index + 1) : -50 + 30 * (index - 14),
+            left: '50%',
+            scaleX: 0.3,
+            y: index => index < 17 ? 10 + Math.sin(index / wavelength) * amplitude : -40 + Math.sin(index / wavelength) * amplitude,
+
+          }, '<')
+        break;
+      case 5:
+        tl
+          .to(gem, {
+            overflow: 'visible',
+            borderRadius: 0,
           })
           .to(gem.querySelectorAll(':scope>div'), {
+            borderRadius: 0,
+            xPercent: index => {
+              if (index === 2) return -200;
+              if (index === 3) return 200;
+              return 0;
+            },
+            top: index => {
+              if (index === 0) return '-60%';
+              if (index === 1) return '120%';
+              return 0;
+            },
+            filter: 'blur(0px)',
+          }, '<')
+        break;
+      case 6:
+        tl
+          .to(gem.querySelectorAll(':scope>div.facade'), {
             clipPath: 'polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)',
-            rotate: 0,
-            top: 0,
-            left: index => index * 80,
-          }, '<');
+            xPercent: index => index < 14 ? -50 - 30 * (index + 1) : -50 + 30 * (index - 14),
+            left: '50%',
+            scaleX: 0.3,
+            y: index => index < 17 ? 10 + Math.sin(index / wavelength) * amplitude : -40 + Math.sin(index / wavelength) * amplitude,
+
+          }, '<')
         break;
       case 7:
         tl
@@ -549,15 +604,23 @@ cards.forEach((card, index) => {
         break
       case 8:
         tl
-          // .to(gem, {
-          //   borderRadius: 0,
-          //   rotation: 0,
-          // })
-          .to(facades, {
-            rotation: 360,
-            duration: 0.5,
-            ease: 'power3.inOut'
-          });
+          .to(gem, {
+            borderRadius: 0,
+            rotation: 0,
+            overflow: 'visible',
+          })
+          .to(gem.querySelectorAll('.table'), {
+            clipPath: 'polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)',
+            scaleX: 0.3,
+          }, '<')
+          .to(gem.querySelectorAll('.facade'), {
+            clipPath: 'polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)',
+            scaleX: 0.3,
+            xPercent: index => index < 17 ? -50 - 30 * (index + 1) : -20 + 30 * (index - 17),
+            left: '50%',
+            y: index => index < 17 ? 10 + Math.sin(index / wavelength) * amplitude : -40 + Math.sin(index / wavelength) * amplitude,
+
+          }, '<')
         break;
       default:
         break;
@@ -582,7 +645,7 @@ cards.forEach((card, index) => {
     };
   }
 
-  const { play, reverse } = [0, 1, 3, 5, 7, 8].includes(index) ? animateFactory(facades) : animatefacades(facades);
+  const { play, reverse } = [0, 1, 2, 3, 4, 6, 5, 7, 8].includes(index) ? animateFactory(facades) : animatefacades(facades);
 
   gem.addEventListener('click', () => {
     !hoverLock && play();
