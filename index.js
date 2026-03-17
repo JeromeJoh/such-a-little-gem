@@ -8,20 +8,11 @@ import { TextPlugin } from 'gsap/all';
 import frame from './assets/images/frame.svg';
 import ellipse from './assets/images/ellipse.svg';
 
+let FRAME_SIZE = 1;
+
 gsap.config({
   nullTargetWarn: false
 })
-
-const THEME_CONGFIG = {
-  golden: {
-    color: '#efd162',
-    gradient: 'linear-gradient(to left, transparent 0%, #efd162 80%, transparent 80%)'
-  },
-  silver: {
-    color: '#ffffff',
-    gradient: 'linear-gradient(to left, transparent 0%, #fff 80%, transparent 80%)'
-  },
-}
 
 // 在 gsap 设置 overlay 时乘上 frame-size
 
@@ -36,6 +27,17 @@ const gemList = [
   'spinel',
   'sapphire',
 ]
+
+const THEME_CONGFIG = {
+  golden: {
+    color: '#efd162',
+    gradient: 'linear-gradient(to left, transparent 0%, #efd162 80%, transparent 80%)'
+  },
+  silver: {
+    color: '#ffffff',
+    gradient: 'linear-gradient(to left, transparent 0%, #fff 80%, transparent 80%)'
+  },
+}
 
 const FRAME_CONFIG = [
   {
@@ -153,7 +155,7 @@ const sprinkle = (() => {
   return () => fn();
 })();
 
-const currentIndex = 8;
+const startIndex = 0;
 
 const removeOutline = () => {
   document.documentElement.style.setProperty('--border-lime', 'none');
@@ -175,7 +177,7 @@ const init = async () => {
     container.insertBefore(target, children[0])
   }
 
-  moveToStart(document.querySelector('.container'), currentIndex)
+  moveToStart(document.querySelector('.container'), startIndex)
 
   const originalElement = document.querySelector('.overlay');
 
@@ -224,6 +226,8 @@ const bindEvents = () => {
 }
 
 const resize = () => {
+  FRAME_SIZE = getComputedStyle(document.documentElement).getPropertyValue('--frame-size');
+  console.log('resize event frame size', FRAME_SIZE);
   decorLines.forEach((line, index) => {
     // 根据实际需要调整 width 的计算方式
     const width = Math.sqrt(Math.pow(window.innerWidth, 2) / 4 + Math.pow(window.innerHeight, 2) / 4);
@@ -282,6 +286,103 @@ ScrollTrigger.create({
 
 
 init();
+
+function layoutCircle(container, dot, radius, dotSize) {
+
+  if (!dotSize) {
+    const rect = dot.getBoundingClientRect()
+    dotSize = rect.width
+  }
+
+  const circumference = 2 * Math.PI * radius
+  const count = Math.round(circumference / dotSize)
+
+  const angleStep = Math.PI * 2 / count
+
+  const elements = []
+
+  for (let i = 0; i < count; i++) {
+
+    const el = dot.cloneNode(true)
+
+    el.style.position = "absolute"
+    el.style.left = "50%"
+    el.style.top = "50%"
+    gsap.set(el, {
+      scale: 0.115,
+      rotate: 0.9 * i * angleStep + 'rad',
+    })
+
+    container.appendChild(el)
+    elements.push(el)
+  }
+
+  dot.remove()
+
+  elements.forEach((el, i) => {
+
+    const angle = i * angleStep
+
+    gsap.set(el, {
+      x: Math.cos(angle) * radius,
+      y: Math.sin(angle) * radius,
+      xPercent: -50,
+      yPercent: -50,
+    })
+
+  })
+}
+const pearlContainer = document.querySelector('.pearl');
+// layoutCircle(pearlContainer, pearlContainer.querySelector('#gem'), 100, 20);
+
+
+function layoutGrid(container, dot, rows, columns, gap = 10) {
+  // 获取 dot 元素的尺寸
+  const rect = dot.getBoundingClientRect()
+  const dotWidth = rect.width
+  const dotHeight = rect.height
+
+  // 确保网格容器的宽高足够放下所有元素
+  const containerWidth = columns * (dotWidth + gap) - gap
+  const containerHeight = rows * (dotHeight + gap) - gap
+  // container.style.position = 'relative'
+  // container.style.width = containerWidth + 'px'
+  // container.style.height = containerHeight + 'px'
+
+  // 存储所有创建的元素
+  const elements = []
+
+  // 生成所有的点并添加到 container
+  for (let i = 0; i < rows * columns; i++) {
+    const el = dot.cloneNode(true)
+    el.style.position = 'absolute'
+    container.appendChild(el)
+    elements.push(el)
+  }
+
+  // 删除原始 dot 元素
+  dot.remove()
+
+  // 将每个元素放到正确的位置
+  elements.forEach((el, i) => {
+    // 计算当前元素的位置
+    const row = Math.floor(i / columns)
+    const column = i % columns
+    const x = column * (dotWidth + gap)
+    const y = row * (dotHeight + gap)
+
+    // gsap.set(el, {
+    //   x: x,
+    //   y: y,
+    //   xPercent: -50,
+    //   yPercent: -50
+    // })
+  })
+}
+
+const obsidianContainer = document.querySelector('.obsidian');
+// layoutGrid(obsidianContainer, obsidianContainer.querySelector('#gem'), 10, 10);
+
 
 
 document.fonts.ready.then(() => {
@@ -416,8 +517,6 @@ morphShape("#shape", octagonPath, {
   duration: 2,
 })
 
-// TODO: Responsive
-
 const overlay = document.querySelector('.overlay');
 
 cards.forEach((card, index) => {
@@ -503,21 +602,24 @@ cards.forEach((card, index) => {
             xPercent: index => index < 17 ? -50 - 30 * (index + 1) : -20 + 30 * (index - 17),
             rotate: 0,
             left: '50%',
+            stagger: 0.01,
           }, '<')
         break;
       case 2:
+        const scale = 0.6
         tl
           .to(gem.querySelectorAll(':scope>.table'), {
             clipPath: 'polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)',
-            scale: 0.5,
+            scale: scale * 0.8,
           }, '<')
           .to(gem.querySelectorAll(':scope>div.triangle'), {
             clipPath: 'polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)',
-            xPercent: index => index < 9 ? -50 - 50 * (index + 1) : -20 + 50 * (index - 9),
+            xPercent: index => index < 9 ? -50 - 80 * (index + 1) : 30 + 80 * (index - 9),
             rotate: 0,
             left: '50%',
-            top: 0,
-            scale: 0.5,
+            top: '50%',
+            yPercent: -50,
+            scale: scale,
           }, '<')
         break;
       case 3:
@@ -546,10 +648,10 @@ cards.forEach((card, index) => {
           })
           .to(gem.querySelectorAll(':scope>div.facade'), {
             clipPath: 'polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)',
-            xPercent: index => index < 14 ? -50 - 30 * (index + 1) : -50 + 30 * (index - 14),
+            xPercent: index => index < 14 ? -50 - 30 * index : -50 + 30 * (index - 14),
             left: '50%',
             scaleX: 0.3,
-            y: index => index < 17 ? 10 + Math.sin(index / wavelength) * amplitude : -40 + Math.sin(index / wavelength) * amplitude,
+            // y: index => index < 17 ? 20 + Math.sin(index / wavelength) * amplitude : -40 + Math.sin(index / wavelength) * amplitude,
 
           }, '<')
         break;
@@ -557,10 +659,10 @@ cards.forEach((card, index) => {
         tl
           .to(gem, {
             overflow: 'visible',
-            borderRadius: 0,
+            borderRadius: 4,
           })
           .to(gem.querySelectorAll(':scope>div'), {
-            borderRadius: 0,
+            borderRadius: 4,
             xPercent: index => {
               if (index === 2) return -200;
               if (index === 3) return 200;
@@ -576,13 +678,19 @@ cards.forEach((card, index) => {
         break;
       case 6:
         tl
+          .to(gem.querySelectorAll(':scope>.table-effect'), {
+            y: '120%',
+            scale: 0.5,
+          })
+          .to(gem.querySelectorAll(':scope>.table'), {
+            y: '-150%',
+            scale: 0.8,
+          }, '<')
           .to(gem.querySelectorAll(':scope>div.facade'), {
             clipPath: 'polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)',
-            xPercent: index => index < 14 ? -50 - 30 * (index + 1) : -50 + 30 * (index - 14),
+            xPercent: index => index < 9 ? -20 - 30 * (index + 1) : -20 + 30 * (index - 9),
             left: '50%',
             scaleX: 0.3,
-            y: index => index < 17 ? 10 + Math.sin(index / wavelength) * amplitude : -40 + Math.sin(index / wavelength) * amplitude,
-
           }, '<')
         break;
       case 7:
@@ -606,19 +714,20 @@ cards.forEach((card, index) => {
         tl
           .to(gem, {
             borderRadius: 0,
-            rotation: 0,
+            // rotation: 0,
             overflow: 'visible',
           })
           .to(gem.querySelectorAll('.table'), {
             clipPath: 'polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)',
             scaleX: 0.3,
+            scaleY: 1.4,
           }, '<')
           .to(gem.querySelectorAll('.facade'), {
             clipPath: 'polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)',
             scaleX: 0.3,
-            xPercent: index => index < 17 ? -50 - 30 * (index + 1) : -20 + 30 * (index - 17),
+            xPercent: index => index < 15 ? -50 - 30 * (index + 1) : -50 + 30 * (index - 14),
             left: '50%',
-            y: index => index < 17 ? 10 + Math.sin(index / wavelength) * amplitude : -40 + Math.sin(index / wavelength) * amplitude,
+            y: index => index < 15 ? 10 + Math.sin(index / wavelength) * amplitude : -80 + Math.sin(index / wavelength) * amplitude,
 
           }, '<')
         break;
@@ -652,7 +761,6 @@ cards.forEach((card, index) => {
   })
 
   gem.addEventListener('pointerleave', () => {
-    console.log('pointer leave', index, hoverLock);
     !hoverLock && reverse();
   })
 

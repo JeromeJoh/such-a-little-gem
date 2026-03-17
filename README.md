@@ -16,6 +16,9 @@
 - [ ] 修改 readme
 - [ ] 金属光泽高亮修改
 - [ ] 双击 palette 动画，hover 的动画
+- [ ] palette 如何定制化布局，色带的组合形式
+- [ ] 双击 palette 动画，hover 的动画
+- [ ] 双击 palette 动画，hover 的动画
 
 ---
 

@@ -23,7 +23,6 @@
           8% 75%,
           8% 25%,
           50% 2%);
-      border: var(--border-lime);
     }
 
     .table-effect {
@@ -34,6 +33,7 @@
       clip-path: polygon(50% 100%, 96% 23%, 4% 23%);
       background-color: #fff;
       z-index: 30;
+      opacity: 0.3;
       animation: 2s linear 2s infinite glisten;
     }
 
