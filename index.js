@@ -167,6 +167,12 @@ const init = async () => {
   bindEvents();
   await preloadMasks();
 
+  // 初始化 gem 阵列（preloadMasks 后 layout 已稳定）
+  cards.forEach((card, index) => {
+    if (index > 2) return;
+    const gem = card.querySelector('#gem');
+    if (gem) createGemArray(card, gem);
+  });
 
 
   function moveToStart(container, n) {
@@ -225,6 +231,32 @@ const bindEvents = () => {
   window.addEventListener('resize', resize);
 }
 
+/**
+ * 根据屏幕尺寸在 card 内生成 gem 阵列，完全覆盖屏幕。
+ * 克隆体冻结所有 CSS 动画，避免大量动画节点导致卡顿。
+ * @param {HTMLElement} card
+ * @param {HTMLElement} gem
+ */
+function createGemArray(card, gem) {
+
+  const grid = card.querySelector('.background');
+  if (!grid) return;
+
+  const fragment = document.createDocumentFragment();
+
+  for (let i = 0; i < 54; i++) {
+    const div = document.createElement('div');
+    const clone = gem.cloneNode(true);
+    clone.style.pointerEvents = 'none';
+    clone.id = 'cloneGem';
+    div.appendChild(clone);
+    fragment.appendChild(div);
+  }
+
+  grid.appendChild(fragment);
+  card.querySelector('.stage').appendChild(grid);
+}
+
 const resize = () => {
   FRAME_SIZE = getComputedStyle(document.documentElement).getPropertyValue('--frame-size');
   console.log('resize event frame size', FRAME_SIZE);
@@ -251,6 +283,12 @@ const resize = () => {
 
   // 刷新 ScrollTrigger
   ScrollTrigger.refresh();
+
+  // resize 后重建 gem 阵列
+  cards.forEach(card => {
+    const gem = card.querySelector('#gem');
+    if (gem && gem.getBoundingClientRect().width > 0) createGemArray(card, gem);
+  });
 }
 
 ScrollTrigger.create({

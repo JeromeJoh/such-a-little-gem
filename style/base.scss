@@ -71,7 +71,6 @@ body {
   overflow-x: hidden;
   color: #fff;
   font-family: 'Roboto Serif';
-  border: solid 2px rebeccapurple;
   box-sizing: border-box;
 }
 
@@ -89,7 +88,6 @@ header {
     font-family: 'Cinzel Decorative';
     font-size: 1rem;
     font-weight: bolder;
-    // border: 1px solid lime;
 
     &:nth-child(1) {
       top: var(--common-padding);
@@ -147,7 +145,6 @@ header {
       left: 50%;
       top: 50%;
       transform: translate(-50%, -50%);
-      // border: solid 1px yellow;
     }
 
     .star {
@@ -158,7 +155,6 @@ header {
       background-position: center;
       background-size: cover;
       background-repeat: no-repeat;
-      // border: solid 1px greenyellow;
       z-index: 10;
     }
 
@@ -236,11 +232,6 @@ main {
   }
 
   .wrapper {
-    border: solid 1px red;
-    // overflow-x: hidden;
-    // position: sticky;
-    // top: 0;
-
     .track {
       position: sticky;
       top: 0;
@@ -289,6 +280,7 @@ main {
 }
 
 section {
+  position: relative;
   width: 100dvw;
   height: 100dvh;
   display: grid;
@@ -309,7 +301,6 @@ section {
   transition: all 1s;
   cursor: pointer;
   overflow: hidden;
-  border: solid 1px lime;
 }
 
 [class^="caption"] {
@@ -325,7 +316,6 @@ section {
   letter-spacing: 4px;
   margin: 2rem;
   text-shadow: 0 0 5px #fff;
-  // border: solid 1px lime;
 }
 
 @media (max-width: 768px) {
@@ -477,11 +467,43 @@ svg {
   left: 0;
   width: 100%;
   height: 30rem;
-  // border: solid 1px lime;
 
   path {
     stroke: var(--theme-color);
     stroke-dasharray: 30;
     stroke-dashoffset: 30;
+  }
+}
+
+section .stage {
+  position: absolute;
+  inset: 0;
+  // overflow: hidden;
+  display: grid;
+  place-items: center;
+
+  .background {
+    border: var(--border-lime);
+    width: calc(120vw - var(--scrollbar-width));
+    height: 120vh;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, 80px);
+    grid-auto-rows: 80px;
+    justify-content: center;
+    /* 可选：整体居中 */
+    align-content: center;
+    /* 可选：整体居中 */
+
+    &>div {
+      position: relative;
+      border: var(--border-red);
+
+      #cloneGem {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%) scale(calc(36% * var(--gem-scale)));
+      }
+    }
   }
 }
