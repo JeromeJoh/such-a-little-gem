@@ -756,11 +756,12 @@ cards.forEach((card, index) => {
 
   const { play, reverse } = [0, 1, 2, 3, 4, 6, 5, 7, 8].includes(index) ? animateFactory(facades) : animatefacades(facades);
 
-  gem.addEventListener('click', () => {
+  gem.addEventListener('click', (e) => {
+    e.stopPropagation();
     !hoverLock && play();
   })
 
-  gem.addEventListener('pointerleave', () => {
+  document.addEventListener('click', () => {
     !hoverLock && reverse();
   })
 
