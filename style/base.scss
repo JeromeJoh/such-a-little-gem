@@ -81,6 +81,7 @@ header {
   color: white;
   user-select: none;
   pointer-events: none;
+  z-index: 2;
 
   h1 {
     position: absolute;
@@ -267,6 +268,7 @@ main {
     mask-position: center;
     mask-size: var(--frame-size);
     visibility: hidden;
+    display: none;
 
     &-sub {
       background: linear-gradient(45deg,
@@ -490,20 +492,13 @@ section .stage {
     grid-template-columns: repeat(auto-fill, 80px);
     grid-auto-rows: 80px;
     justify-content: center;
-    /* 可选：整体居中 */
     align-content: center;
-    /* 可选：整体居中 */
+    background-size: 6rem;
+    opacity: 0;
 
     &>div {
       position: relative;
       border: var(--border-red);
-
-      #cloneGem {
-        position: absolute;
-        left: 50%;
-        top: 50%;
-        transform: translate(-50%, -50%) scale(calc(36% * var(--gem-scale)));
-      }
     }
   }
 }

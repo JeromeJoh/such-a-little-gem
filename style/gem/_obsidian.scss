@@ -1,7 +1,10 @@
 .obsidian {
+  .background {
+    background-image: url(/assets/images/obsidian.png);
+    background-size: 6rem;
+  }
 
-  #gem,
-  #cloneGem {
+  #gem {
     position: relative;
     width: 20rem;
     height: 20rem;

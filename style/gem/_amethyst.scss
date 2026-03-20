@@ -1,7 +1,10 @@
 .amethyst {
+  .background {
+    background-image: url(/assets/images/amethyst.png);
+    background-size: 6rem;
+  }
 
-  #gem,
-  #cloneGem {
+  #gem {
     position: relative;
     bottom: 3%;
     width: 20rem;

@@ -8,6 +8,233 @@ import { TextPlugin } from 'gsap/all';
 import frame from './assets/images/frame.svg';
 import ellipse from './assets/images/ellipse.svg';
 
+
+class ParallaxBG {
+  static instances = []
+  static running = false
+
+  /* ========= 工具：统一解析 ========= */
+  static normalizeElements(input) {
+    if (!input) return []
+
+    if (typeof input === 'string') {
+      return Array.from(document.querySelectorAll(input))
+    }
+
+    if (input instanceof Element) {
+      return [input]
+    }
+
+    if (
+      input instanceof NodeList ||
+      input instanceof HTMLCollection
+    ) {
+      return Array.from(input)
+    }
+
+    if (Array.isArray(input)) {
+      return input.flatMap(item =>
+        ParallaxBG.normalizeElements(item)
+      )
+    }
+
+    return []
+  }
+
+  /* ========= 构造 ========= */
+  constructor(options = {}) {
+    const els = ParallaxBG.normalizeElements(options.el)
+
+    this.el = els[0]
+
+    if (!this.el) {
+      console.warn('ParallaxBG: invalid el', options.el)
+      return
+    }
+
+    this.revealTargets = ParallaxBG.normalizeElements(
+      options.reveal?.targets
+    )
+
+    /* 参数 */
+    this.depth = options.depth ?? 0.3
+    this.ease = options.ease ?? 0.08
+    this.driftStrength = options.driftStrength ?? 10
+    this.noiseStrength = options.noiseStrength ?? 2
+    this.nonLinear = options.nonLinear ?? 0.85
+    this.returnForce = options.returnForce ?? 0.02
+
+    /* 状态 */
+    this.isDown = false
+    this.startX = 0
+    this.startY = 0
+
+    this.targetX = 0
+    this.targetY = 0
+
+    this.currentX = 0
+    this.currentY = 0
+
+    this.time = Math.random() * 100
+
+    this.tl = null
+
+    this.init()
+  }
+
+  /* ========= 初始化 ========= */
+  init() {
+    this.el.style.userSelect = 'none'
+    this.el.style.cursor = 'grab'
+
+    this.bindEvents()
+
+    ParallaxBG.instances.push(this)
+    ParallaxBG.start()
+  }
+
+  /* ========= 事件 ========= */
+  bindEvents() {
+    this.el.addEventListener('pointerdown', (e) => {
+      this.isDown = true
+
+      this.startX = e.clientX - this.targetX
+      this.startY = e.clientY - this.targetY
+
+      this.show()
+
+      this.el.setPointerCapture(e.pointerId)
+    })
+
+    this.el.addEventListener('pointermove', (e) => {
+      if (!this.isDown) return
+
+      const bounds = this.getBounds()
+
+      this.targetX = this.clamp(
+        e.clientX - this.startX,
+        bounds.minX,
+        bounds.maxX
+      )
+
+      this.targetY = this.clamp(
+        e.clientY - this.startY,
+        bounds.minY,
+        bounds.maxY
+      )
+
+      /* 拖拽时跟手 */
+      this.currentX = this.targetX
+      this.currentY = this.targetY
+    })
+
+    window.addEventListener('pointerup', () => {
+      if (!this.isDown) return
+
+      this.isDown = false
+      this.hide()
+    })
+  }
+
+  /* ========= GSAP ========= */
+  show() {
+    this.tl?.kill()
+
+    this.tl = gsap.timeline()
+      .to(this.revealTargets, { opacity: 0 })
+      .to(this.el, { opacity: 1 }, '<')
+  }
+
+  hide() {
+    this.tl?.kill()
+
+    this.tl = gsap.timeline()
+      .to(this.revealTargets, { opacity: 1 })
+      .to(this.el, { opacity: 0 }, '<')
+  }
+
+  /* ========= 工具 ========= */
+  clamp(v, min, max) {
+    return Math.max(min, Math.min(max, v))
+  }
+
+  getBounds() {
+    const maxX = window.innerWidth * 0.2
+    const maxY = window.innerHeight * 0.2
+
+    return {
+      minX: -maxX,
+      maxX: maxX,
+      minY: -maxY,
+      maxY: maxY
+    }
+  }
+
+  /* ========= 更新 ========= */
+  update() {
+    this.time += 0.01
+
+    /* 惯性 */
+    this.currentX += (this.targetX - this.currentX) * this.ease
+    this.currentY += (this.targetY - this.currentY) * this.ease
+
+    /* 回弹 */
+    if (!this.isDown) {
+      this.targetX *= (1 - this.returnForce)
+      this.targetY *= (1 - this.returnForce)
+    }
+
+    /* 漂移 */
+    const driftFactor = this.isDown ? 0 : 1
+
+    const driftX =
+      Math.sin(this.time) * this.driftStrength * driftFactor
+
+    const driftY =
+      Math.cos(this.time * 0.8) * this.driftStrength * driftFactor
+
+    /* 连续 noise（不抖） */
+    const noiseX =
+      Math.sin(this.time * 3.3) * this.noiseStrength
+
+    const noiseY =
+      Math.cos(this.time * 2.7) * this.noiseStrength
+
+    /* 非线性 */
+    const finalX =
+      Math.sign(this.currentX) *
+      Math.pow(Math.abs(this.currentX), this.nonLinear)
+
+    const finalY =
+      Math.sign(this.currentY) *
+      Math.pow(Math.abs(this.currentY), this.nonLinear)
+
+    /* depth 动态 */
+    const dynamicDepth = this.isDown
+      ? this.depth * 1.2
+      : this.depth
+
+    const x = (finalX + driftX + noiseX) * dynamicDepth
+    const y = (finalY + driftY + noiseY) * dynamicDepth
+
+    this.el.style.backgroundPosition = x + 'px ' + y + 'px'
+  }
+
+  /* ========= RAF ========= */
+  static start() {
+    if (this.running) return
+    this.running = true
+
+    const loop = () => {
+      this.instances.forEach(inst => inst.update())
+      requestAnimationFrame(loop)
+    }
+
+    loop()
+  }
+}
+
+
 let FRAME_SIZE = 1;
 
 gsap.config({
@@ -162,18 +389,10 @@ const removeOutline = () => {
 }
 
 const init = async () => {
-  // removeOutline();
+  removeOutline();
   resize();
   bindEvents();
   await preloadMasks();
-
-  // 初始化 gem 阵列（preloadMasks 后 layout 已稳定）
-  cards.forEach((card, index) => {
-    if (index > 2) return;
-    const gem = card.querySelector('#gem');
-    if (gem) createGemArray(card, gem);
-  });
-
 
   function moveToStart(container, n) {
     const children = container.children
@@ -231,32 +450,6 @@ const bindEvents = () => {
   window.addEventListener('resize', resize);
 }
 
-/**
- * 根据屏幕尺寸在 card 内生成 gem 阵列，完全覆盖屏幕。
- * 克隆体冻结所有 CSS 动画，避免大量动画节点导致卡顿。
- * @param {HTMLElement} card
- * @param {HTMLElement} gem
- */
-function createGemArray(card, gem) {
-
-  const grid = card.querySelector('.background');
-  if (!grid) return;
-
-  const fragment = document.createDocumentFragment();
-
-  for (let i = 0; i < 54; i++) {
-    const div = document.createElement('div');
-    const clone = gem.cloneNode(true);
-    clone.style.pointerEvents = 'none';
-    clone.id = 'cloneGem';
-    div.appendChild(clone);
-    fragment.appendChild(div);
-  }
-
-  grid.appendChild(fragment);
-  card.querySelector('.stage').appendChild(grid);
-}
-
 const resize = () => {
   FRAME_SIZE = getComputedStyle(document.documentElement).getPropertyValue('--frame-size');
   console.log('resize event frame size', FRAME_SIZE);
@@ -283,12 +476,6 @@ const resize = () => {
 
   // 刷新 ScrollTrigger
   ScrollTrigger.refresh();
-
-  // resize 后重建 gem 阵列
-  cards.forEach(card => {
-    const gem = card.querySelector('#gem');
-    if (gem && gem.getBoundingClientRect().width > 0) createGemArray(card, gem);
-  });
 }
 
 ScrollTrigger.create({
@@ -559,10 +746,18 @@ const overlay = document.querySelector('.overlay');
 
 cards.forEach((card, index) => {
   const gem = card.querySelector('#gem');
+  const bg = card.querySelector('.background');
   const effects = card.querySelectorAll('.effect-group');
   let facades = card.querySelectorAll('article>div');
   if (index === 8) facades = card.querySelectorAll('article>.content-wrapper>div');
   console.log('GEM', index, facades.length, gemList[index]);
+
+  new ParallaxBG({
+    el: bg,
+    reveal: {
+      targets: [gem, '.caption', '.overlay']
+    }
+  })
 
   const animatefacades = (facades) => {
     const res = Array.from(facades).map((facade) => {
@@ -864,3 +1059,120 @@ cards.forEach((card, index) => {
 
 const rootFontSize = getComputedStyle(document.documentElement).fontSize;
 console.log('rootFontSize', rootFontSize);
+
+// const bg = document.querySelector('.background');
+// const gem = document.querySelector('.obsidian #gem');
+
+
+// /* ====== 交互参数 ====== */
+// let isDown = false;
+// let startX = 0;
+// let startY = 0;
+
+// let targetX = 0;
+// let targetY = 0;
+
+// let currentX = 0;
+// let currentY = 0;
+
+// const depth = 0.3;
+// const ease = 0.08;
+
+// const driftStrength = 10;
+// const noiseStrength = 2;
+// const nonLinear = 0.85;
+// const returnForce = 0.02;
+
+// /* ====== 工具函数 ====== */
+// function clamp(v, min, max) {
+//   return Math.max(min, Math.min(max, v));
+// }
+
+// function getBounds() {
+//   const maxX = window.innerWidth * 0.2;
+//   const maxY = window.innerHeight * 0.2;
+
+//   return {
+//     minX: -maxX,
+//     maxX: maxX,
+//     minY: -maxY,
+//     maxY: maxY
+//   };
+// }
+
+// /* ====== pointer 控制 ====== */
+// bg.addEventListener('pointerdown', (e) => {
+//   gsap.timeline({})
+//     .to([gem, '.caption', '.overlay'], {
+//       opacity: 0,
+//     })
+//     .to(bg, {
+//       opacity: 1,
+//     }, '<');
+
+//   isDown = true;
+//   startX = e.clientX - targetX;
+//   startY = e.clientY - targetY;
+
+//   bg.setPointerCapture(e.pointerId);
+// });
+
+// bg.addEventListener('pointermove', (e) => {
+//   if (!isDown) return;
+
+//   const bounds = getBounds();
+
+//   targetX = clamp(e.clientX - startX, bounds.minX, bounds.maxX);
+//   targetY = clamp(e.clientY - startY, bounds.minY, bounds.maxY);
+// });
+
+// bg.addEventListener('pointerup', () => {
+//   isDown = false;
+//   gsap.timeline({})
+//     .to([gem, '.caption', '.overlay'], {
+//       opacity: 1,
+//     })
+//     .to(bg, {
+//       opacity: 0,
+//     }, '<');
+// });
+
+// /* ====== 动画循环 ====== */
+// let time = 0;
+
+// function animate() {
+//   time += 0.01;
+
+//   /* 惯性 */
+//   currentX += (targetX - currentX) * ease;
+//   currentY += (targetY - currentY) * ease;
+
+//   /* 回弹 */
+//   if (!isDown) {
+//     targetX *= (1 - returnForce);
+//     targetY *= (1 - returnForce);
+//   }
+
+//   /* 漂移（拖拽时关闭） */
+//   const driftFactor = isDown ? 0 : 1;
+//   const driftX = Math.sin(time) * driftStrength * driftFactor;
+//   const driftY = Math.cos(time * 0.8) * driftStrength * driftFactor;
+
+//   /* noise */
+//   const noiseX = (Math.random() - 0.5) * noiseStrength;
+//   const noiseY = (Math.random() - 0.5) * noiseStrength;
+
+//   /* 非线性 */
+//   const finalX = Math.sign(currentX) * Math.pow(Math.abs(currentX), nonLinear);
+//   const finalY = Math.sign(currentY) * Math.pow(Math.abs(currentY), nonLinear);
+
+//   /* 应用 */
+//   bg.style.backgroundPosition = `
+//     ${(finalX + driftX + noiseX) * depth}px
+//     ${(finalY + driftY + noiseY) * depth}px
+//   `;
+
+//   requestAnimationFrame(animate);
+// }
+
+// animate();
