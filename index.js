@@ -10,13 +10,11 @@ import ellipse from './assets/images/ellipse.svg';
 import ParallaxBG from './parallaxBg';
 
 
-
-
 let FRAME_SIZE = 1;
 
-gsap.config({
-  nullTargetWarn: false
-})
+// gsap.config({
+//   nullTargetWarn: false
+// })
 
 // 在 gsap 设置 overlay 时乘上 frame-size
 
@@ -389,6 +387,9 @@ const obsidianContainer = document.querySelector('.obsidian');
 
 document.fonts.ready.then(() => {
   const split = new SplitText('.caption-intro', { type: 'chars' })
+  const [leftTip, rightTip] = Array.from(document.querySelectorAll('header h3'))
+  const leftTipSplit = new SplitText(leftTip, { type: 'chars' })
+  const rightTipSplit = new SplitText(rightTip, { type: 'chars' })
 
   const introTl = gsap.timeline({
     scrollTrigger: {
@@ -427,9 +428,36 @@ document.fonts.ready.then(() => {
       stagger: 0.05,
       ease: 'power3.out',
       onComplete: () => {
-        gsap.set('.caption', { opacity: 1 });
+        gsap.set(['.caption', 'header h3'], { opacity: 1 });
         gsap.set('.caption-intro', { opacity: 0 });
         hoverLock = false;
+
+        const tl = gsap.timeline({
+          ease: 'power3.out',
+        })
+
+        tl
+          .from(leftTipSplit.chars, {
+            duration: 0.3,
+            opacity: 0,
+            y: index => index % 2 === 0 ? 30 : -30,
+            stagger: 0.05,
+            scaleY: 5,
+          })
+          .from(rightTipSplit.chars.reverse(), {
+            duration: 0.3,
+            opacity: 0,
+            y: index => index % 2 === 0 ? 30 : -30,
+            stagger: 0.05,
+            scaleY: 5,
+          })
+          .to([leftTip, rightTip], {
+            // yPercent: index => Boolean(index) ? 100 : -100,
+            opacity: 0,
+            scaleY: 4,
+            duration: 0.6,
+            ease: 'power3.out'
+          }, '+=3');
       }
     }, '<')
 
@@ -834,123 +862,3 @@ cards.forEach((card, index) => {
       text: gemList[index + 1],
     }, '<');
 })
-
-const rootFontSize = getComputedStyle(document.documentElement).fontSize;
-console.log('rootFontSize', rootFontSize);
-
-// const bg = document.querySelector('.background');
-// const gem = document.querySelector('.obsidian #gem');
-
-
-// /* ====== 交互参数 ====== */
-// let isDown = false;
-// let startX = 0;
-// let startY = 0;
-
-// let targetX = 0;
-// let targetY = 0;
-
-// let currentX = 0;
-// let currentY = 0;
-
-// const depth = 0.3;
-// const ease = 0.08;
-
-// const driftStrength = 10;
-// const noiseStrength = 2;
-// const nonLinear = 0.85;
-// const returnForce = 0.02;
-
-// /* ====== 工具函数 ====== */
-// function clamp(v, min, max) {
-//   return Math.max(min, Math.min(max, v));
-// }
-
-// function getBounds() {
-//   const maxX = window.innerWidth * 0.2;
-//   const maxY = window.innerHeight * 0.2;
-
-//   return {
-//     minX: -maxX,
-//     maxX: maxX,
-//     minY: -maxY,
-//     maxY: maxY
-//   };
-// }
-
-// /* ====== pointer 控制 ====== */
-// bg.addEventListener('pointerdown', (e) => {
-//   gsap.timeline({})
-//     .to([gem, '.caption', '.overlay'], {
-//       opacity: 0,
-//     })
-//     .to(bg, {
-//       opacity: 1,
-//     }, '<');
-
-//   isDown = true;
-//   startX = e.clientX - targetX;
-//   startY = e.clientY - targetY;
-
-//   bg.setPointerCapture(e.pointerId);
-// });
-
-// bg.addEventListener('pointermove', (e) => {
-//   if (!isDown) return;
-
-//   const bounds = getBounds();
-
-//   targetX = clamp(e.clientX - startX, bounds.minX, bounds.maxX);
-//   targetY = clamp(e.clientY - startY, bounds.minY, bounds.maxY);
-// });
-
-// bg.addEventListener('pointerup', () => {
-//   isDown = false;
-//   gsap.timeline({})
-//     .to([gem, '.caption', '.overlay'], {
-//       opacity: 1,
-//     })
-//     .to(bg, {
-//       opacity: 0,
-//     }, '<');
-// });
-
-// /* ====== 动画循环 ====== */
-// let time = 0;
-
-// function animate() {
-//   time += 0.01;
-
-//   /* 惯性 */
-//   currentX += (targetX - currentX) * ease;
-//   currentY += (targetY - currentY) * ease;
-
-//   /* 回弹 */
-//   if (!isDown) {
-//     targetX *= (1 - returnForce);
-//     targetY *= (1 - returnForce);
-//   }
-
-//   /* 漂移（拖拽时关闭） */
-//   const driftFactor = isDown ? 0 : 1;
-//   const driftX = Math.sin(time) * driftStrength * driftFactor;
-//   const driftY = Math.cos(time * 0.8) * driftStrength * driftFactor;
-
-//   /* noise */
-//   const noiseX = (Math.random() - 0.5) * noiseStrength;
-//   const noiseY = (Math.random() - 0.5) * noiseStrength;
-
-//   /* 非线性 */
-//   const finalX = Math.sign(currentX) * Math.pow(Math.abs(currentX), nonLinear);
-//   const finalY = Math.sign(currentY) * Math.pow(Math.abs(currentY), nonLinear);
-
-//   /* 应用 */
-//   bg.style.backgroundPosition = `
-//     ${(finalX + driftX + noiseX) * depth}px
-//     ${(finalY + driftY + noiseY) * depth}px
-//   `;
-
-//   requestAnimationFrame(animate);
-// }
-
-// animate();

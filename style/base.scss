@@ -83,6 +83,27 @@ header {
   pointer-events: none;
   z-index: 2;
 
+  h3 {
+    position: absolute;
+    top: 50%;
+    padding: 1rem 2rem;
+    font-family: 'Cinzel Decorative';
+    font-size: 0.8rem;
+    transform: translateY(-50%);
+    text-shadow: 0 0 5px #fff;
+    opacity: 0;
+    letter-spacing: 1px;
+    word-spacing: 50%;
+
+    &.tip-1 {
+      left: var(--common-padding);
+    }
+
+    &.tip-2 {
+      right: var(--common-padding);
+    }
+  }
+
   h1 {
     position: absolute;
     padding: 1rem 2rem;
