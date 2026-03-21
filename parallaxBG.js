@@ -55,7 +55,7 @@ export default class ParallaxBG {
     this.returnForce = options.returnForce ?? 0.02
 
     /* 手势参数 */
-    this.dragThreshold = options.dragThreshold ?? 6
+    this.dragThreshold = options.dragThreshold ?? 4
     this.tapDelay = options.tapDelay ?? 120
 
     /* 状态 */

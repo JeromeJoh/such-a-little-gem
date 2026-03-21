@@ -254,6 +254,8 @@ main {
   }
 
   .wrapper {
+    pointer-events: none;
+
     .track {
       position: sticky;
       top: 0;
@@ -263,6 +265,7 @@ main {
     .container {
       display: flex;
       width: 900dvw;
+      pointer-events: none;
 
       section {
         flex: 1;
@@ -270,33 +273,55 @@ main {
     }
   }
 
-  .overlay {
+  .overlay-container {
     position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(45deg,
-        #757575 0%,
-        #9e9e9e 30%,
-        #e8e8e8 50%,
-        #9e9e9e 70%,
-        #757575 100%);
-    background-size: 300% 300%;
-    animation: shinny 5s linear 0s infinite;
-    mask-image: url(/assets/images/frame.svg);
-    mask-repeat: no-repeat;
-    mask-position: center;
-    mask-size: var(--frame-size);
+    inset: 0;
+    border: var(--border-lime);
+    // background: linear-gradient(45deg,
+    //     #757575 0%,
+    //     #9e9e9e 30%,
+    //     #e8e8e8 50%,
+    //     #9e9e9e 70%,
+    //     #757575 100%);
+    // background-size: 300% 300%;
+    // animation: shinny 5s linear 0s infinite;
+    // mask-image: url(/assets/images/frame.svg);
+    // mask-repeat: no-repeat;
+    // mask-position: center;
+    // mask-size: var(--frame-size);
     visibility: hidden;
+    display: grid;
+    place-items: center;
 
-    &-sub {
-      background: linear-gradient(45deg,
-          #B67B03 0%,
-          #DAAF08 30%,
-          #FEE9A0 50%,
-          #DAAF08 70%,
-          #B67B03 100%);
+    .overlay {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+
+      .tilt {
+        width: 40vw;
+        height: 40vw;
+        background: linear-gradient(45deg,
+            #757575 0%,
+            #9e9e9e 30%,
+            #e8e8e8 50%,
+            #9e9e9e 70%,
+            #757575 100%);
+        mask-image: url(/assets/images/frame.svg);
+        mask-repeat: no-repeat;
+        mask-position: center;
+        pointer-events: auto;
+
+        &-sub {
+          background: linear-gradient(45deg,
+              #B67B03 0%,
+              #DAAF08 30%,
+              #FEE9A0 50%,
+              #DAAF08 70%,
+              #B67B03 100%);
+        }
+      }
     }
   }
 }
@@ -308,6 +333,11 @@ section {
   display: grid;
   place-items: center;
   padding-right: 8px;
+  pointer-events: none;
+
+  #gem {
+    pointer-events: auto;
+  }
 }
 
 .card {

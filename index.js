@@ -8,6 +8,7 @@ import { TextPlugin } from 'gsap/all';
 import frame from './assets/images/frame.svg';
 import ellipse from './assets/images/ellipse.svg';
 import ParallaxBG from './parallaxBg';
+import VanillaTilt from 'vanilla-tilt';
 
 
 let FRAME_SIZE = 1;
@@ -179,16 +180,13 @@ const init = async () => {
 
   moveToStart(document.querySelector('.container'), startIndex)
 
+  const overlayContainer = document.querySelector('.overlay-container');
   const originalElement = document.querySelector('.overlay');
 
 
-
-  // 获取父容器元素
-  const container = document.querySelector('main');
-
   // 将复制的元素插入到原始元素的下方
   clonedElements.forEach((clonedElement) => {
-    container.insertBefore(clonedElement, originalElement.nextSibling);
+    overlayContainer.insertBefore(clonedElement, originalElement.nextSibling);
   });
 
   gsap.set(originalElement, {
@@ -223,6 +221,19 @@ const init = async () => {
 
 const bindEvents = () => {
   window.addEventListener('resize', resize);
+  console.log(document.querySelector(".tilt"))
+  VanillaTilt.init(document.querySelector(".tilt"), {
+    max: 10,
+    speed: 400,
+    scale: 1.03,
+    glare: true,
+    "max-glare": 0.4,
+    perspective: 800,
+  });
+
+  document.querySelector('.tilt').addEventListener('mousemove', () => {
+    console.log("bbbbbbbbbbbbbbb")
+  })
 }
 
 const resize = () => {
@@ -263,7 +274,7 @@ ScrollTrigger.create({
     ease: 'power1.inOut'
   },
   onUpdate: self => {
-    console.log("scroll progress", self.progress.toFixed(3), distance);
+    // console.log("scroll progress", self.progress.toFixed(3), distance);
     container.style.transform = `translateX(-${distance * self.progress}px)`;
   },
   onEnter: () => {
@@ -610,7 +621,6 @@ cards.forEach((card, index) => {
     }
 
     const original = "M 72 0 A122 134 0 0 0 72 240 A122 134 0 0 0 72 0";
-    const scaled = scalePath(original, 1.5);
     const amplitude = 100  // 波浪高度
     const wavelength = 6  // 波长
 
@@ -825,14 +835,15 @@ cards.forEach((card, index) => {
     }
   })
 
+  const tilt = overlay.querySelector('.tilt')
+
   cardTl
     .to(overlay, {
       rotateY: 90,
       scale: 1.5,
       onComplete: () => {
         console.log('complete', GOLDEN_THEME_ON);
-        overlay.style.maskImage = `url(${FRAME_CONFIG[Number(flag)].mask})`;
-        overlay.style.maskSize = flag ? '24%' : '26%';
+        tilt.style.maskImage = `url(${FRAME_CONFIG[Number(flag)].mask})`;
         JUST_SWITCH = false;
       },
     })
@@ -841,12 +852,11 @@ cards.forEach((card, index) => {
       scale: 1,
       onReverseComplete: () => {
         console.log('reverse', GOLDEN_THEME_ON, JUST_SWITCH);
-        overlay.style.maskImage = `url(${FRAME_CONFIG[1 - Number(flag)].mask})`;
-        overlay.style.maskSize = flag ? '26%' : '24%';
+        tilt.style.maskImage = `url(${FRAME_CONFIG[1 - Number(flag)].mask})`;
         if (!JUST_SWITCH) {
           GOLDEN_THEME_ON = !GOLDEN_THEME_ON;
           const currentColor = GOLDEN_THEME_ON ? THEME_CONGFIG.golden.color : THEME_CONGFIG.silver.color;
-          overlay.classList.toggle("overlay-sub");
+          tilt.classList.toggle("tilt-sub");
           gsap.to(['header', '.caption', 'footer'], {
             color: currentColor,
             onComplete: () => {
@@ -861,4 +871,5 @@ cards.forEach((card, index) => {
     .to('.caption', {
       text: gemList[index + 1],
     }, '<');
+
 })
