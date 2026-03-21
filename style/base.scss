@@ -268,7 +268,6 @@ main {
     mask-position: center;
     mask-size: var(--frame-size);
     visibility: hidden;
-    display: none;
 
     &-sub {
       background: linear-gradient(45deg,
@@ -493,8 +492,8 @@ section .stage {
     grid-auto-rows: 80px;
     justify-content: center;
     align-content: center;
-    background-size: 6rem;
     opacity: 0;
+    background-color: rgba(0, 0, 0, 0.7);
 
     &>div {
       position: relative;

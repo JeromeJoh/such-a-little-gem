@@ -531,8 +531,9 @@ cards.forEach((card, index) => {
 
   new ParallaxBG({
     el: bg,
+    trigger: gem,
     reveal: {
-      targets: [gem, '.caption', '.overlay']
+      targets: [gem]
     }
   })
 
@@ -766,7 +767,7 @@ cards.forEach((card, index) => {
 
   const { play, reverse } = [0, 1, 2, 3, 4, 6, 5, 7, 8].includes(index) ? animateFactory(facades) : animatefacades(facades);
 
-  gem.addEventListener('click', (e) => {
+  gem.addEventListener('dblclick', (e) => {
     e.stopPropagation();
     !hoverLock && play();
   })

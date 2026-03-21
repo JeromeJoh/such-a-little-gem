@@ -1,9 +1,9 @@
-import { gsap } from 'gsap'
+import gsap from "gsap"
 export default class ParallaxBG {
   static instances = []
   static running = false
 
-  /* ========= 工具：统一解析 ========= */
+  /* ========= 工具 ========= */
   static normalizeElements(input) {
     if (!input) return []
 
@@ -15,10 +15,7 @@ export default class ParallaxBG {
       return [input]
     }
 
-    if (
-      input instanceof NodeList ||
-      input instanceof HTMLCollection
-    ) {
+    if (input instanceof NodeList || input instanceof HTMLCollection) {
       return Array.from(input)
     }
 
@@ -34,13 +31,16 @@ export default class ParallaxBG {
   /* ========= 构造 ========= */
   constructor(options = {}) {
     const els = ParallaxBG.normalizeElements(options.el)
-
     this.el = els[0]
 
     if (!this.el) {
       console.warn('ParallaxBG: invalid el', options.el)
       return
     }
+
+    this.trigger = ParallaxBG.normalizeElements(
+      options.trigger ?? this.el
+    )[0]
 
     this.revealTargets = ParallaxBG.normalizeElements(
       options.reveal?.targets
@@ -54,18 +54,31 @@ export default class ParallaxBG {
     this.nonLinear = options.nonLinear ?? 0.85
     this.returnForce = options.returnForce ?? 0.02
 
+    /* 手势参数 */
+    this.dragThreshold = options.dragThreshold ?? 6
+    this.tapDelay = options.tapDelay ?? 120
+
     /* 状态 */
     this.isDown = false
+    this.isDragging = false
+    this.dragReady = false
+
     this.startX = 0
     this.startY = 0
 
+    this.startClientX = 0
+    this.startClientY = 0
+    this.downTime = 0
+
     this.targetX = 0
     this.targetY = 0
-
     this.currentX = 0
     this.currentY = 0
 
     this.time = Math.random() * 100
+
+    this._suppressClick = false
+    this.handleClick = options.onClick
 
     this.tl = null
 
@@ -74,8 +87,10 @@ export default class ParallaxBG {
 
   /* ========= 初始化 ========= */
   init() {
-    this.el.style.userSelect = 'none'
-    this.el.style.cursor = 'grab'
+    if (!this.trigger) return
+
+    this.trigger.style.cursor = 'grab'
+    this.trigger.style.touchAction = 'none'
 
     this.bindEvents()
 
@@ -85,19 +100,39 @@ export default class ParallaxBG {
 
   /* ========= 事件 ========= */
   bindEvents() {
-    this.el.addEventListener('pointerdown', (e) => {
+    this.trigger.addEventListener('pointerdown', (e) => {
       this.isDown = true
+      this.isDragging = false
+      this.dragReady = false
 
       this.startX = e.clientX - this.targetX
       this.startY = e.clientY - this.targetY
 
-      this.show()
+      this.startClientX = e.clientX
+      this.startClientY = e.clientY
+      this.downTime = Date.now()
 
-      this.el.setPointerCapture(e.pointerId)
+      this.trigger.setPointerCapture(e.pointerId)
     })
 
-    this.el.addEventListener('pointermove', (e) => {
+    this.trigger.addEventListener('pointermove', (e) => {
       if (!this.isDown) return
+
+      const dx = e.clientX - this.startClientX
+      const dy = e.clientY - this.startClientY
+      const dist = Math.hypot(dx, dy)
+      const dt = Date.now() - this.downTime
+
+      /* 👉 判断是否进入 drag */
+      if (!this.dragReady) {
+        if (dist > this.dragThreshold || dt > this.tapDelay) {
+          this.dragReady = true
+          this.isDragging = true
+          this.show()
+        } else {
+          return
+        }
+      }
 
       const bounds = this.getBounds()
 
@@ -113,16 +148,35 @@ export default class ParallaxBG {
         bounds.maxY
       )
 
-      /* 拖拽时跟手 */
+      /* 拖拽跟手 */
       this.currentX = this.targetX
       this.currentY = this.targetY
     })
 
-    window.addEventListener('pointerup', () => {
+    window.addEventListener('pointerup', (e) => {
       if (!this.isDown) return
 
+      if (this.isDragging) {
+        this.hide()
+
+        /* 阻断 click */
+        this._suppressClick = true
+        requestAnimationFrame(() => {
+          this._suppressClick = false
+        })
+      } else {
+        this.handleClick?.(e)
+      }
+
       this.isDown = false
-      this.hide()
+    })
+
+    /* click 拦截 */
+    this.trigger.addEventListener('click', (e) => {
+      if (this._suppressClick) {
+        e.preventDefault()
+        e.stopPropagation()
+      }
     })
   }
 
@@ -164,17 +218,14 @@ export default class ParallaxBG {
   update() {
     this.time += 0.01
 
-    /* 惯性 */
     this.currentX += (this.targetX - this.currentX) * this.ease
     this.currentY += (this.targetY - this.currentY) * this.ease
 
-    /* 回弹 */
     if (!this.isDown) {
       this.targetX *= (1 - this.returnForce)
       this.targetY *= (1 - this.returnForce)
     }
 
-    /* 漂移 */
     const driftFactor = this.isDown ? 0 : 1
 
     const driftX =
@@ -183,14 +234,12 @@ export default class ParallaxBG {
     const driftY =
       Math.cos(this.time * 0.8) * this.driftStrength * driftFactor
 
-    /* 连续 noise（不抖） */
     const noiseX =
       Math.sin(this.time * 3.3) * this.noiseStrength
 
     const noiseY =
       Math.cos(this.time * 2.7) * this.noiseStrength
 
-    /* 非线性 */
     const finalX =
       Math.sign(this.currentX) *
       Math.pow(Math.abs(this.currentX), this.nonLinear)
@@ -199,7 +248,6 @@ export default class ParallaxBG {
       Math.sign(this.currentY) *
       Math.pow(Math.abs(this.currentY), this.nonLinear)
 
-    /* depth 动态 */
     const dynamicDepth = this.isDown
       ? this.depth * 1.2
       : this.depth
