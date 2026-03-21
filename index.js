@@ -7,7 +7,7 @@ import { InertiaPlugin } from 'gsap/all';
 import { TextPlugin } from 'gsap/all';
 import frame from './assets/images/frame.svg';
 import ellipse from './assets/images/ellipse.svg';
-import ParallaxBG from './parallaxBg';
+import ParallaxBG from './parallaxBG';
 import VanillaTilt from 'vanilla-tilt';
 
 
@@ -230,10 +230,6 @@ const bindEvents = () => {
     "max-glare": 0.4,
     perspective: 800,
   });
-
-  document.querySelector('.tilt').addEventListener('mousemove', () => {
-    console.log("bbbbbbbbbbbbbbb")
-  })
 }
 
 const resize = () => {
@@ -674,7 +670,7 @@ cards.forEach((card, index) => {
       case 3:
         tl
           .to(gem, {
-            clipPath: 'none',
+            maskImage: 'none',
             rotate: 0,
           })
           .to(gem.querySelectorAll(':scope>div'), {

@@ -7,11 +7,14 @@
   #gem {
     position: relative;
     bottom: 2.5%;
-    width: 96px;
-    height: 240px;
+    width: 8rem;
+    height: 20rem;
     display: grid;
     place-items: center;
-    clip-path: path('M 48 0 A86 134 0 0 0 48 240 A86 134 0 0 0 48 0');
+    mask-image: url(/assets/images/aquamarine.svg);
+    mask-repeat: no-repeat;
+    mask-position: center;
+    mask-size: 8rem 20rem;
     transform: scale(calc(48% * var(--gem-scale))) rotate(-90deg);
     border: var(--border-lime);
 
@@ -45,8 +48,8 @@
 
     .facade {
       position: absolute;
-      width: 96px;
-      height: 240px;
+      width: 8rem;
+      height: 20rem;
     }
 
     .left-qua {
