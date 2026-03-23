@@ -249,14 +249,14 @@ const resize = () => {
   distance = container.offsetWidth - window.innerWidth;
   wrapper.style.height = `${Math.max(distance, 0)}px`; // 确保 distance 不为负值
 
-  console.log('resize', container.offsetWidth, window.innerWidth, distance);
+  console.log('resize', window.innerWidth);
 
   // 如果需要，将 container 移动
   if (inScrollArea) {
     container.style.transform = `translateX(-${distance}px)`;
   }
 
-  // 刷新 ScrollTrigger
+  // 刷新 ScrollTrigger 
   ScrollTrigger.refresh();
 }
 
@@ -569,7 +569,8 @@ cards.forEach((card, index) => {
     trigger: gem,
     reveal: {
       targets: [gem]
-    }
+    },
+    direction: -1,
   })
 
   const animatefacades = (facades) => {

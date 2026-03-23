@@ -1,4 +1,5 @@
 import gsap from "gsap"
+
 export default class ParallaxBG {
   static instances = []
   static running = false
@@ -53,6 +54,9 @@ export default class ParallaxBG {
     this.noiseStrength = options.noiseStrength ?? 2
     this.nonLinear = options.nonLinear ?? 0.85
     this.returnForce = options.returnForce ?? 0.02
+
+    /* ⭐ 新增：方向控制（支持连续值） */
+    this.direction = options.direction ?? -1
 
     /* 手势参数 */
     this.dragThreshold = options.dragThreshold ?? 4
@@ -123,7 +127,7 @@ export default class ParallaxBG {
       const dist = Math.hypot(dx, dy)
       const dt = Date.now() - this.downTime
 
-      /* 👉 判断是否进入 drag */
+      /* 判断是否进入 drag */
       if (!this.dragReady) {
         if (dist > this.dragThreshold || dt > this.tapDelay) {
           this.dragReady = true
@@ -148,7 +152,7 @@ export default class ParallaxBG {
         bounds.maxY
       )
 
-      /* 拖拽跟手 */
+      /* 跟手 */
       this.currentX = this.targetX
       this.currentY = this.targetY
     })
@@ -159,7 +163,6 @@ export default class ParallaxBG {
       if (this.isDragging) {
         this.hide()
 
-        /* 阻断 click */
         this._suppressClick = true
         requestAnimationFrame(() => {
           this._suppressClick = false
@@ -171,7 +174,6 @@ export default class ParallaxBG {
       this.isDown = false
     })
 
-    /* click 拦截 */
     this.trigger.addEventListener('click', (e) => {
       if (this._suppressClick) {
         e.preventDefault()
@@ -218,9 +220,11 @@ export default class ParallaxBG {
   update() {
     this.time += 0.01
 
+    /* 缓动 */
     this.currentX += (this.targetX - this.currentX) * this.ease
     this.currentY += (this.targetY - this.currentY) * this.ease
 
+    /* 回弹 */
     if (!this.isDown) {
       this.targetX *= (1 - this.returnForce)
       this.targetY *= (1 - this.returnForce)
@@ -228,18 +232,21 @@ export default class ParallaxBG {
 
     const driftFactor = this.isDown ? 0 : 1
 
+    /* 漂移 */
     const driftX =
       Math.sin(this.time) * this.driftStrength * driftFactor
 
     const driftY =
       Math.cos(this.time * 0.8) * this.driftStrength * driftFactor
 
+    /* 噪声 */
     const noiseX =
       Math.sin(this.time * 3.3) * this.noiseStrength
 
     const noiseY =
       Math.cos(this.time * 2.7) * this.noiseStrength
 
+    /* 非线性 */
     const finalX =
       Math.sign(this.currentX) *
       Math.pow(Math.abs(this.currentX), this.nonLinear)
@@ -252,10 +259,20 @@ export default class ParallaxBG {
       ? this.depth * 1.2
       : this.depth
 
-    const x = (finalX + driftX + noiseX) * dynamicDepth
-    const y = (finalY + driftY + noiseY) * dynamicDepth
+    /* ⭐ 方向控制 */
+    const dir = this.direction
 
-    this.el.style.backgroundPosition = x + 'px ' + y + 'px'
+    const x =
+      (finalX + driftX + noiseX) *
+      dynamicDepth *
+      dir
+
+    const y =
+      (finalY + driftY + noiseY) *
+      dynamicDepth *
+      dir
+
+    this.el.style.backgroundPosition = `${x}px ${y}px`
   }
 
   /* ========= RAF ========= */
