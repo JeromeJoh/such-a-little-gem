@@ -22,7 +22,7 @@ export default class ParallaxBackground {
 
     if (Array.isArray(input)) {
       return input.flatMap(item =>
-        ParallaxBG.normalizeElements(item)
+        ParallaxBackground.normalizeElements(item)
       )
     }
 
@@ -31,19 +31,19 @@ export default class ParallaxBackground {
 
   /* ========= 构造 ========= */
   constructor(options = {}) {
-    const els = ParallaxBG.normalizeElements(options.el)
+    const els = ParallaxBackground.normalizeElements(options.el)
     this.el = els[0]
 
     if (!this.el) {
-      console.warn('ParallaxBG: invalid el', options.el)
+      console.warn('ParallaxBackground: invalid el', options.el)
       return
     }
 
-    this.trigger = ParallaxBG.normalizeElements(
+    this.trigger = ParallaxBackground.normalizeElements(
       options.trigger ?? this.el
     )[0]
 
-    this.revealTargets = ParallaxBG.normalizeElements(
+    this.revealTargets = ParallaxBackground.normalizeElements(
       options.reveal?.targets
     )
 
@@ -98,8 +98,8 @@ export default class ParallaxBackground {
 
     this.bindEvents()
 
-    ParallaxBG.instances.push(this)
-    ParallaxBG.start()
+    ParallaxBackground.instances.push(this)
+    ParallaxBackground.start()
   }
 
   /* ========= 事件 ========= */
