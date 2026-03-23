@@ -5,9 +5,9 @@ import { MotionPathPlugin } from 'gsap/MotionPathPlugin';
 import { MorphSVGPlugin } from 'gsap/MorphSVGPlugin';
 import { InertiaPlugin } from 'gsap/all';
 import { TextPlugin } from 'gsap/all';
-import frame from './assets/images/frame.svg';
-import ellipse from './assets/images/ellipse.svg';
-import ParallaxBG from './parallaxBG';
+import frame from '/assets/images/frame.svg';
+import ellipse from '/assets/images/ellipse.svg';
+import ParallaxBackground from './scripts/ParallaxBackground';
 import VanillaTilt from 'vanilla-tilt';
 
 
@@ -564,7 +564,7 @@ cards.forEach((card, index) => {
   if (index === 8) facades = card.querySelectorAll('article>.content-wrapper>div');
   console.log('GEM', index, facades.length, gemList[index]);
 
-  new ParallaxBG({
+  new ParallaxBackground({
     el: bg,
     trigger: gem,
     reveal: {

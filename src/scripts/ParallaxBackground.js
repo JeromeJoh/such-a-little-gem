@@ -1,6 +1,6 @@
 import gsap from "gsap"
 
-export default class ParallaxBG {
+export default class ParallaxBackground {
   static instances = []
   static running = false
 
